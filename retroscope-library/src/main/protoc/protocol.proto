@@ -1,0 +1,72 @@
+// Please use protoc 2.6.1 to recompile
+// $ protoc -I=retroscope-library\src\main\protoc\ --java_out=retroscope-library\src\main\java\ retroscope-library\src\main\protoc\protocol.proto
+option java_package = "retroscope.net.protocol";
+
+message RetroServerMsg {
+    optional int64 RID = 1;
+    optional ConnectMsgResponse connectResponse = 2;
+    optional GetLogNames getLogNames = 3;
+    optional GetData getData = 4;
+    optional TakeSnapshot takeSnapshot= 5;
+    optional RollSnapshot rollSnapsot = 6;
+    optional int32 errorCode = 15;
+
+}
+
+message ConnectMsgResponse {
+    required int32 retroscopeVersion = 1;
+    required int32 nodeID = 2;
+}
+
+message GetLogNames {
+
+}
+
+message GetData {
+    required string logName = 1;
+    optional int64 hlcTime = 2;
+    repeated bytes keys = 3;
+}
+
+message TakeSnapshot {
+    required string logName = 1;
+}
+
+message RollSnapshot {
+    required string logName = 1;
+    required int64 hlcTime = 2;
+}
+
+message RetroNodeMsg {
+    optional int64 RID = 1;
+    optional ConnectMsg connectMsg = 2;
+    optional DataMap data = 3;
+    repeated ExisitngLog logs = 4;
+    optional int32 snapshotId = 5;
+
+    optional int32 nodeId = 14;
+    optional int32 errorCode = 15;
+
+}
+
+message ConnectMsg {
+    required int32 retroscopeVersion = 1;
+}
+
+message DataMap {
+    required string name = 1;
+    repeated DataItem items = 2;
+    required int64 hlcTime = 3;
+}
+
+message DataItem {
+    required bytes key = 1;
+    optional bytes value = 2; // values can be null
+    optional int64 hlcTime = 3; // values can be null
+}
+
+message ExisitngLog {
+    required string logName = 1;
+    required int64 logStart = 2;
+    required bool isDataMapLog = 3;
+}

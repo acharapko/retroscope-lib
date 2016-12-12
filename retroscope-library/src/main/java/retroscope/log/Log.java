@@ -1,0 +1,408 @@
+package retroscope.log;
+
+import retroscope.hlc.Timestamp;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
+
+/**
+ * Created by aleksey on 7/17/16.
+ * this class is basic bidirectional window-retroscope.log implementation
+ * The retroscope.log if formed as the double-linked list of LogEntry objects
+ * thus, moving along the retroscope.log requires O(n) operations, where n is
+ * number of LogEntry objects.
+ *
+ * maxLengthMillis determines how far back the retroscope.log keeps the information
+ */
+
+public class Log<K, V> {
+
+    public static int id_counter = 0;
+    public int known_snapshot_log_id = 0;
+
+    protected ReentrantLock lock;
+
+    protected LogEntry<K, V> head;
+    protected LogEntry<K, V> tail;
+
+    protected long maxLengthMillis = 0;
+    protected long originalMaxLengthSeconds;
+
+    protected int length = 0;
+    protected int id;
+
+    protected HashMap<Long, Integer> timeToCheckpointId;
+    protected HashMap<Integer, LogEntry<K, V>> knownCheckpointLogEntries;
+
+    protected String name;
+    protected long logCheckpointIntervalMs;
+
+
+    public Log(long maxLengthMillis, String name) {
+        this(maxLengthMillis, name, 0);
+    }
+
+    public Log(long maxLengthMillis, String name, long logCheckpointIntervalMs) {
+        this.maxLengthMillis = maxLengthMillis;
+        this.id = id_counter++;
+        this.name = name;
+        this.logCheckpointIntervalMs = logCheckpointIntervalMs;
+        lock = new ReentrantLock();
+
+        //used for internal indexing for cases when we want to go back to a known point in the past
+        knownCheckpointLogEntries = new HashMap<Integer, LogEntry<K, V>>(10);
+        timeToCheckpointId = new HashMap<Long, Integer>(10);
+    }
+
+    public int addKnownEntries(LogEntry<K, V> entry) {
+        knownCheckpointLogEntries.put(known_snapshot_log_id, entry);
+        entry.setSnapshotEntryId(known_snapshot_log_id);
+        return known_snapshot_log_id++;
+    }
+
+    public LogEntry<K, V> getKnownEntry(int id) {
+        return knownCheckpointLogEntries.get(id);
+    }
+
+
+    public int append(LogEntry<K, V> entry) {
+        lock();
+        int lengthOriginal = length;
+        length++;
+        if (head == null) {
+            head = tail = entry;
+        } else {
+            tail.setNext(entry);
+            entry.setPrev(tail);
+            tail = entry;
+
+            //control max length of the chain
+            long tailWallTime = tail.getTime().getWallTime();
+            LogEntry<K, V> tempHead = head;
+
+            while (length > 0 && tempHead != null && tempHead.getTime().getWallTime() + maxLengthMillis < tailWallTime) {
+                if (tempHead.getSnapshotEntryId() > -1) {
+                    knownCheckpointLogEntries.remove(tempHead.getSnapshotEntryId()); //clean up known snapshots to allow GC
+                    if (logCheckpointIntervalMs > 0) {
+                        long headTmod = tempHead.getTime().getWallTime() / logCheckpointIntervalMs;
+                        timeToCheckpointId.remove(headTmod);
+                    }
+                }
+                tempHead = tempHead.getNext();
+                length--;
+            }
+
+            if (tempHead != head) {
+                //tempHead and head reference different objects
+                tempHead.setPrev(null);
+                head = tempHead;
+            }
+        }
+
+        //checkpointing for faster retroscope log element location
+        checkpoint(entry);
+        unlock();
+        return length - lengthOriginal;
+    }
+
+    protected void checkpoint(LogEntry<K, V> entry) {
+        if (logCheckpointIntervalMs > 0) {
+            long t = entry.getTime().getWallTime();
+            long tmod = t / logCheckpointIntervalMs;
+            if (timeToCheckpointId.get(tmod) == null) {
+                int knownId = addKnownEntries(entry);
+                timeToCheckpointId.put(tmod, knownId);
+            }
+        }
+    }
+
+    public LogEntry<K, V> findEntry(long time) throws LogOutTimeBoundsException {
+        //user gave us PT only, try our best
+        return findEntry(new Timestamp(time, (short)0));
+    }
+
+    public LogEntry<K, V> findEntry(Timestamp time) throws LogOutTimeBoundsException{
+        if (time.compareTo(head.getTime()) < 0) {
+            throw new LogOutTimeBoundsException("Requested search time is before the oldest retroscope.log element available: "+
+                                                time + " < " + head.getTime());
+        }
+        if (time.compareTo(tail.getTime()) > 0) {
+            throw new LogOutTimeBoundsException("Requested search time is ahead of the newest retroscope.log element available: "+
+                                                time + " > " + tail.getTime());
+        }
+
+        LogEntry<K, V> startLE = null;
+        if (logCheckpointIntervalMs > 0) {
+            long tmod = time.getWallTime() / logCheckpointIntervalMs;
+            if (timeToCheckpointId.get(tmod) != null) {
+                int knownId = timeToCheckpointId.get(tmod);
+                if (knownCheckpointLogEntries.get(knownId) != null) {
+                    startLE = knownCheckpointLogEntries.get(knownId);
+                }
+            }
+        }
+
+        //we traverse from the tail backwards or from the known checkpoint forward
+        if (startLE == null) {
+            return rollBackwards(time, tail);
+        } else {
+            return rollForwards(time, startLE);
+        }
+
+    }
+
+    private LogEntry<K, V> rollForwards(Timestamp find, LogEntry<K, V> startingLE)
+    {
+        LogEntry<K, V> currentLogItem = startingLE;
+        boolean notEnd = true;
+        while (notEnd && currentLogItem != null) {
+            if (find.compareTo(currentLogItem.getTime()) >= 0) {
+                if (!currentLogItem.isTail()) {
+                    currentLogItem = currentLogItem.getNext();
+                } else {
+                    //this is the end... we either have results ion the tail
+                    //or found nothing
+                    if (find.compareTo(currentLogItem.getTime()) == 0) {
+                        return currentLogItem;
+                    } else {
+                        return null; //found nothing
+                    }
+                }
+            } else {
+                notEnd = false;
+            }
+        }
+        // if the item we are looking for is the tail,
+        // we need to return it instead of a previous item
+
+        return currentLogItem.getPrev();
+    }
+
+    private LogEntry<K, V> rollBackwards(Timestamp find, LogEntry<K, V> startingLE)
+    {
+        LogEntry<K, V> currentLogItem = startingLE;
+        boolean notEnd = true;
+        while (notEnd && currentLogItem != null) {
+            if (find.compareTo(currentLogItem.getTime()) < 0) {
+                if (!currentLogItem.isHead()) {
+                    currentLogItem = currentLogItem.getPrev();
+                } else {
+                    notEnd = false;
+                }
+            } else {
+                notEnd = false;
+            }
+        }
+
+        return currentLogItem;
+    }
+
+    public RetroMap<K, V> computeDiff(Timestamp timeInThePast) throws LogOutTimeBoundsException
+    {
+        return computeDiffBackwards(timeInThePast, tail);
+    }
+
+    public RetroMap<K, V> computeDiff(Timestamp startTime, Timestamp endTime) throws LogOutTimeBoundsException {
+        LogEntry<K, V> startingPoint = findEntry(startTime);
+        return computeDiff(endTime, startingPoint);
+    }
+
+    public RetroMap<K, V> computeDiff(Timestamp time, LogEntry<K, V> startingPoint) throws LogOutTimeBoundsException {
+        if (startingPoint == null) {
+            throw new LogOutTimeBoundsException("Starting Point does not exist");
+        }
+        int comparison = startingPoint.getTime().compareTo(time);
+        if (comparison < 0) {
+            return computeDiffForwards(time, startingPoint);
+        } else if (comparison > 0) {
+            return computeDiffBackwards(time, startingPoint);
+        } else {
+            RetroMap<K, V> empty = new RetroMap<K, V>();
+            empty.setAssociatedLogEntry(startingPoint);
+            return empty;
+        }
+    }
+
+    protected RetroMap<K, V> computeDiffBackwards(
+            LogEntry<K, V> startingPoint,
+            LogEntry<K, V> endingPoint
+    ) throws LogOutTimeBoundsException
+    {
+        if (startingPoint.getTime().compareTo(endingPoint.getTime()) < 0) {
+            throw new LogOutTimeBoundsException("Starting logentry cannot be before or at ending log entry");
+        }
+        LogEntry<K, V> currentLogItem = startingPoint;
+        boolean notEnd = true;
+        RetroMap<K, V> diffMap = new RetroMap<K, V>(getLength());
+
+        while (notEnd && currentLogItem != null) {
+            if (endingPoint != currentLogItem) {
+                diffMap.put(currentLogItem.getKey(), currentLogItem.getFromV());
+                if (!currentLogItem.isHead()) {
+                    currentLogItem = currentLogItem.getPrev();
+                } else {
+                    throw new LogOutTimeBoundsException("Could not reach the ending log entry");
+                }
+            } else {
+                notEnd = false;
+            }
+        }
+        diffMap.setAssociatedLogEntry(endingPoint.getPrev());
+        return diffMap;
+    }
+
+    protected RetroMap<K, V> computeDiffBackwards(Timestamp timeInThePast, LogEntry<K, V> startingPoint) throws LogOutTimeBoundsException
+    {
+        if (startingPoint == null) {
+            throw new LogOutTimeBoundsException("Starting Point does not exist");
+        }
+        if (timeInThePast.compareTo(startingPoint.getTime()) > 0) {
+            throw new LogOutTimeBoundsException("Cannot compute backwards diff, because target time was ahead of the starting point ("
+                    + timeInThePast + " > " + startingPoint.getTime());
+        }
+
+        LogEntry<K, V> currentLogItem = startingPoint;
+        boolean notEnd = true;
+        RetroMap<K, V> diffMap = new RetroMap<K, V>(getLength());
+        diffMap.setAssociatedLogEntry(currentLogItem.getPrev());
+
+        while (notEnd && currentLogItem != null) {
+            if (timeInThePast.compareTo(currentLogItem.getTime()) < 0) {
+                diffMap.put(currentLogItem.getKey(), currentLogItem.getFromV());
+                diffMap.setAssociatedLogEntry(currentLogItem.getPrev());
+                //rollBackCounter++;
+                if (!currentLogItem.isHead()) {
+                    currentLogItem = currentLogItem.getPrev();
+                } else {
+                    notEnd = false;
+                }
+            } else {
+                notEnd = false;
+            }
+        }
+
+
+        return diffMap;
+    }
+
+    protected RetroMap<K, V> computeDiffForwards(
+            LogEntry<K, V> startingPoint,
+            LogEntry<K, V> endingPoint
+    ) throws LogOutTimeBoundsException
+    {
+        if (startingPoint.getTime().compareTo(endingPoint.getTime()) > 0) {
+            throw new LogOutTimeBoundsException("Starting log entry cannot be after or at ending log entry");
+        }
+        LogEntry<K, V> currentLogItem = startingPoint.getNext();
+        boolean notEnd = true;
+        RetroMap<K, V> diffMap = new RetroMap<K, V>(getLength());
+
+        while (notEnd && currentLogItem != null) {
+            diffMap.put(currentLogItem.getKey(), currentLogItem.getToV());
+            if (endingPoint != currentLogItem) {
+                //rollBackCounter++;
+                if (!currentLogItem.isTail()) {
+                    currentLogItem = currentLogItem.getNext();
+                } else {
+                    throw new LogOutTimeBoundsException("Could not reach the ending log entry");
+                }
+            } else {
+                notEnd = false;
+            }
+        }
+        diffMap.setAssociatedLogEntry(endingPoint);
+        return diffMap;
+    }
+
+    protected RetroMap<K, V> computeDiffForwards(Timestamp timeInTheFuture, LogEntry<K, V> startingPoint) throws LogOutTimeBoundsException
+    {
+        if (timeInTheFuture.compareTo(startingPoint.getTime()) < 0) {
+            throw new LogOutTimeBoundsException("Cannot compute forward diff, because target time was before of the starting point");
+        }
+        LogEntry<K, V> currentLogItem = startingPoint.getNext();
+        boolean notEnd = true;
+        RetroMap<K, V> diffMap = new RetroMap<K, V>(getLength());
+        diffMap.setAssociatedLogEntry(startingPoint);
+        while (notEnd && currentLogItem != null) {
+            if (timeInTheFuture.compareTo(currentLogItem.getTime()) >= 0) {
+                diffMap.put(currentLogItem.getKey(), currentLogItem.getToV());
+                diffMap.setAssociatedLogEntry(currentLogItem);
+                //rollBackCounter++;
+                if (!currentLogItem.isTail()) {
+                    currentLogItem = currentLogItem.getNext();
+                } else {
+                    notEnd = false;
+                }
+            } else {
+                notEnd = false;
+            }
+        }
+        return diffMap;
+    }
+
+
+    public int getLength() {
+        return length;
+    }
+
+    public LogEntry<K, V> getHead() {
+        return head;
+    }
+
+    public LogEntry<K, V> getTail() {
+        return tail;
+    }
+
+    public long getMaxLogSize() {
+        return maxLengthMillis;
+    }
+
+    public void stopTruncating()
+    {
+        this.originalMaxLengthSeconds = maxLengthMillis;
+        maxLengthMillis = Integer.MAX_VALUE; //int max is smaller than long max
+    }
+
+    public void startTruncating()
+    {
+        this.maxLengthMillis = this.originalMaxLengthSeconds;
+    }
+
+    public boolean isTruncating() {
+        return maxLengthMillis == Integer.MAX_VALUE;
+    }
+
+    public void setLogCheckpointIntervalMs(long logCheckpointIntervalMs) {
+        this.logCheckpointIntervalMs = logCheckpointIntervalMs;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isTimestampWithinLog(Timestamp time) {
+        if ((this.getHead().getTime().compareTo(time) <= 0) &&
+                (this.getTail().getTime().compareTo(time)) >= 0) {
+            return true;
+        }
+        return false;
+    }
+
+     /*
+     * Expose Lock
+     */
+
+    public void lock() {
+        lock.lock();
+    }
+
+    public void unlock() {
+        lock.unlock();
+    }
+
+}

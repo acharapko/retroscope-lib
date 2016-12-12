@@ -1,0 +1,389 @@
+package retroscope.log;
+
+import retroscope.hlc.Timestamp;
+import org.junit.Test;
+import java.util.Random;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by aleksey on 10/17/16.
+ */
+public class LogTest {
+
+    Log<byte[], byte[]> log;
+    int length = 10;
+    LogEntry<byte[], byte[]> head, tail;
+
+    @org.junit.Before
+    public void setUp() throws Exception {
+        log = new Log<byte[], byte[]>(length * 10, "test123");
+        log = populateTheLog(log);
+    }
+
+    private Log<byte[], byte[]> populateTheLog(Log<byte[], byte[]> log) throws Exception{
+        Timestamp t = new Timestamp();
+        Random rand = new Random(System.nanoTime());
+        DataEntry<byte[]> dp
+                = new DataEntry<byte[]>("val1".getBytes(), t);
+        for (int i = 0; i < length; i++) {
+
+            t = t.add(2 + rand.nextInt(7), (short)0);
+            DataEntry<byte[]> d1
+                    = new DataEntry<byte[]>("val1".getBytes(), t);
+
+            LogEntry<byte[], byte[]> le = new LogEntry<byte[], byte[]>("test".getBytes(), dp, d1);
+            if (i == 0) {
+                head = le;
+            }
+            if (i == length - 1) {
+                tail = le;
+            }
+            log.append(le);
+            dp = d1;
+        }
+        return log;
+    }
+
+    @Test
+    public void testAddKnownEntries() throws Exception {
+        LogEntry<byte[], byte[]> fifthLog = log.getHead().getNext().getNext().getNext().getNext();
+        assertTrue(log.addKnownEntries(fifthLog) == 0);
+        LogEntry<byte[], byte[]> seventhLog = fifthLog.getNext().getNext();
+        assertTrue(log.addKnownEntries(seventhLog) == 1);
+    }
+
+    @Test
+    public void testGetKnownEntry() throws Exception {
+        LogEntry<byte[], byte[]> fifthLog = log.getHead().getNext().getNext().getNext().getNext();
+        int ke5 = log.addKnownEntries(fifthLog);
+        LogEntry<byte[], byte[]> seventhLog = fifthLog.getNext().getNext();
+        int ke7 = log.addKnownEntries(seventhLog);
+
+        LogEntry<byte[], byte[]> known7 = log.getKnownEntry(ke7);
+
+        assertTrue(known7 == seventhLog); //must be the same reference!
+
+        //now let us forget the fifth;
+        long t1 = log.getHead().getTime().getWallTime();
+        long t5 = fifthLog.getTime().getWallTime();
+        long tdiff = (t5 - t1) + (length * 10 - (log.getTail().getTime().getWallTime() - t1)) + 1;
+        Timestamp t11 = log.getTail().getTime().add(tdiff, (short)0);
+        DataEntry<byte[]> d1
+                = new DataEntry<byte[]>("val1".getBytes(), t11);
+
+        LogEntry<byte[], byte[]> le = new LogEntry<byte[], byte[]>("test".getBytes(), log.getHead().getToV(), d1);
+        log.append(le);
+
+        LogEntry<byte[], byte[]> known5 = log.getKnownEntry(ke5);
+        //System.out.println(tdiff + " | t1 = " + t1 + " | t11 = " + t11.getWallTime());
+        assertTrue(known5 == null);
+
+    }
+
+    @Test
+    public void testFindEntry() throws Exception {
+        //simple find:
+        LogEntry<byte[], byte[]> findCheck = log.getHead();
+        for (int checkNum = 0; checkNum < length; checkNum++) {
+            findCheck = log.getHead();
+            for (int i = 0; i < checkNum; i++) {
+                findCheck = findCheck.getNext();
+            }
+
+            long t = findCheck.getTime().getWallTime();
+            LogEntry<byte[], byte[]> find1 = log.findEntry(t);
+            assertTrue(findCheck == find1); //must be referencing same object
+
+            try {
+                t = findCheck.getTime().getWallTime() + 1;
+                LogEntry<byte[], byte[]> find2 = log.findEntry(t);
+                assertTrue(findCheck == find2); //still must be referencing same object
+
+            } catch (LogOutTimeBoundsException e) {
+                assertTrue(checkNum == length - 1);
+            }
+            try {
+                t = findCheck.getTime().getWallTime() - 1;
+                LogEntry<byte[], byte[]> find3 = log.findEntry(t);
+                assertTrue(findCheck.getPrev() == find3); //still must be referencing prev
+            } catch (LogOutTimeBoundsException e) {
+                assertTrue(checkNum == 0);
+            }
+
+    }
+        //now lets do some searching with checkpoints
+
+        //populate the retroscope.log first
+        length = 100;
+        log = new Log<byte[], byte[]>(length * 10, "test123", 50);
+        log = populateTheLog(log);
+        for (int checkNum = 0; checkNum < length; checkNum++) {
+            findCheck = log.getHead();
+            for (int i = 0; i < checkNum; i++) {
+                findCheck = findCheck.getNext();
+            }
+
+            long t = findCheck.getTime().getWallTime();
+            LogEntry<byte[], byte[]> find4 = log.findEntry(t);
+            assertTrue(findCheck == find4); //must be referencing same object
+
+            try {
+                t = findCheck.getTime().getWallTime() + 1;
+                LogEntry<byte[], byte[]> find5 = log.findEntry(t);
+                assertTrue(findCheck == find5); //must be referencing same object
+            } catch (LogOutTimeBoundsException e) {
+                assertTrue(checkNum == length - 1);
+            }
+
+            t = findCheck.getTime().getWallTime() - 1;
+            try {
+                LogEntry<byte[], byte[]> find6 = log.findEntry(t);
+                assertTrue(findCheck.getPrev() == find6); //must be referencing same object
+            } catch (LogOutTimeBoundsException e) {
+                assertTrue(checkNum == 0);
+            }
+        }
+
+    }
+
+    @Test
+    public void testAppend() throws Exception {
+        //append is tested every time retroscope.log is created and populated. no separate test
+    }
+
+    @Test
+    public void testComputeDiff() throws Exception {
+
+        length = 100;
+        int start = 0;
+        int end = 0;
+
+        for (start = 0; start < length; start++) {
+            for (end = start; end < length; end++) {
+                //more comprehensive population
+                Random rand = new Random(System.nanoTime());
+
+                Log<String, String> log = new Log<String, String>(length * 10, "test123");
+                Timestamp t = new Timestamp();
+                DataEntry<String> dp
+                        = new DataEntry<String>("val1", t);
+                LogEntry<String, String> startLE = null;
+                LogEntry<String, String> endLE = null;
+
+
+                RetroMap<String, String> referenceMapForward
+                        = new RetroMap<String, String>();
+
+                RetroMap<String, String> referenceMapBackwards
+                        = new RetroMap<String, String>();
+
+
+                for (int i = 0; i < length; i++) {
+
+                    int k = rand.nextInt(10);
+                    String key = ("test" + k);
+                    String val = ("val" + i);
+                    t = t.add(1 + rand.nextInt(8), (short) 0);
+                    DataEntry<String> d1
+                            = new DataEntry<String>(val, t);
+
+                    LogEntry<String, String> le = new LogEntry<String, String>(key, dp, d1);
+                    if (i == start) {
+                        startLE = le;
+                    }
+                    if (i == end) {
+                        endLE = le;
+                    }
+
+                    if (i > start && i <= end ) {
+                        referenceMapForward.put(key, d1);
+                        if (referenceMapBackwards.get(key) == null) {
+                            referenceMapBackwards.put(key, dp);
+                        }
+                    }
+
+                    log.append(le);
+                    dp = d1;
+                }
+
+                //diff forward
+                RetroMap<String, String> diff = log.computeDiff(endLE.getTime(), startLE);
+                RetroMap<String, String> diff2;
+                try {
+                    diff2 = log.computeDiffForwards(startLE, endLE);
+                } catch (LogOutTimeBoundsException lotbe) {
+                    diff2 = new RetroMap<String, String>();
+                }
+                LogEntry<String, String> kle = diff.getAssociatedLogEntry();
+
+                /*System.out.println(diff2.size() + " - " + referenceMapForward.size());
+                System.out.println(endLE.getTime() + " - " + startLE.getTime());
+                System.out.println("diff-----------------");
+                Iterator it = diff.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    //it.remove(); // avoids a ConcurrentModificationException
+                }
+                System.out.println("diff2-----------------");
+                it = diff2.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    //it.remove(); // avoids a ConcurrentModificationException
+                }
+                System.out.println("ref-----------------");
+                Iterator it2 = referenceMapForward.entrySet().iterator();
+                while (it2.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it2.next();
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    //it2.remove(); // avoids a ConcurrentModificationException
+                }
+                System.out.println("----------------- " + diff.equals(referenceMapForward));
+                */
+
+                assertTrue(kle.getTime().compareTo(endLE.getTime()) == 0);
+                assertTrue(diff.equals(referenceMapForward));
+                assertTrue(diff2.equals(referenceMapForward));
+
+                //and backwards
+                diff = log.computeDiff(startLE.getTime(), endLE);
+                try {
+                    diff2 = log.computeDiffBackwards(endLE, startLE);
+                } catch (LogOutTimeBoundsException lotbe) {
+                    diff2 = new RetroMap<String, String>();
+                }
+                kle = diff.getAssociatedLogEntry();
+
+                /*System.out.println(diff.size() + " - " + referenceMapBackwards.size());
+                System.out.println(endLE.getTime() + " - " + startLE.getTime());
+                System.out.println("diff-----------------");
+                Iterator it = diff.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    //it.remove(); // avoids a ConcurrentModificationException
+                }
+                System.out.println("diff2-----------------");
+                it = diff2.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    //it.remove(); // avoids a ConcurrentModificationException
+                }
+                System.out.println("ref-----------------");
+                it = referenceMapBackwards.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pair = (Map.Entry)it.next();
+                    System.out.println(pair.getKey() + " = " + pair.getValue());
+                    //it2.remove(); // avoids a ConcurrentModificationException
+                }
+                System.out.println("----------------- " + diff.equals(referenceMapBackwards));
+                */
+                assertTrue(kle.getTime().compareTo(startLE.getTime()) == 0);
+                assertTrue(diff.equals(referenceMapBackwards));
+                assertTrue(diff2.equals(referenceMapBackwards));
+
+            }
+        }
+
+    }
+
+    
+
+    @Test
+    public void testGetLength() throws Exception {
+        assertTrue(log.getLength() == length);
+    }
+
+    @Test
+    public void testGetHead() throws Exception {
+        assertTrue(log.getHead().isHead());
+        assertTrue(log.getHead() == head); //must be the same reference
+    }
+
+    @Test
+    public void testGetTail() throws Exception {
+        assertTrue(log.getTail().isTail());
+        assertTrue(log.getTail() == tail); //must be the same reference
+    }
+
+    @Test
+    public void testGetMaxLogSize() throws Exception {
+        assertTrue(log.getMaxLogSize() == length * 10);
+    }
+
+    @Test
+    public void testStopTruncating() throws Exception {
+        log.stopTruncating();
+
+        Timestamp t = log.getTail().getTime().add(length * 5, (short) 0);
+
+        Random rand = new Random(System.nanoTime());
+        DataEntry<byte[]> dp
+                = new DataEntry<byte[]>("val1".getBytes(), t);
+        for (int i = 0; i < length; i++) {
+
+            t = t.add(rand.nextInt(9), (short)0);
+            DataEntry<byte[]> d1
+                    = new DataEntry<byte[]>("val1".getBytes(), t);
+
+            LogEntry<byte[], byte[]> le = new LogEntry<byte[], byte[]>("test".getBytes(), dp, d1);
+            if (i == 0) {
+                head = le;
+            }
+            if (i == length - 1) {
+                tail = le;
+            }
+            log.append(le);
+            dp = d1;
+        }
+
+        assertTrue(log.getLength() == length * 2);
+        assertTrue(log.getTail().getTime().getWallTime() - log.getHead().getTime().getWallTime()
+                > length * 10);
+    }
+
+    @Test
+    public void testStartTruncating() throws Exception {
+        testStopTruncating();
+        log.startTruncating();
+
+        Timestamp t = log.getTail().getTime().add(length * 5, (short) 0);
+
+        Random rand = new Random(System.nanoTime());
+        DataEntry<byte[]> dp
+                = new DataEntry<byte[]>("val1".getBytes(), t);
+        for (int i = 0; i < length; i++) {
+
+            t = t.add(rand.nextInt(9), (short)0);
+            DataEntry<byte[]> d1
+                    = new DataEntry<byte[]>("val1".getBytes(), t);
+
+            LogEntry<byte[], byte[]> le = new LogEntry<byte[], byte[]>("test".getBytes(), dp, d1);
+            if (i == 0) {
+                head = le;
+            }
+            if (i == length - 1) {
+                tail = le;
+            }
+            log.append(le);
+            dp = d1;
+        }
+
+        assertTrue(log.getTail().getTime().getWallTime() - log.getHead().getTime().getWallTime()
+                <= length * 10);
+
+    }
+
+    @Test
+    public void testGetId() throws Exception {
+        assertTrue(log.getId() == Log.id_counter - 1);
+    }
+
+    @Test
+    public void testGetName() throws Exception {
+        assertTrue(log.getName().equals("test123"));
+    }
+}
