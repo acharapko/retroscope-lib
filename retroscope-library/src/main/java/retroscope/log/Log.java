@@ -1,9 +1,12 @@
 package retroscope.log;
 
+import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
+import retroscope.net.protocol.Protocol;
+import retroscope.net.protocol.ProtocolHelpers;
 
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -16,9 +19,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * maxLengthMillis determines how far back the retroscope.log keeps the information
  */
 
-public class Log<K, V> {
+public class Log<K extends Serializable, V extends Serializable> {
 
-    public static int id_counter = 0;
     public int known_snapshot_log_id = 0;
 
     protected ReentrantLock lock;
@@ -30,7 +32,6 @@ public class Log<K, V> {
     protected long originalMaxLengthSeconds;
 
     protected int length = 0;
-    protected int id;
 
     protected HashMap<Long, Integer> timeToCheckpointId;
     protected HashMap<Integer, LogEntry<K, V>> knownCheckpointLogEntries;
@@ -45,7 +46,7 @@ public class Log<K, V> {
 
     public Log(long maxLengthMillis, String name, long logCheckpointIntervalMs) {
         this.maxLengthMillis = maxLengthMillis;
-        this.id = id_counter++;
+        //this.id = id_counter++;
         this.name = name;
         this.logCheckpointIntervalMs = logCheckpointIntervalMs;
         lock = new ReentrantLock();
@@ -54,6 +55,44 @@ public class Log<K, V> {
         knownCheckpointLogEntries = new HashMap<Integer, LogEntry<K, V>>(10);
         timeToCheckpointId = new HashMap<Long, Integer>(10);
     }
+
+    public Log(Protocol.Log protocolLog) {
+        this.name = protocolLog.getName();
+        this.maxLengthMillis = protocolLog.getMaxLengthMillis();
+        this.logCheckpointIntervalMs = protocolLog.getLogCheckpointIntervalMillis();
+        LogEntry<K, V> logEntry = null;
+        LogEntry<K, V> prevLogEntry = null;
+        //ArrayList<LogEntry<K, V>> logSlice = new ArrayList<LogEntry<K, V>>(protocolLog.getItemsCount());
+        for (int i = 0; i < protocolLog.getItemsCount(); i++) {
+            Protocol.LogItem item = protocolLog.getItems(i);
+            V valFrom = ProtocolHelpers.byteStringToSerializable(item.getValueFrom());
+            V valTo = ProtocolHelpers.byteStringToSerializable(item.getValueTo());
+            K key = ProtocolHelpers.byteStringToSerializable(item.getKey());
+            LogEntry<K, V> entry = new LogEntry<K, V>(
+                    key,
+                    new DataEntry<V>(valFrom),
+                    new DataEntry<V>(valTo, new Timestamp(item.getHlcTime()))
+            );
+
+            if (head != null) {
+                logEntry.setPrev(prevLogEntry);
+                prevLogEntry.setNext(logEntry);
+            } else {
+                head = entry;
+                logEntry = entry;
+            }
+            prevLogEntry = logEntry;
+            length++;
+        }
+        tail = logEntry;
+    }
+
+    private Log<K, V> setHeadAndTail(LogEntry<K, V> head, LogEntry<K, V> tail) {
+        this.head = head;
+        this.tail = tail;
+        return this;
+    }
+
 
     public int addKnownEntries(LogEntry<K, V> entry) {
         knownCheckpointLogEntries.put(known_snapshot_log_id, entry);
@@ -66,8 +105,11 @@ public class Log<K, V> {
     }
 
 
-    public int append(LogEntry<K, V> entry) {
+    public int append(LogEntry<K, V> entry) throws RetroscopeException {
         lock();
+        if (tail != null && entry.getTime().compareTo(tail.getTime()) <= 0) {
+            throw new RetroscopeException("Cannot append entry with timestamp same as or older then the timestamp of a tail");
+        }
         int lengthOriginal = length;
         length++;
         if (head == null) {
@@ -341,9 +383,33 @@ public class Log<K, V> {
         return diffMap;
     }
 
+    public Log<K, V> logSlice(long sliceStart, long sliceEnd)
+            throws LogOutTimeBoundsException {
+        return logSlice(new Timestamp(sliceStart), new Timestamp(sliceEnd));
+    }
+
+    public Log<K, V> logSlice(Timestamp sliceStart, Timestamp sliceEnd)
+            throws LogOutTimeBoundsException {
+        LogEntry<K, V> head = this.findEntry(sliceStart);
+        LogEntry<K, V> tail = this.findEntry(sliceEnd);
+
+        return new Log<K, V>(this.maxLengthMillis, this.name, this.logCheckpointIntervalMs)
+                .setHeadAndTail(head, tail);
+    }
+
 
     public int getLength() {
         return length;
+    }
+
+    private void countLength() {
+        lock.lock();
+        LogEntry<K, V> le = head;
+        while (le != null) {
+            length++;
+            le = le.getNext();
+        }
+        lock.unlock();
     }
 
     public LogEntry<K, V> getHead() {
@@ -356,6 +422,10 @@ public class Log<K, V> {
 
     public long getMaxLogSize() {
         return maxLengthMillis;
+    }
+
+    public long getLogCheckpointIntervalMs() {
+        return logCheckpointIntervalMs;
     }
 
     public void stopTruncating()
@@ -377,10 +447,6 @@ public class Log<K, V> {
         this.logCheckpointIntervalMs = logCheckpointIntervalMs;
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -394,8 +460,8 @@ public class Log<K, V> {
     }
 
      /*
-     * Expose Lock
-     */
+      * Expose Lock
+      */
 
     public void lock() {
         lock.lock();
@@ -405,4 +471,32 @@ public class Log<K, V> {
         lock.unlock();
     }
 
+
+    /*
+     * To... methods
+     */
+
+    public String toString() {
+        return Log.class.getName() + " " + name + " of length " + length;
+    }
+
+    public Protocol.Log toProtocol() {
+        Protocol.Log.Builder protocolMsgBuilder = Protocol.Log.newBuilder();
+        protocolMsgBuilder.setName(name)
+                .setMaxLengthMillis(this.maxLengthMillis)
+                .setLogCheckpointIntervalMillis(this.logCheckpointIntervalMs);
+
+        LogEntry<K, V> logEntry = head;
+
+        while (logEntry != null) {
+            protocolMsgBuilder.addItems(Protocol.LogItem.newBuilder()
+                    .setKey(ProtocolHelpers.serializableToByteString(logEntry.getKey()))
+                    .setHlcTime(logEntry.getTime().toLong())
+                    .setValueFrom(ProtocolHelpers.serializableToByteString(logEntry.getFromV().getValue()))
+                    .setValueTo(ProtocolHelpers.serializableToByteString(logEntry.getToV().getValue()))
+            );
+            logEntry = logEntry.getNext();
+        }
+        return protocolMsgBuilder.build();
+    }
 }

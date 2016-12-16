@@ -97,6 +97,10 @@ public final class Protocol {
   }
   /**
    * Protobuf type {@code RetroServerMsg}
+   *
+   * <pre>
+   *Message from Retroscope Server
+   * </pre>
    */
   public static final class RetroServerMsg extends
       com.google.protobuf.GeneratedMessage implements
@@ -581,6 +585,10 @@ public final class Protocol {
     }
     /**
      * Protobuf type {@code RetroServerMsg}
+     *
+     * <pre>
+     *Message from Retroscope Server
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -1973,6 +1981,10 @@ public final class Protocol {
   }
   /**
    * Protobuf type {@code GetLogNames}
+   *
+   * <pre>
+   * Commands to Nodes
+   * </pre>
    */
   public static final class GetLogNames extends
       com.google.protobuf.GeneratedMessage implements
@@ -2165,6 +2177,10 @@ public final class Protocol {
     }
     /**
      * Protobuf type {@code GetLogNames}
+     *
+     * <pre>
+     * Commands to Nodes
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -2988,6 +3004,646 @@ public final class Protocol {
     }
 
     // @@protoc_insertion_point(class_scope:GetData)
+  }
+
+  public interface GetLogOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:GetLog)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string logName = 1;</code>
+     */
+    boolean hasLogName();
+    /**
+     * <code>required string logName = 1;</code>
+     */
+    java.lang.String getLogName();
+    /**
+     * <code>required string logName = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getLogNameBytes();
+
+    /**
+     * <code>optional int64 startTime = 2;</code>
+     */
+    boolean hasStartTime();
+    /**
+     * <code>optional int64 startTime = 2;</code>
+     */
+    long getStartTime();
+
+    /**
+     * <code>optional int64 endTime = 3;</code>
+     */
+    boolean hasEndTime();
+    /**
+     * <code>optional int64 endTime = 3;</code>
+     */
+    long getEndTime();
+  }
+  /**
+   * Protobuf type {@code GetLog}
+   */
+  public static final class GetLog extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:GetLog)
+      GetLogOrBuilder {
+    // Use GetLog.newBuilder() to construct.
+    private GetLog(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private GetLog(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final GetLog defaultInstance;
+    public static GetLog getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public GetLog getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private GetLog(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              logName_ = bs;
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              startTime_ = input.readInt64();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              endTime_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return retroscope.net.protocol.Protocol.internal_static_GetLog_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return retroscope.net.protocol.Protocol.internal_static_GetLog_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              retroscope.net.protocol.Protocol.GetLog.class, retroscope.net.protocol.Protocol.GetLog.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<GetLog> PARSER =
+        new com.google.protobuf.AbstractParser<GetLog>() {
+      public GetLog parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new GetLog(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<GetLog> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int LOGNAME_FIELD_NUMBER = 1;
+    private java.lang.Object logName_;
+    /**
+     * <code>required string logName = 1;</code>
+     */
+    public boolean hasLogName() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string logName = 1;</code>
+     */
+    public java.lang.String getLogName() {
+      java.lang.Object ref = logName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          logName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string logName = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getLogNameBytes() {
+      java.lang.Object ref = logName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        logName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int STARTTIME_FIELD_NUMBER = 2;
+    private long startTime_;
+    /**
+     * <code>optional int64 startTime = 2;</code>
+     */
+    public boolean hasStartTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int64 startTime = 2;</code>
+     */
+    public long getStartTime() {
+      return startTime_;
+    }
+
+    public static final int ENDTIME_FIELD_NUMBER = 3;
+    private long endTime_;
+    /**
+     * <code>optional int64 endTime = 3;</code>
+     */
+    public boolean hasEndTime() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional int64 endTime = 3;</code>
+     */
+    public long getEndTime() {
+      return endTime_;
+    }
+
+    private void initFields() {
+      logName_ = "";
+      startTime_ = 0L;
+      endTime_ = 0L;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasLogName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getLogNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, startTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, endTime_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getLogNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, startTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, endTime_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.GetLog parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(retroscope.net.protocol.Protocol.GetLog prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code GetLog}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:GetLog)
+        retroscope.net.protocol.Protocol.GetLogOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return retroscope.net.protocol.Protocol.internal_static_GetLog_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return retroscope.net.protocol.Protocol.internal_static_GetLog_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                retroscope.net.protocol.Protocol.GetLog.class, retroscope.net.protocol.Protocol.GetLog.Builder.class);
+      }
+
+      // Construct using retroscope.net.protocol.Protocol.GetLog.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        logName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        startTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        endTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return retroscope.net.protocol.Protocol.internal_static_GetLog_descriptor;
+      }
+
+      public retroscope.net.protocol.Protocol.GetLog getDefaultInstanceForType() {
+        return retroscope.net.protocol.Protocol.GetLog.getDefaultInstance();
+      }
+
+      public retroscope.net.protocol.Protocol.GetLog build() {
+        retroscope.net.protocol.Protocol.GetLog result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public retroscope.net.protocol.Protocol.GetLog buildPartial() {
+        retroscope.net.protocol.Protocol.GetLog result = new retroscope.net.protocol.Protocol.GetLog(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.logName_ = logName_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.startTime_ = startTime_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.endTime_ = endTime_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof retroscope.net.protocol.Protocol.GetLog) {
+          return mergeFrom((retroscope.net.protocol.Protocol.GetLog)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(retroscope.net.protocol.Protocol.GetLog other) {
+        if (other == retroscope.net.protocol.Protocol.GetLog.getDefaultInstance()) return this;
+        if (other.hasLogName()) {
+          bitField0_ |= 0x00000001;
+          logName_ = other.logName_;
+          onChanged();
+        }
+        if (other.hasStartTime()) {
+          setStartTime(other.getStartTime());
+        }
+        if (other.hasEndTime()) {
+          setEndTime(other.getEndTime());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasLogName()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        retroscope.net.protocol.Protocol.GetLog parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (retroscope.net.protocol.Protocol.GetLog) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object logName_ = "";
+      /**
+       * <code>required string logName = 1;</code>
+       */
+      public boolean hasLogName() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string logName = 1;</code>
+       */
+      public java.lang.String getLogName() {
+        java.lang.Object ref = logName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            logName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string logName = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getLogNameBytes() {
+        java.lang.Object ref = logName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          logName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string logName = 1;</code>
+       */
+      public Builder setLogName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        logName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string logName = 1;</code>
+       */
+      public Builder clearLogName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        logName_ = getDefaultInstance().getLogName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string logName = 1;</code>
+       */
+      public Builder setLogNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        logName_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long startTime_ ;
+      /**
+       * <code>optional int64 startTime = 2;</code>
+       */
+      public boolean hasStartTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int64 startTime = 2;</code>
+       */
+      public long getStartTime() {
+        return startTime_;
+      }
+      /**
+       * <code>optional int64 startTime = 2;</code>
+       */
+      public Builder setStartTime(long value) {
+        bitField0_ |= 0x00000002;
+        startTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 startTime = 2;</code>
+       */
+      public Builder clearStartTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        startTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long endTime_ ;
+      /**
+       * <code>optional int64 endTime = 3;</code>
+       */
+      public boolean hasEndTime() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int64 endTime = 3;</code>
+       */
+      public long getEndTime() {
+        return endTime_;
+      }
+      /**
+       * <code>optional int64 endTime = 3;</code>
+       */
+      public Builder setEndTime(long value) {
+        bitField0_ |= 0x00000004;
+        endTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 endTime = 3;</code>
+       */
+      public Builder clearEndTime() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        endTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:GetLog)
+    }
+
+    static {
+      defaultInstance = new GetLog(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:GetLog)
   }
 
   public interface TakeSnapshotOrBuilder extends
@@ -4136,6 +4792,10 @@ public final class Protocol {
   }
   /**
    * Protobuf type {@code RetroNodeMsg}
+   *
+   * <pre>
+   * message from Retroscope Node
+   * </pre>
    */
   public static final class RetroNodeMsg extends
       com.google.protobuf.GeneratedMessage implements
@@ -4598,6 +5258,10 @@ public final class Protocol {
     }
     /**
      * Protobuf type {@code RetroNodeMsg}
+     *
+     * <pre>
+     * message from Retroscope Node
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -5907,6 +6571,10 @@ public final class Protocol {
   }
   /**
    * Protobuf type {@code DataMap}
+   *
+   * <pre>
+   * DataMap messages
+   * </pre>
    */
   public static final class DataMap extends
       com.google.protobuf.GeneratedMessage implements
@@ -6253,6 +6921,10 @@ public final class Protocol {
     }
     /**
      * Protobuf type {@code DataMap}
+     *
+     * <pre>
+     * DataMap messages
+     * </pre>
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -7427,6 +8099,1762 @@ public final class Protocol {
     // @@protoc_insertion_point(class_scope:DataItem)
   }
 
+  public interface LogOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:Log)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required string name = 1;</code>
+     */
+    boolean hasName();
+    /**
+     * <code>required string name = 1;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <code>required string name = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <code>required int64 maxLengthMillis = 2;</code>
+     */
+    boolean hasMaxLengthMillis();
+    /**
+     * <code>required int64 maxLengthMillis = 2;</code>
+     */
+    long getMaxLengthMillis();
+
+    /**
+     * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+     */
+    boolean hasLogCheckpointIntervalMillis();
+    /**
+     * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+     */
+    long getLogCheckpointIntervalMillis();
+
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    java.util.List<retroscope.net.protocol.Protocol.LogItem> 
+        getItemsList();
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    retroscope.net.protocol.Protocol.LogItem getItems(int index);
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    int getItemsCount();
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    java.util.List<? extends retroscope.net.protocol.Protocol.LogItemOrBuilder> 
+        getItemsOrBuilderList();
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    retroscope.net.protocol.Protocol.LogItemOrBuilder getItemsOrBuilder(
+        int index);
+  }
+  /**
+   * Protobuf type {@code Log}
+   *
+   * <pre>
+   *Log Messages
+   * </pre>
+   */
+  public static final class Log extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:Log)
+      LogOrBuilder {
+    // Use Log.newBuilder() to construct.
+    private Log(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private Log(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final Log defaultInstance;
+    public static Log getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public Log getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private Log(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              name_ = bs;
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              maxLengthMillis_ = input.readInt64();
+              break;
+            }
+            case 24: {
+              bitField0_ |= 0x00000004;
+              logCheckpointIntervalMillis_ = input.readInt64();
+              break;
+            }
+            case 34: {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                items_ = new java.util.ArrayList<retroscope.net.protocol.Protocol.LogItem>();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              items_.add(input.readMessage(retroscope.net.protocol.Protocol.LogItem.PARSER, extensionRegistry));
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          items_ = java.util.Collections.unmodifiableList(items_);
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return retroscope.net.protocol.Protocol.internal_static_Log_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return retroscope.net.protocol.Protocol.internal_static_Log_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              retroscope.net.protocol.Protocol.Log.class, retroscope.net.protocol.Protocol.Log.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<Log> PARSER =
+        new com.google.protobuf.AbstractParser<Log>() {
+      public Log parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new Log(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<Log> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int NAME_FIELD_NUMBER = 1;
+    private java.lang.Object name_;
+    /**
+     * <code>required string name = 1;</code>
+     */
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required string name = 1;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>required string name = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MAXLENGTHMILLIS_FIELD_NUMBER = 2;
+    private long maxLengthMillis_;
+    /**
+     * <code>required int64 maxLengthMillis = 2;</code>
+     */
+    public boolean hasMaxLengthMillis() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 maxLengthMillis = 2;</code>
+     */
+    public long getMaxLengthMillis() {
+      return maxLengthMillis_;
+    }
+
+    public static final int LOGCHECKPOINTINTERVALMILLIS_FIELD_NUMBER = 3;
+    private long logCheckpointIntervalMillis_;
+    /**
+     * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+     */
+    public boolean hasLogCheckpointIntervalMillis() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+     */
+    public long getLogCheckpointIntervalMillis() {
+      return logCheckpointIntervalMillis_;
+    }
+
+    public static final int ITEMS_FIELD_NUMBER = 4;
+    private java.util.List<retroscope.net.protocol.Protocol.LogItem> items_;
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    public java.util.List<retroscope.net.protocol.Protocol.LogItem> getItemsList() {
+      return items_;
+    }
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    public java.util.List<? extends retroscope.net.protocol.Protocol.LogItemOrBuilder> 
+        getItemsOrBuilderList() {
+      return items_;
+    }
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    public int getItemsCount() {
+      return items_.size();
+    }
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    public retroscope.net.protocol.Protocol.LogItem getItems(int index) {
+      return items_.get(index);
+    }
+    /**
+     * <code>repeated .LogItem items = 4;</code>
+     */
+    public retroscope.net.protocol.Protocol.LogItemOrBuilder getItemsOrBuilder(
+        int index) {
+      return items_.get(index);
+    }
+
+    private void initFields() {
+      name_ = "";
+      maxLengthMillis_ = 0L;
+      logCheckpointIntervalMillis_ = 0L;
+      items_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasMaxLengthMillis()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLogCheckpointIntervalMillis()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      for (int i = 0; i < getItemsCount(); i++) {
+        if (!getItems(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, maxLengthMillis_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeInt64(3, logCheckpointIntervalMillis_);
+      }
+      for (int i = 0; i < items_.size(); i++) {
+        output.writeMessage(4, items_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, maxLengthMillis_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, logCheckpointIntervalMillis_);
+      }
+      for (int i = 0; i < items_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, items_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static retroscope.net.protocol.Protocol.Log parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.Log parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(retroscope.net.protocol.Protocol.Log prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code Log}
+     *
+     * <pre>
+     *Log Messages
+     * </pre>
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:Log)
+        retroscope.net.protocol.Protocol.LogOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return retroscope.net.protocol.Protocol.internal_static_Log_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return retroscope.net.protocol.Protocol.internal_static_Log_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                retroscope.net.protocol.Protocol.Log.class, retroscope.net.protocol.Protocol.Log.Builder.class);
+      }
+
+      // Construct using retroscope.net.protocol.Protocol.Log.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getItemsFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        maxLengthMillis_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        logCheckpointIntervalMillis_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        if (itemsBuilder_ == null) {
+          items_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        } else {
+          itemsBuilder_.clear();
+        }
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return retroscope.net.protocol.Protocol.internal_static_Log_descriptor;
+      }
+
+      public retroscope.net.protocol.Protocol.Log getDefaultInstanceForType() {
+        return retroscope.net.protocol.Protocol.Log.getDefaultInstance();
+      }
+
+      public retroscope.net.protocol.Protocol.Log build() {
+        retroscope.net.protocol.Protocol.Log result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public retroscope.net.protocol.Protocol.Log buildPartial() {
+        retroscope.net.protocol.Protocol.Log result = new retroscope.net.protocol.Protocol.Log(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.maxLengthMillis_ = maxLengthMillis_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.logCheckpointIntervalMillis_ = logCheckpointIntervalMillis_;
+        if (itemsBuilder_ == null) {
+          if (((bitField0_ & 0x00000008) == 0x00000008)) {
+            items_ = java.util.Collections.unmodifiableList(items_);
+            bitField0_ = (bitField0_ & ~0x00000008);
+          }
+          result.items_ = items_;
+        } else {
+          result.items_ = itemsBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof retroscope.net.protocol.Protocol.Log) {
+          return mergeFrom((retroscope.net.protocol.Protocol.Log)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(retroscope.net.protocol.Protocol.Log other) {
+        if (other == retroscope.net.protocol.Protocol.Log.getDefaultInstance()) return this;
+        if (other.hasName()) {
+          bitField0_ |= 0x00000001;
+          name_ = other.name_;
+          onChanged();
+        }
+        if (other.hasMaxLengthMillis()) {
+          setMaxLengthMillis(other.getMaxLengthMillis());
+        }
+        if (other.hasLogCheckpointIntervalMillis()) {
+          setLogCheckpointIntervalMillis(other.getLogCheckpointIntervalMillis());
+        }
+        if (itemsBuilder_ == null) {
+          if (!other.items_.isEmpty()) {
+            if (items_.isEmpty()) {
+              items_ = other.items_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+            } else {
+              ensureItemsIsMutable();
+              items_.addAll(other.items_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.items_.isEmpty()) {
+            if (itemsBuilder_.isEmpty()) {
+              itemsBuilder_.dispose();
+              itemsBuilder_ = null;
+              items_ = other.items_;
+              bitField0_ = (bitField0_ & ~0x00000008);
+              itemsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getItemsFieldBuilder() : null;
+            } else {
+              itemsBuilder_.addAllMessages(other.items_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasName()) {
+          
+          return false;
+        }
+        if (!hasMaxLengthMillis()) {
+          
+          return false;
+        }
+        if (!hasLogCheckpointIntervalMillis()) {
+          
+          return false;
+        }
+        for (int i = 0; i < getItemsCount(); i++) {
+          if (!getItems(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        retroscope.net.protocol.Protocol.Log parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (retroscope.net.protocol.Protocol.Log) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object name_ = "";
+      /**
+       * <code>required string name = 1;</code>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required string name = 1;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>required string name = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>required string name = 1;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 1;</code>
+       */
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required string name = 1;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long maxLengthMillis_ ;
+      /**
+       * <code>required int64 maxLengthMillis = 2;</code>
+       */
+      public boolean hasMaxLengthMillis() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 maxLengthMillis = 2;</code>
+       */
+      public long getMaxLengthMillis() {
+        return maxLengthMillis_;
+      }
+      /**
+       * <code>required int64 maxLengthMillis = 2;</code>
+       */
+      public Builder setMaxLengthMillis(long value) {
+        bitField0_ |= 0x00000002;
+        maxLengthMillis_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 maxLengthMillis = 2;</code>
+       */
+      public Builder clearMaxLengthMillis() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        maxLengthMillis_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long logCheckpointIntervalMillis_ ;
+      /**
+       * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+       */
+      public boolean hasLogCheckpointIntervalMillis() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+       */
+      public long getLogCheckpointIntervalMillis() {
+        return logCheckpointIntervalMillis_;
+      }
+      /**
+       * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+       */
+      public Builder setLogCheckpointIntervalMillis(long value) {
+        bitField0_ |= 0x00000004;
+        logCheckpointIntervalMillis_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 logCheckpointIntervalMillis = 3;</code>
+       */
+      public Builder clearLogCheckpointIntervalMillis() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        logCheckpointIntervalMillis_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<retroscope.net.protocol.Protocol.LogItem> items_ =
+        java.util.Collections.emptyList();
+      private void ensureItemsIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          items_ = new java.util.ArrayList<retroscope.net.protocol.Protocol.LogItem>(items_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+
+      private com.google.protobuf.RepeatedFieldBuilder<
+          retroscope.net.protocol.Protocol.LogItem, retroscope.net.protocol.Protocol.LogItem.Builder, retroscope.net.protocol.Protocol.LogItemOrBuilder> itemsBuilder_;
+
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public java.util.List<retroscope.net.protocol.Protocol.LogItem> getItemsList() {
+        if (itemsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(items_);
+        } else {
+          return itemsBuilder_.getMessageList();
+        }
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public int getItemsCount() {
+        if (itemsBuilder_ == null) {
+          return items_.size();
+        } else {
+          return itemsBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public retroscope.net.protocol.Protocol.LogItem getItems(int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);
+        } else {
+          return itemsBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder setItems(
+          int index, retroscope.net.protocol.Protocol.LogItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.set(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder setItems(
+          int index, retroscope.net.protocol.Protocol.LogItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder addItems(retroscope.net.protocol.Protocol.LogItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder addItems(
+          int index, retroscope.net.protocol.Protocol.LogItem value) {
+        if (itemsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureItemsIsMutable();
+          items_.add(index, value);
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder addItems(
+          retroscope.net.protocol.Protocol.LogItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder addItems(
+          int index, retroscope.net.protocol.Protocol.LogItem.Builder builderForValue) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          itemsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder addAllItems(
+          java.lang.Iterable<? extends retroscope.net.protocol.Protocol.LogItem> values) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, items_);
+          onChanged();
+        } else {
+          itemsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder clearItems() {
+        if (itemsBuilder_ == null) {
+          items_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000008);
+          onChanged();
+        } else {
+          itemsBuilder_.clear();
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public Builder removeItems(int index) {
+        if (itemsBuilder_ == null) {
+          ensureItemsIsMutable();
+          items_.remove(index);
+          onChanged();
+        } else {
+          itemsBuilder_.remove(index);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public retroscope.net.protocol.Protocol.LogItem.Builder getItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public retroscope.net.protocol.Protocol.LogItemOrBuilder getItemsOrBuilder(
+          int index) {
+        if (itemsBuilder_ == null) {
+          return items_.get(index);  } else {
+          return itemsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public java.util.List<? extends retroscope.net.protocol.Protocol.LogItemOrBuilder> 
+           getItemsOrBuilderList() {
+        if (itemsBuilder_ != null) {
+          return itemsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(items_);
+        }
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public retroscope.net.protocol.Protocol.LogItem.Builder addItemsBuilder() {
+        return getItemsFieldBuilder().addBuilder(
+            retroscope.net.protocol.Protocol.LogItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public retroscope.net.protocol.Protocol.LogItem.Builder addItemsBuilder(
+          int index) {
+        return getItemsFieldBuilder().addBuilder(
+            index, retroscope.net.protocol.Protocol.LogItem.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .LogItem items = 4;</code>
+       */
+      public java.util.List<retroscope.net.protocol.Protocol.LogItem.Builder> 
+           getItemsBuilderList() {
+        return getItemsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          retroscope.net.protocol.Protocol.LogItem, retroscope.net.protocol.Protocol.LogItem.Builder, retroscope.net.protocol.Protocol.LogItemOrBuilder> 
+          getItemsFieldBuilder() {
+        if (itemsBuilder_ == null) {
+          itemsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              retroscope.net.protocol.Protocol.LogItem, retroscope.net.protocol.Protocol.LogItem.Builder, retroscope.net.protocol.Protocol.LogItemOrBuilder>(
+                  items_,
+                  ((bitField0_ & 0x00000008) == 0x00000008),
+                  getParentForChildren(),
+                  isClean());
+          items_ = null;
+        }
+        return itemsBuilder_;
+      }
+
+      // @@protoc_insertion_point(builder_scope:Log)
+    }
+
+    static {
+      defaultInstance = new Log(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:Log)
+  }
+
+  public interface LogItemOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:LogItem)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required bytes key = 1;</code>
+     */
+    boolean hasKey();
+    /**
+     * <code>required bytes key = 1;</code>
+     */
+    com.google.protobuf.ByteString getKey();
+
+    /**
+     * <code>required int64 hlcTime = 2;</code>
+     */
+    boolean hasHlcTime();
+    /**
+     * <code>required int64 hlcTime = 2;</code>
+     */
+    long getHlcTime();
+
+    /**
+     * <code>optional bytes valueFrom = 3;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    boolean hasValueFrom();
+    /**
+     * <code>optional bytes valueFrom = 3;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    com.google.protobuf.ByteString getValueFrom();
+
+    /**
+     * <code>optional bytes valueTo = 4;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    boolean hasValueTo();
+    /**
+     * <code>optional bytes valueTo = 4;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    com.google.protobuf.ByteString getValueTo();
+  }
+  /**
+   * Protobuf type {@code LogItem}
+   */
+  public static final class LogItem extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:LogItem)
+      LogItemOrBuilder {
+    // Use LogItem.newBuilder() to construct.
+    private LogItem(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private LogItem(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final LogItem defaultInstance;
+    public static LogItem getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public LogItem getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private LogItem(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              key_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              hlcTime_ = input.readInt64();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              valueFrom_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              valueTo_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return retroscope.net.protocol.Protocol.internal_static_LogItem_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return retroscope.net.protocol.Protocol.internal_static_LogItem_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              retroscope.net.protocol.Protocol.LogItem.class, retroscope.net.protocol.Protocol.LogItem.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<LogItem> PARSER =
+        new com.google.protobuf.AbstractParser<LogItem>() {
+      public LogItem parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new LogItem(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<LogItem> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int KEY_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString key_;
+    /**
+     * <code>required bytes key = 1;</code>
+     */
+    public boolean hasKey() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required bytes key = 1;</code>
+     */
+    public com.google.protobuf.ByteString getKey() {
+      return key_;
+    }
+
+    public static final int HLCTIME_FIELD_NUMBER = 2;
+    private long hlcTime_;
+    /**
+     * <code>required int64 hlcTime = 2;</code>
+     */
+    public boolean hasHlcTime() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>required int64 hlcTime = 2;</code>
+     */
+    public long getHlcTime() {
+      return hlcTime_;
+    }
+
+    public static final int VALUEFROM_FIELD_NUMBER = 3;
+    private com.google.protobuf.ByteString valueFrom_;
+    /**
+     * <code>optional bytes valueFrom = 3;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    public boolean hasValueFrom() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bytes valueFrom = 3;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getValueFrom() {
+      return valueFrom_;
+    }
+
+    public static final int VALUETO_FIELD_NUMBER = 4;
+    private com.google.protobuf.ByteString valueTo_;
+    /**
+     * <code>optional bytes valueTo = 4;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    public boolean hasValueTo() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional bytes valueTo = 4;</code>
+     *
+     * <pre>
+     * values can be null
+     * </pre>
+     */
+    public com.google.protobuf.ByteString getValueTo() {
+      return valueTo_;
+    }
+
+    private void initFields() {
+      key_ = com.google.protobuf.ByteString.EMPTY;
+      hlcTime_ = 0L;
+      valueFrom_ = com.google.protobuf.ByteString.EMPTY;
+      valueTo_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasKey()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasHlcTime()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, key_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt64(2, hlcTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, valueFrom_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, valueTo_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, key_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(2, hlcTime_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, valueFrom_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, valueTo_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.LogItem parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(retroscope.net.protocol.Protocol.LogItem prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code LogItem}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:LogItem)
+        retroscope.net.protocol.Protocol.LogItemOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return retroscope.net.protocol.Protocol.internal_static_LogItem_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return retroscope.net.protocol.Protocol.internal_static_LogItem_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                retroscope.net.protocol.Protocol.LogItem.class, retroscope.net.protocol.Protocol.LogItem.Builder.class);
+      }
+
+      // Construct using retroscope.net.protocol.Protocol.LogItem.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        key_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        hlcTime_ = 0L;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        valueFrom_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        valueTo_ = com.google.protobuf.ByteString.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return retroscope.net.protocol.Protocol.internal_static_LogItem_descriptor;
+      }
+
+      public retroscope.net.protocol.Protocol.LogItem getDefaultInstanceForType() {
+        return retroscope.net.protocol.Protocol.LogItem.getDefaultInstance();
+      }
+
+      public retroscope.net.protocol.Protocol.LogItem build() {
+        retroscope.net.protocol.Protocol.LogItem result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public retroscope.net.protocol.Protocol.LogItem buildPartial() {
+        retroscope.net.protocol.Protocol.LogItem result = new retroscope.net.protocol.Protocol.LogItem(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.key_ = key_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.hlcTime_ = hlcTime_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.valueFrom_ = valueFrom_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.valueTo_ = valueTo_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof retroscope.net.protocol.Protocol.LogItem) {
+          return mergeFrom((retroscope.net.protocol.Protocol.LogItem)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(retroscope.net.protocol.Protocol.LogItem other) {
+        if (other == retroscope.net.protocol.Protocol.LogItem.getDefaultInstance()) return this;
+        if (other.hasKey()) {
+          setKey(other.getKey());
+        }
+        if (other.hasHlcTime()) {
+          setHlcTime(other.getHlcTime());
+        }
+        if (other.hasValueFrom()) {
+          setValueFrom(other.getValueFrom());
+        }
+        if (other.hasValueTo()) {
+          setValueTo(other.getValueTo());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasKey()) {
+          
+          return false;
+        }
+        if (!hasHlcTime()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        retroscope.net.protocol.Protocol.LogItem parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (retroscope.net.protocol.Protocol.LogItem) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.ByteString key_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>required bytes key = 1;</code>
+       */
+      public boolean hasKey() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required bytes key = 1;</code>
+       */
+      public com.google.protobuf.ByteString getKey() {
+        return key_;
+      }
+      /**
+       * <code>required bytes key = 1;</code>
+       */
+      public Builder setKey(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        key_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required bytes key = 1;</code>
+       */
+      public Builder clearKey() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        key_ = getDefaultInstance().getKey();
+        onChanged();
+        return this;
+      }
+
+      private long hlcTime_ ;
+      /**
+       * <code>required int64 hlcTime = 2;</code>
+       */
+      public boolean hasHlcTime() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required int64 hlcTime = 2;</code>
+       */
+      public long getHlcTime() {
+        return hlcTime_;
+      }
+      /**
+       * <code>required int64 hlcTime = 2;</code>
+       */
+      public Builder setHlcTime(long value) {
+        bitField0_ |= 0x00000002;
+        hlcTime_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int64 hlcTime = 2;</code>
+       */
+      public Builder clearHlcTime() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        hlcTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString valueFrom_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes valueFrom = 3;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public boolean hasValueFrom() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional bytes valueFrom = 3;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getValueFrom() {
+        return valueFrom_;
+      }
+      /**
+       * <code>optional bytes valueFrom = 3;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public Builder setValueFrom(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        valueFrom_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes valueFrom = 3;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public Builder clearValueFrom() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        valueFrom_ = getDefaultInstance().getValueFrom();
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.ByteString valueTo_ = com.google.protobuf.ByteString.EMPTY;
+      /**
+       * <code>optional bytes valueTo = 4;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public boolean hasValueTo() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bytes valueTo = 4;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public com.google.protobuf.ByteString getValueTo() {
+        return valueTo_;
+      }
+      /**
+       * <code>optional bytes valueTo = 4;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public Builder setValueTo(com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        valueTo_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bytes valueTo = 4;</code>
+       *
+       * <pre>
+       * values can be null
+       * </pre>
+       */
+      public Builder clearValueTo() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        valueTo_ = getDefaultInstance().getValueTo();
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:LogItem)
+    }
+
+    static {
+      defaultInstance = new LogItem(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:LogItem)
+  }
+
   public interface ExisitngLogOrBuilder extends
       // @@protoc_insertion_point(interface_extends:ExisitngLog)
       com.google.protobuf.MessageOrBuilder {
@@ -8104,6 +10532,11 @@ public final class Protocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_GetData_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_GetLog_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_GetLog_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_TakeSnapshot_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -8134,6 +10567,16 @@ public final class Protocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_DataItem_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_Log_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_Log_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_LogItem_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_LogItem_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_ExisitngLog_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -8156,20 +10599,26 @@ public final class Protocol {
       "de\030\017 \001(\005\"?\n\022ConnectMsgResponse\022\031\n\021retros" +
       "copeVersion\030\001 \002(\005\022\016\n\006nodeID\030\002 \002(\005\"\r\n\013Get" +
       "LogNames\"9\n\007GetData\022\017\n\007logName\030\001 \002(\t\022\017\n\007" +
-      "hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"\037\n\014TakeSnaps",
-      "hot\022\017\n\007logName\030\001 \002(\t\"0\n\014RollSnapshot\022\017\n\007" +
-      "logName\030\001 \002(\t\022\017\n\007hlcTime\030\002 \002(\003\"\247\001\n\014Retro" +
-      "NodeMsg\022\013\n\003RID\030\001 \001(\003\022\037\n\nconnectMsg\030\002 \001(\013" +
-      "2\013.ConnectMsg\022\026\n\004data\030\003 \001(\0132\010.DataMap\022\032\n" +
-      "\004logs\030\004 \003(\0132\014.ExisitngLog\022\022\n\nsnapshotId\030" +
-      "\005 \001(\005\022\016\n\006nodeId\030\016 \001(\005\022\021\n\terrorCode\030\017 \001(\005" +
-      "\"\'\n\nConnectMsg\022\031\n\021retroscopeVersion\030\001 \002(" +
-      "\005\"B\n\007DataMap\022\014\n\004name\030\001 \002(\t\022\030\n\005items\030\002 \003(" +
-      "\0132\t.DataItem\022\017\n\007hlcTime\030\003 \002(\003\"7\n\010DataIte" +
-      "m\022\013\n\003key\030\001 \002(\014\022\r\n\005value\030\002 \001(\014\022\017\n\007hlcTime",
-      "\030\003 \001(\003\"F\n\013ExisitngLog\022\017\n\007logName\030\001 \002(\t\022\020" +
-      "\n\010logStart\030\002 \002(\003\022\024\n\014isDataMapLog\030\003 \002(\010B\031" +
-      "\n\027retroscope.net.protocol"
+      "hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"=\n\006GetLog\022\017\n",
+      "\007logName\030\001 \002(\t\022\021\n\tstartTime\030\002 \001(\003\022\017\n\007end" +
+      "Time\030\003 \001(\003\"\037\n\014TakeSnapshot\022\017\n\007logName\030\001 " +
+      "\002(\t\"0\n\014RollSnapshot\022\017\n\007logName\030\001 \002(\t\022\017\n\007" +
+      "hlcTime\030\002 \002(\003\"\247\001\n\014RetroNodeMsg\022\013\n\003RID\030\001 " +
+      "\001(\003\022\037\n\nconnectMsg\030\002 \001(\0132\013.ConnectMsg\022\026\n\004" +
+      "data\030\003 \001(\0132\010.DataMap\022\032\n\004logs\030\004 \003(\0132\014.Exi" +
+      "sitngLog\022\022\n\nsnapshotId\030\005 \001(\005\022\016\n\006nodeId\030\016" +
+      " \001(\005\022\021\n\terrorCode\030\017 \001(\005\"\'\n\nConnectMsg\022\031\n" +
+      "\021retroscopeVersion\030\001 \002(\005\"B\n\007DataMap\022\014\n\004n" +
+      "ame\030\001 \002(\t\022\030\n\005items\030\002 \003(\0132\t.DataItem\022\017\n\007h",
+      "lcTime\030\003 \002(\003\"7\n\010DataItem\022\013\n\003key\030\001 \002(\014\022\r\n" +
+      "\005value\030\002 \001(\014\022\017\n\007hlcTime\030\003 \001(\003\"j\n\003Log\022\014\n\004" +
+      "name\030\001 \002(\t\022\027\n\017maxLengthMillis\030\002 \002(\003\022#\n\033l" +
+      "ogCheckpointIntervalMillis\030\003 \002(\003\022\027\n\005item" +
+      "s\030\004 \003(\0132\010.LogItem\"K\n\007LogItem\022\013\n\003key\030\001 \002(" +
+      "\014\022\017\n\007hlcTime\030\002 \002(\003\022\021\n\tvalueFrom\030\003 \001(\014\022\017\n" +
+      "\007valueTo\030\004 \001(\014\"F\n\013ExisitngLog\022\017\n\007logName" +
+      "\030\001 \002(\t\022\020\n\010logStart\030\002 \002(\003\022\024\n\014isDataMapLog" +
+      "\030\003 \002(\010B\031\n\027retroscope.net.protocol"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8207,44 +10656,62 @@ public final class Protocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetData_descriptor,
         new java.lang.String[] { "LogName", "HlcTime", "Keys", });
-    internal_static_TakeSnapshot_descriptor =
+    internal_static_GetLog_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_GetLog_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_GetLog_descriptor,
+        new java.lang.String[] { "LogName", "StartTime", "EndTime", });
+    internal_static_TakeSnapshot_descriptor =
+      getDescriptor().getMessageTypes().get(5);
     internal_static_TakeSnapshot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_TakeSnapshot_descriptor,
         new java.lang.String[] { "LogName", });
     internal_static_RollSnapshot_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_RollSnapshot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RollSnapshot_descriptor,
         new java.lang.String[] { "LogName", "HlcTime", });
     internal_static_RetroNodeMsg_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_RetroNodeMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RetroNodeMsg_descriptor,
         new java.lang.String[] { "RID", "ConnectMsg", "Data", "Logs", "SnapshotId", "NodeId", "ErrorCode", });
     internal_static_ConnectMsg_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_ConnectMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ConnectMsg_descriptor,
         new java.lang.String[] { "RetroscopeVersion", });
     internal_static_DataMap_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_DataMap_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_DataMap_descriptor,
         new java.lang.String[] { "Name", "Items", "HlcTime", });
     internal_static_DataItem_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_DataItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_DataItem_descriptor,
         new java.lang.String[] { "Key", "Value", "HlcTime", });
+    internal_static_Log_descriptor =
+      getDescriptor().getMessageTypes().get(11);
+    internal_static_Log_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_Log_descriptor,
+        new java.lang.String[] { "Name", "MaxLengthMillis", "LogCheckpointIntervalMillis", "Items", });
+    internal_static_LogItem_descriptor =
+      getDescriptor().getMessageTypes().get(12);
+    internal_static_LogItem_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_LogItem_descriptor,
+        new java.lang.String[] { "Key", "HlcTime", "ValueFrom", "ValueTo", });
     internal_static_ExisitngLog_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_ExisitngLog_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ExisitngLog_descriptor,

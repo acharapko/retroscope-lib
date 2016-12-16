@@ -2,11 +2,12 @@ package retroscope.net.protocol;
 
 import com.google.protobuf.ByteString;
 import retroscope.hlc.Timestamp;
-import retroscope.log.DataEntry;
-import retroscope.log.RetroMap;
+import retroscope.log.*;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -74,8 +75,9 @@ public class ProtocolHelpers {
     }
 
 
-    public static<K extends Serializable, V extends Serializable> RetroMap<K, V> protocolToRetroMap(Protocol.DataMap protocolDataMap) {
-
+    public static<K extends Serializable, V extends Serializable> RetroMap<K, V> protocolToRetroMap(
+            Protocol.DataMap protocolDataMap
+    ) {
         RetroMap<K, V>  dataMap = new RetroMap<K, V>(protocolDataMap.getItemsCount());
         for (int i = 0; i < protocolDataMap.getItemsCount(); i++) {
             V val = null;
@@ -86,7 +88,7 @@ public class ProtocolHelpers {
             Timestamp time = new Timestamp(protocolDataMap.getItems(i).getHlcTime());
             dataMap.put(key, new DataEntry<V>(val, time));
         }
-
         return dataMap;
     }
+
 }

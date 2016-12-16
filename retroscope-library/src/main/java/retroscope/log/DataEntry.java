@@ -13,6 +13,11 @@ public class DataEntry<V> {
 
     protected Timestamp timestamp;
 
+    public DataEntry(V value) {
+        this.value = value;
+        this.timestamp = null; //may not be safe to do this
+    }
+
     public DataEntry(V value, Timestamp timestamp) {
         this.value = value;
         this.timestamp = timestamp;

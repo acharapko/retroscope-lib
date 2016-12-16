@@ -1,6 +1,7 @@
 package retroscope.log;
 
 import org.junit.Test;
+import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import java.util.HashMap;
 import java.util.Random;
@@ -23,7 +24,8 @@ public class DataMapLogTest {
         length = 100;
         log = new DataMapLog<String, String>(length * 10, "test123", 50);
         log = populateTheLog(log, 10);
-        log.append("test1", new DataEntry<String>("0", new Timestamp(System.currentTimeMillis(), (short)0)));
+        final Timestamp tTail = log.getTail().getTime().add(1, (short)0);
+        log.append("test1", new DataEntry<String>("0", tTail));
         Runnable r1 = new Runnable() {
             public void run() {
                 for (long i = 0; i < runs; i++) {
@@ -31,7 +33,15 @@ public class DataMapLogTest {
                     String v1 = log.getItem("test1").getValue();
                     int v = Integer.parseInt(v1);
                     v++;
-                    log.append("test1", new DataEntry<String>(v + "", new Timestamp(System.currentTimeMillis(), (short) 0)));
+                    Timestamp t = log.getTail().getTime().add(1, (short)0);
+                    try {
+                        log.append(
+                                "test1",
+                                new DataEntry<String>(v + "", t));
+                    } catch (RetroscopeException re) {
+                        re.printStackTrace();
+                        log.unlock();
+                    }
                     int testV = Integer.parseInt(log.getItem("test1").getValue());
                     log.unlock();
                     assertTrue(testV == v);
@@ -46,7 +56,15 @@ public class DataMapLogTest {
                     String v1 = log.getItem("test1").getValue();
                     int v = Integer.parseInt(v1);
                     v++;
-                    log.append("test1", new DataEntry<String>(v + "", new Timestamp(System.currentTimeMillis(), (short) 0)));
+                    Timestamp t = log.getTail().getTime().add(1, (short)0);
+                    try {
+                        log.append(
+                                "test1",
+                                new DataEntry<String>(v + "", t));
+                    } catch (RetroscopeException re) {
+                        re.printStackTrace();
+                        log.unlock();
+                    }
                     int testV = Integer.parseInt(log.getItem("test1").getValue());
                     log.unlock();
                     assertTrue(testV == v);

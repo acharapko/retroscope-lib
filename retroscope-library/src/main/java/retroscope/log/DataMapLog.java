@@ -1,8 +1,10 @@
 package retroscope.log;
 
+import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.util.ByteArray;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -10,8 +12,10 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by aleksey on 10/19/16.
+ * DataMapLog is a log with associated hashmap for current values.
+ * It allows Retroscope to keep the rolling log of data
  */
-public class DataMapLog<K, V> extends Log<K, V> {
+public class DataMapLog<K extends Serializable, V extends Serializable> extends Log<K, V> {
 
     /* we are using lock instead of synchronized keyword because:
      * - some evidence suggests it scales better under high contention
@@ -33,7 +37,7 @@ public class DataMapLog<K, V> extends Log<K, V> {
     }
 
     @Override
-    public int append(LogEntry<K, V> entry) {
+    public int append(LogEntry<K, V> entry) throws RetroscopeException {
         lock();
         dataMap.put(entry.getKey(), entry.getToV());
         int append = super.append(entry);
@@ -41,7 +45,7 @@ public class DataMapLog<K, V> extends Log<K, V> {
         return append;
     }
 
-    public int append(K key, DataEntry<V> newV) {
+    public int append(K key, DataEntry<V> newV) throws RetroscopeException {
         DataEntry<V> oldV = getItem(key);
         LogEntry<K, V> le = new LogEntry<K, V>(key, oldV, newV);
         return append(le); //locking is here
@@ -320,11 +324,11 @@ public class DataMapLog<K, V> extends Log<K, V> {
         return entryId;
     }
 
-    public void rollSnapshot(int snapshotID, Timestamp newTime) throws LogException, LogOutTimeBoundsException {
+    public void rollSnapshot(int snapshotID, Timestamp newTime) throws RetroscopeException, LogOutTimeBoundsException {
         //do we need to lock here? nothing should change to log when rolling past snapshots and past log entries
         RetroMap<K, V> snap = getSnapshot(snapshotID);
         if (snap == null) {
-            throw new LogException("snapshot does not exist");
+            throw new RetroscopeException("snapshot does not exist");
         }
         RetroMap<K, V> diff = computeDiff(newTime, this.getKnownEntry(snapshotID));
         snap.putAll(diff); //we have modified the snapshot and overwritten it.

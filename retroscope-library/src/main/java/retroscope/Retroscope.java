@@ -173,7 +173,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @return long change in log size. can be 1 for a successful
      * append or less than 1 for an append with some log truncation
      */
-    public long appendToLog(String logName, K key, V oldVal, V newVal) {
+    public long appendToLog(String logName, K key, V oldVal, V newVal) throws RetroscopeException {
         return appendToLog(logName, key, oldVal, newVal, true);
     }
 
@@ -192,7 +192,8 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @return long change in log size. can be 1 for a successful
      * append or less than 1 for an append with some log truncation
      */
-    public long appendToLog(String logName, K key, V oldVal, V newVal, boolean makeTick) {
+    public long appendToLog(String logName, K key, V oldVal, V newVal, boolean makeTick)
+        throws RetroscopeException {
 
         Log<K, V> workingLog = getLog(logName);
         if (workingLog instanceof DataMapLog) {
@@ -647,11 +648,11 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @param snapshotID int ID of the snapshot
      * @param newTime new time of the snapshot
      * @throws RetroscopeException
-     * @throws LogException
+     * @throws RetroscopeException
      * @throws LogOutTimeBoundsException
      */
     public void rollSnapshot(String logName, int snapshotID, Timestamp newTime)
-            throws RetroscopeException, LogException, LogOutTimeBoundsException {
+            throws RetroscopeException, RetroscopeException, LogOutTimeBoundsException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);
         workingLog.rollSnapshot(snapshotID, newTime);
     }
