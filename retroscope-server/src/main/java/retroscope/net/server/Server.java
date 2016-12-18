@@ -103,10 +103,6 @@ public class Server<K extends Serializable, V extends Serializable> {
         System.out.println("done");
     }
 
-    /*public void sendObjSync() {
-        channel.writeAndFlush(simulation.getObjectSyncMsg());
-    }*/
-
     public Ensemble<K, V> getEnsemble() {
         return this.ensemble;
     }

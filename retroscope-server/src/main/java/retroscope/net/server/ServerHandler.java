@@ -6,6 +6,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import retroscope.log.Log;
 import retroscope.log.RetroMap;
 import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
@@ -68,6 +69,26 @@ public class ServerHandler<K extends Serializable, V extends Serializable> exten
                     hlcTime = data.getHlcTime();
                 }
                 ensemble.handleDataReceive(nodeId, rid, hlcTime, logName, dataMap, errcode);
+            } catch (RetroscopeServerEnsembleException ee) {System.err.println(ee.getMessage());}
+        }
+
+        if ((responseMsg.hasLog() || responseMsg.hasErrorCode()) && responseMsg.hasRID()) {
+            //handle receiving log data;
+
+            int nodeId = responseMsg.getNodeId();
+            long rid = responseMsg.getRID();
+
+            Log<K, V> logSlice = null;
+            int errcode = 0;
+            if (responseMsg.hasErrorCode()) {
+                errcode = responseMsg.getErrorCode();
+            } else {
+                Protocol.Log log = responseMsg.getLog();
+                logSlice = new Log<K, V>(log);
+            }
+
+            try {
+                ensemble.handleLogReceive(nodeId, rid, logSlice, errcode);
             } catch (RetroscopeServerEnsembleException ee) {System.err.println(ee.getMessage());}
         }
 

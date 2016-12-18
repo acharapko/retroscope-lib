@@ -65,8 +65,14 @@ public class Log<K extends Serializable, V extends Serializable> {
         //ArrayList<LogEntry<K, V>> logSlice = new ArrayList<LogEntry<K, V>>(protocolLog.getItemsCount());
         for (int i = 0; i < protocolLog.getItemsCount(); i++) {
             Protocol.LogItem item = protocolLog.getItems(i);
-            V valFrom = ProtocolHelpers.byteStringToSerializable(item.getValueFrom());
-            V valTo = ProtocolHelpers.byteStringToSerializable(item.getValueTo());
+            V valTo = null;
+            V valFrom = null;
+            if (item.hasValueFrom()) {
+                valFrom = ProtocolHelpers.byteStringToSerializable(item.getValueFrom());
+            }
+            if (item.hasValueTo()) {
+                valTo = ProtocolHelpers.byteStringToSerializable(item.getValueTo());
+            }
             K key = ProtocolHelpers.byteStringToSerializable(item.getKey());
             LogEntry<K, V> entry = new LogEntry<K, V>(
                     key,
@@ -489,12 +495,19 @@ public class Log<K extends Serializable, V extends Serializable> {
         LogEntry<K, V> logEntry = head;
 
         while (logEntry != null) {
-            protocolMsgBuilder.addItems(Protocol.LogItem.newBuilder()
+            Protocol.LogItem.Builder logItemBuilder = Protocol.LogItem.newBuilder();
+            logItemBuilder
                     .setKey(ProtocolHelpers.serializableToByteString(logEntry.getKey()))
-                    .setHlcTime(logEntry.getTime().toLong())
-                    .setValueFrom(ProtocolHelpers.serializableToByteString(logEntry.getFromV().getValue()))
-                    .setValueTo(ProtocolHelpers.serializableToByteString(logEntry.getToV().getValue()))
-            );
+                    .setHlcTime(logEntry.getTime().toLong());
+
+            if (logEntry.getFromV() != null) {
+                logItemBuilder.setValueFrom(ProtocolHelpers.serializableToByteString(logEntry.getFromV().getValue()));
+            }
+            if (logEntry.getToV().getValue() != null) {
+                logItemBuilder.setValueFrom(ProtocolHelpers.serializableToByteString(logEntry.getToV().getValue()));
+            }
+            protocolMsgBuilder.addItems(logItemBuilder);
+
             logEntry = logEntry.getNext();
         }
         return protocolMsgBuilder.build();

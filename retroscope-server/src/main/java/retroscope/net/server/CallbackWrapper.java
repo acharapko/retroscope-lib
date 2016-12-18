@@ -1,13 +1,19 @@
 package retroscope.net.server;
 
+import java.io.Serializable;
+
 /**
  * Created by Aleksey on 11/20/2016.
+ *
+ * This class has holds the callback and information about how many times
+ * a callback needs to be invoked(receive data) and how many time it has
+ * been called
  */
-public class CallbackWrapper<K, V> {
+public class CallbackWrapper<K extends Serializable, V extends Serializable> {
     private int leftToReceive;
-    private Callbacks.GenericPullCallback<K, V> callback;
+    private Callbacks.GenericCallback<K, V> callback;
 
-    public CallbackWrapper(int leftToreceive, Callbacks.GenericPullCallback<K, V> callback) {
+    public CallbackWrapper(int leftToreceive, Callbacks.GenericCallback<K, V> callback) {
         this.leftToReceive = leftToreceive;
         this.callback = callback;
     }
@@ -16,7 +22,7 @@ public class CallbackWrapper<K, V> {
         return leftToReceive;
     }
 
-    public Callbacks.GenericPullCallback<K, V> getCallback() {
+    public Callbacks.GenericCallback<K, V> getCallback() {
         return callback;
     }
 

@@ -6,10 +6,11 @@ option java_package = "retroscope.net.protocol";
 message RetroServerMsg {
     optional int64 RID = 1;
     optional ConnectMsgResponse connectResponse = 2;
-    optional GetLogNames getLogNames = 3;
-    optional GetData getData = 4;
-    optional TakeSnapshot takeSnapshot= 5;
-    optional RollSnapshot rollSnapsot = 6;
+    optional GetLogNames logNamesRequest = 3;
+    optional GetData dataRequest = 4;
+    optional GetLog logSliceRequest = 5;
+    optional TakeSnapshot snapshotRequest= 13;
+    optional RollSnapshot rollSnapsotRequest = 14;
     optional int32 errorCode = 15;
 
 }
@@ -32,8 +33,8 @@ message GetData {
 
 message GetLog {
     required string logName = 1;
-    optional int64 startTime = 2;
-    optional int64 endTime = 3;
+    optional int64 HLCstartTime = 2;
+    optional int64 HLCendTime = 3;
 }
 
 message TakeSnapshot {
@@ -49,8 +50,9 @@ message RetroNodeMsg {
     optional int64 RID = 1;
     optional ConnectMsg connectMsg = 2;
     optional DataMap data = 3;
-    repeated ExisitngLog logs = 4;
-    optional int32 snapshotId = 5;
+    repeated LogMeta logs = 4;
+    optional Log log = 5;
+    optional int32 snapshotId = 10;
 
     optional int32 nodeId = 14;
     optional int32 errorCode = 15;
@@ -89,7 +91,7 @@ message LogItem {
     optional bytes valueTo = 4; // values can be null
 }
 
-message ExisitngLog {
+message LogMeta {
     required string logName = 1;
     required int64 logStart = 2;
     required bool isDataMapLog = 3;

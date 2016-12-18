@@ -335,7 +335,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             String logName,
             long timeInThePast
     ) throws LogOutTimeBoundsException {
-        return this.computeDiff(logName, new Timestamp(timeInThePast, (short)0));
+        return this.computeDiff(logName, new Timestamp(timeInThePast));
     }
 
     public RetroMap<K, V> computeDiff(
@@ -351,7 +351,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             long startTime,
             long endTime
     ) throws LogOutTimeBoundsException {
-        return this.computeDiff(logName, new Timestamp(startTime, (short)0), new Timestamp(endTime, (short)0));
+        return this.computeDiff(logName, new Timestamp(startTime), new Timestamp(endTime));
     }
 
     public RetroMap<K, V> computeDiff(
@@ -369,7 +369,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             long endTime
     ) throws LogOutTimeBoundsException {
 
-        return this.computeDiff(logName, startLogEntry, new Timestamp(endTime, (short)0));
+        return this.computeDiff(logName, startLogEntry, new Timestamp(endTime));
     }
 
     public RetroMap<K, V> computeDiff(
@@ -396,10 +396,14 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * Important to note, that the log maybe going through changes very rapidly,
      * so the value return by this function can become invalid instantaneously.
      * @param logName String log name
-     * @param time long PT time for testing
+     * @param time long time for testing
+     * @param isHlcTime boolean whether the long represetnation of time is HLC time
      * @return whether the test time is within the log bounds
      */
-    public boolean isTimeWithinLog(String logName, long time) {
+    public boolean isTimeWithinLog(String logName, long time, boolean isHlcTime) {
+        if (isHlcTime) {
+            return isTimeWithinLog(logName, new Timestamp(time));
+        }
         return isTimeWithinLog(logName, new Timestamp(time, (short)0));
     }
 
@@ -550,7 +554,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             long timestamp
     ) throws RetroscopeException, LogOutTimeBoundsException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);
-        return workingLog.getItemsMap(keys, new Timestamp(timestamp, (short)0));
+        return workingLog.getItemsMap(keys, new Timestamp(timestamp));
     }
 
 
@@ -578,7 +582,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             String logName,
             long timestamp
     ) throws RetroscopeException, LogOutTimeBoundsException {
-        return this.getAllData(logName, new Timestamp(timestamp, (short) 0));
+        return this.getAllData(logName, new Timestamp(timestamp));
     }
 
     /**
@@ -596,6 +600,37 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
     ) throws RetroscopeException, LogOutTimeBoundsException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);
         return workingLog.getAllData(timestamp);
+    }
+
+
+    /**
+     * Gets a slice of the log bounded by two timestamps
+     * @param logName String log name
+     * @param sliceStart Timestamp HLC time for the beginning of the log slice
+     * @param sliceEnd Timestamp HLC time for the end of the log slice
+     * @return Log represting the slice of the parent log between start and end times
+     * @throws RetroscopeException
+     * @throws LogOutTimeBoundsException
+     */
+    public Log<K, V> getLogSlice(String logName, Timestamp sliceStart, Timestamp sliceEnd)
+            throws RetroscopeException, LogOutTimeBoundsException {
+        DataMapLog<K, V> workingLog = getDataMapLog(logName);
+        return workingLog.logSlice(sliceStart, sliceEnd);
+    }
+
+    /**
+     * Gets a slice of the log bounded by two timestamps
+     * @param logName String log name
+     * @param sliceStart long HLC time for the beginning of the log slice
+     * @param sliceEnd long HLC time for the end of the log slice
+     * @return Log represting the slice of the parent log between start and end times
+     * @throws RetroscopeException
+     * @throws LogOutTimeBoundsException
+     */
+    public Log<K, V> getLogSlice(String logName, long sliceStart, long sliceEnd)
+            throws RetroscopeException, LogOutTimeBoundsException {
+        DataMapLog<K, V> workingLog = getDataMapLog(logName);
+        return workingLog.logSlice(sliceStart, sliceEnd);
     }
 
     /**

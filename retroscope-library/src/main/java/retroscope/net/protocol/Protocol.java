@@ -35,56 +35,69 @@ public final class Protocol {
     retroscope.net.protocol.Protocol.ConnectMsgResponseOrBuilder getConnectResponseOrBuilder();
 
     /**
-     * <code>optional .GetLogNames getLogNames = 3;</code>
+     * <code>optional .GetLogNames logNamesRequest = 3;</code>
      */
-    boolean hasGetLogNames();
+    boolean hasLogNamesRequest();
     /**
-     * <code>optional .GetLogNames getLogNames = 3;</code>
+     * <code>optional .GetLogNames logNamesRequest = 3;</code>
      */
-    retroscope.net.protocol.Protocol.GetLogNames getGetLogNames();
+    retroscope.net.protocol.Protocol.GetLogNames getLogNamesRequest();
     /**
-     * <code>optional .GetLogNames getLogNames = 3;</code>
+     * <code>optional .GetLogNames logNamesRequest = 3;</code>
      */
-    retroscope.net.protocol.Protocol.GetLogNamesOrBuilder getGetLogNamesOrBuilder();
+    retroscope.net.protocol.Protocol.GetLogNamesOrBuilder getLogNamesRequestOrBuilder();
 
     /**
-     * <code>optional .GetData getData = 4;</code>
+     * <code>optional .GetData dataRequest = 4;</code>
      */
-    boolean hasGetData();
+    boolean hasDataRequest();
     /**
-     * <code>optional .GetData getData = 4;</code>
+     * <code>optional .GetData dataRequest = 4;</code>
      */
-    retroscope.net.protocol.Protocol.GetData getGetData();
+    retroscope.net.protocol.Protocol.GetData getDataRequest();
     /**
-     * <code>optional .GetData getData = 4;</code>
+     * <code>optional .GetData dataRequest = 4;</code>
      */
-    retroscope.net.protocol.Protocol.GetDataOrBuilder getGetDataOrBuilder();
+    retroscope.net.protocol.Protocol.GetDataOrBuilder getDataRequestOrBuilder();
 
     /**
-     * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+     * <code>optional .GetLog logSliceRequest = 5;</code>
      */
-    boolean hasTakeSnapshot();
+    boolean hasLogSliceRequest();
     /**
-     * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+     * <code>optional .GetLog logSliceRequest = 5;</code>
      */
-    retroscope.net.protocol.Protocol.TakeSnapshot getTakeSnapshot();
+    retroscope.net.protocol.Protocol.GetLog getLogSliceRequest();
     /**
-     * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+     * <code>optional .GetLog logSliceRequest = 5;</code>
      */
-    retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder getTakeSnapshotOrBuilder();
+    retroscope.net.protocol.Protocol.GetLogOrBuilder getLogSliceRequestOrBuilder();
 
     /**
-     * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+     * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
-    boolean hasRollSnapsot();
+    boolean hasSnapshotRequest();
     /**
-     * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+     * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
-    retroscope.net.protocol.Protocol.RollSnapshot getRollSnapsot();
+    retroscope.net.protocol.Protocol.TakeSnapshot getSnapshotRequest();
     /**
-     * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+     * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
-    retroscope.net.protocol.Protocol.RollSnapshotOrBuilder getRollSnapsotOrBuilder();
+    retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder getSnapshotRequestOrBuilder();
+
+    /**
+     * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+     */
+    boolean hasRollSnapsotRequest();
+    /**
+     * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+     */
+    retroscope.net.protocol.Protocol.RollSnapshot getRollSnapsotRequest();
+    /**
+     * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+     */
+    retroscope.net.protocol.Protocol.RollSnapshotOrBuilder getRollSnapsotRequestOrBuilder();
 
     /**
      * <code>optional int32 errorCode = 15;</code>
@@ -172,12 +185,12 @@ public final class Protocol {
             case 26: {
               retroscope.net.protocol.Protocol.GetLogNames.Builder subBuilder = null;
               if (((bitField0_ & 0x00000004) == 0x00000004)) {
-                subBuilder = getLogNames_.toBuilder();
+                subBuilder = logNamesRequest_.toBuilder();
               }
-              getLogNames_ = input.readMessage(retroscope.net.protocol.Protocol.GetLogNames.PARSER, extensionRegistry);
+              logNamesRequest_ = input.readMessage(retroscope.net.protocol.Protocol.GetLogNames.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(getLogNames_);
-                getLogNames_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(logNamesRequest_);
+                logNamesRequest_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000004;
               break;
@@ -185,44 +198,57 @@ public final class Protocol {
             case 34: {
               retroscope.net.protocol.Protocol.GetData.Builder subBuilder = null;
               if (((bitField0_ & 0x00000008) == 0x00000008)) {
-                subBuilder = getData_.toBuilder();
+                subBuilder = dataRequest_.toBuilder();
               }
-              getData_ = input.readMessage(retroscope.net.protocol.Protocol.GetData.PARSER, extensionRegistry);
+              dataRequest_ = input.readMessage(retroscope.net.protocol.Protocol.GetData.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(getData_);
-                getData_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(dataRequest_);
+                dataRequest_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000008;
               break;
             }
             case 42: {
-              retroscope.net.protocol.Protocol.TakeSnapshot.Builder subBuilder = null;
+              retroscope.net.protocol.Protocol.GetLog.Builder subBuilder = null;
               if (((bitField0_ & 0x00000010) == 0x00000010)) {
-                subBuilder = takeSnapshot_.toBuilder();
+                subBuilder = logSliceRequest_.toBuilder();
               }
-              takeSnapshot_ = input.readMessage(retroscope.net.protocol.Protocol.TakeSnapshot.PARSER, extensionRegistry);
+              logSliceRequest_ = input.readMessage(retroscope.net.protocol.Protocol.GetLog.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(takeSnapshot_);
-                takeSnapshot_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(logSliceRequest_);
+                logSliceRequest_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000010;
               break;
             }
-            case 50: {
-              retroscope.net.protocol.Protocol.RollSnapshot.Builder subBuilder = null;
+            case 106: {
+              retroscope.net.protocol.Protocol.TakeSnapshot.Builder subBuilder = null;
               if (((bitField0_ & 0x00000020) == 0x00000020)) {
-                subBuilder = rollSnapsot_.toBuilder();
+                subBuilder = snapshotRequest_.toBuilder();
               }
-              rollSnapsot_ = input.readMessage(retroscope.net.protocol.Protocol.RollSnapshot.PARSER, extensionRegistry);
+              snapshotRequest_ = input.readMessage(retroscope.net.protocol.Protocol.TakeSnapshot.PARSER, extensionRegistry);
               if (subBuilder != null) {
-                subBuilder.mergeFrom(rollSnapsot_);
-                rollSnapsot_ = subBuilder.buildPartial();
+                subBuilder.mergeFrom(snapshotRequest_);
+                snapshotRequest_ = subBuilder.buildPartial();
               }
               bitField0_ |= 0x00000020;
               break;
             }
-            case 120: {
+            case 114: {
+              retroscope.net.protocol.Protocol.RollSnapshot.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+                subBuilder = rollSnapsotRequest_.toBuilder();
+              }
+              rollSnapsotRequest_ = input.readMessage(retroscope.net.protocol.Protocol.RollSnapshot.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(rollSnapsotRequest_);
+                rollSnapsotRequest_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000040;
+              break;
+            }
+            case 120: {
+              bitField0_ |= 0x00000080;
               errorCode_ = input.readInt32();
               break;
             }
@@ -302,88 +328,109 @@ public final class Protocol {
       return connectResponse_;
     }
 
-    public static final int GETLOGNAMES_FIELD_NUMBER = 3;
-    private retroscope.net.protocol.Protocol.GetLogNames getLogNames_;
+    public static final int LOGNAMESREQUEST_FIELD_NUMBER = 3;
+    private retroscope.net.protocol.Protocol.GetLogNames logNamesRequest_;
     /**
-     * <code>optional .GetLogNames getLogNames = 3;</code>
+     * <code>optional .GetLogNames logNamesRequest = 3;</code>
      */
-    public boolean hasGetLogNames() {
+    public boolean hasLogNamesRequest() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional .GetLogNames getLogNames = 3;</code>
+     * <code>optional .GetLogNames logNamesRequest = 3;</code>
      */
-    public retroscope.net.protocol.Protocol.GetLogNames getGetLogNames() {
-      return getLogNames_;
+    public retroscope.net.protocol.Protocol.GetLogNames getLogNamesRequest() {
+      return logNamesRequest_;
     }
     /**
-     * <code>optional .GetLogNames getLogNames = 3;</code>
+     * <code>optional .GetLogNames logNamesRequest = 3;</code>
      */
-    public retroscope.net.protocol.Protocol.GetLogNamesOrBuilder getGetLogNamesOrBuilder() {
-      return getLogNames_;
+    public retroscope.net.protocol.Protocol.GetLogNamesOrBuilder getLogNamesRequestOrBuilder() {
+      return logNamesRequest_;
     }
 
-    public static final int GETDATA_FIELD_NUMBER = 4;
-    private retroscope.net.protocol.Protocol.GetData getData_;
+    public static final int DATAREQUEST_FIELD_NUMBER = 4;
+    private retroscope.net.protocol.Protocol.GetData dataRequest_;
     /**
-     * <code>optional .GetData getData = 4;</code>
+     * <code>optional .GetData dataRequest = 4;</code>
      */
-    public boolean hasGetData() {
+    public boolean hasDataRequest() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional .GetData getData = 4;</code>
+     * <code>optional .GetData dataRequest = 4;</code>
      */
-    public retroscope.net.protocol.Protocol.GetData getGetData() {
-      return getData_;
+    public retroscope.net.protocol.Protocol.GetData getDataRequest() {
+      return dataRequest_;
     }
     /**
-     * <code>optional .GetData getData = 4;</code>
+     * <code>optional .GetData dataRequest = 4;</code>
      */
-    public retroscope.net.protocol.Protocol.GetDataOrBuilder getGetDataOrBuilder() {
-      return getData_;
+    public retroscope.net.protocol.Protocol.GetDataOrBuilder getDataRequestOrBuilder() {
+      return dataRequest_;
     }
 
-    public static final int TAKESNAPSHOT_FIELD_NUMBER = 5;
-    private retroscope.net.protocol.Protocol.TakeSnapshot takeSnapshot_;
+    public static final int LOGSLICEREQUEST_FIELD_NUMBER = 5;
+    private retroscope.net.protocol.Protocol.GetLog logSliceRequest_;
     /**
-     * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+     * <code>optional .GetLog logSliceRequest = 5;</code>
      */
-    public boolean hasTakeSnapshot() {
+    public boolean hasLogSliceRequest() {
       return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
-     * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+     * <code>optional .GetLog logSliceRequest = 5;</code>
      */
-    public retroscope.net.protocol.Protocol.TakeSnapshot getTakeSnapshot() {
-      return takeSnapshot_;
+    public retroscope.net.protocol.Protocol.GetLog getLogSliceRequest() {
+      return logSliceRequest_;
     }
     /**
-     * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+     * <code>optional .GetLog logSliceRequest = 5;</code>
      */
-    public retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder getTakeSnapshotOrBuilder() {
-      return takeSnapshot_;
+    public retroscope.net.protocol.Protocol.GetLogOrBuilder getLogSliceRequestOrBuilder() {
+      return logSliceRequest_;
     }
 
-    public static final int ROLLSNAPSOT_FIELD_NUMBER = 6;
-    private retroscope.net.protocol.Protocol.RollSnapshot rollSnapsot_;
+    public static final int SNAPSHOTREQUEST_FIELD_NUMBER = 13;
+    private retroscope.net.protocol.Protocol.TakeSnapshot snapshotRequest_;
     /**
-     * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+     * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
-    public boolean hasRollSnapsot() {
+    public boolean hasSnapshotRequest() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
-     * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+     * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
-    public retroscope.net.protocol.Protocol.RollSnapshot getRollSnapsot() {
-      return rollSnapsot_;
+    public retroscope.net.protocol.Protocol.TakeSnapshot getSnapshotRequest() {
+      return snapshotRequest_;
     }
     /**
-     * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+     * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
-    public retroscope.net.protocol.Protocol.RollSnapshotOrBuilder getRollSnapsotOrBuilder() {
-      return rollSnapsot_;
+    public retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder getSnapshotRequestOrBuilder() {
+      return snapshotRequest_;
+    }
+
+    public static final int ROLLSNAPSOTREQUEST_FIELD_NUMBER = 14;
+    private retroscope.net.protocol.Protocol.RollSnapshot rollSnapsotRequest_;
+    /**
+     * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+     */
+    public boolean hasRollSnapsotRequest() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+     */
+    public retroscope.net.protocol.Protocol.RollSnapshot getRollSnapsotRequest() {
+      return rollSnapsotRequest_;
+    }
+    /**
+     * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+     */
+    public retroscope.net.protocol.Protocol.RollSnapshotOrBuilder getRollSnapsotRequestOrBuilder() {
+      return rollSnapsotRequest_;
     }
 
     public static final int ERRORCODE_FIELD_NUMBER = 15;
@@ -392,7 +439,7 @@ public final class Protocol {
      * <code>optional int32 errorCode = 15;</code>
      */
     public boolean hasErrorCode() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional int32 errorCode = 15;</code>
@@ -404,10 +451,11 @@ public final class Protocol {
     private void initFields() {
       rID_ = 0L;
       connectResponse_ = retroscope.net.protocol.Protocol.ConnectMsgResponse.getDefaultInstance();
-      getLogNames_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
-      getData_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
-      takeSnapshot_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
-      rollSnapsot_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
+      logNamesRequest_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
+      dataRequest_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
+      logSliceRequest_ = retroscope.net.protocol.Protocol.GetLog.getDefaultInstance();
+      snapshotRequest_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
+      rollSnapsotRequest_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
       errorCode_ = 0;
     }
     private byte memoizedIsInitialized = -1;
@@ -422,20 +470,26 @@ public final class Protocol {
           return false;
         }
       }
-      if (hasGetData()) {
-        if (!getGetData().isInitialized()) {
+      if (hasDataRequest()) {
+        if (!getDataRequest().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
       }
-      if (hasTakeSnapshot()) {
-        if (!getTakeSnapshot().isInitialized()) {
+      if (hasLogSliceRequest()) {
+        if (!getLogSliceRequest().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
       }
-      if (hasRollSnapsot()) {
-        if (!getRollSnapsot().isInitialized()) {
+      if (hasSnapshotRequest()) {
+        if (!getSnapshotRequest().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRollSnapsotRequest()) {
+        if (!getRollSnapsotRequest().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -454,18 +508,21 @@ public final class Protocol {
         output.writeMessage(2, connectResponse_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeMessage(3, getLogNames_);
+        output.writeMessage(3, logNamesRequest_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeMessage(4, getData_);
+        output.writeMessage(4, dataRequest_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeMessage(5, takeSnapshot_);
+        output.writeMessage(5, logSliceRequest_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeMessage(6, rollSnapsot_);
+        output.writeMessage(13, snapshotRequest_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeMessage(14, rollSnapsotRequest_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         output.writeInt32(15, errorCode_);
       }
       getUnknownFields().writeTo(output);
@@ -487,21 +544,25 @@ public final class Protocol {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getLogNames_);
+          .computeMessageSize(3, logNamesRequest_);
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(4, getData_);
+          .computeMessageSize(4, dataRequest_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(5, takeSnapshot_);
+          .computeMessageSize(5, logSliceRequest_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(6, rollSnapsot_);
+          .computeMessageSize(13, snapshotRequest_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, rollSnapsotRequest_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, errorCode_);
       }
@@ -619,10 +680,11 @@ public final class Protocol {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getConnectResponseFieldBuilder();
-          getGetLogNamesFieldBuilder();
-          getGetDataFieldBuilder();
-          getTakeSnapshotFieldBuilder();
-          getRollSnapsotFieldBuilder();
+          getLogNamesRequestFieldBuilder();
+          getDataRequestFieldBuilder();
+          getLogSliceRequestFieldBuilder();
+          getSnapshotRequestFieldBuilder();
+          getRollSnapsotRequestFieldBuilder();
         }
       }
       private static Builder create() {
@@ -639,32 +701,38 @@ public final class Protocol {
           connectResponseBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000002);
-        if (getLogNamesBuilder_ == null) {
-          getLogNames_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
+        if (logNamesRequestBuilder_ == null) {
+          logNamesRequest_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
         } else {
-          getLogNamesBuilder_.clear();
+          logNamesRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
-        if (getDataBuilder_ == null) {
-          getData_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
+        if (dataRequestBuilder_ == null) {
+          dataRequest_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
         } else {
-          getDataBuilder_.clear();
+          dataRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
-        if (takeSnapshotBuilder_ == null) {
-          takeSnapshot_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
+        if (logSliceRequestBuilder_ == null) {
+          logSliceRequest_ = retroscope.net.protocol.Protocol.GetLog.getDefaultInstance();
         } else {
-          takeSnapshotBuilder_.clear();
+          logSliceRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
-        if (rollSnapsotBuilder_ == null) {
-          rollSnapsot_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
+        if (snapshotRequestBuilder_ == null) {
+          snapshotRequest_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
         } else {
-          rollSnapsotBuilder_.clear();
+          snapshotRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000020);
-        errorCode_ = 0;
+        if (rollSnapsotRequestBuilder_ == null) {
+          rollSnapsotRequest_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
+        } else {
+          rollSnapsotRequestBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000040);
+        errorCode_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -708,37 +776,45 @@ public final class Protocol {
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        if (getLogNamesBuilder_ == null) {
-          result.getLogNames_ = getLogNames_;
+        if (logNamesRequestBuilder_ == null) {
+          result.logNamesRequest_ = logNamesRequest_;
         } else {
-          result.getLogNames_ = getLogNamesBuilder_.build();
+          result.logNamesRequest_ = logNamesRequestBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
           to_bitField0_ |= 0x00000008;
         }
-        if (getDataBuilder_ == null) {
-          result.getData_ = getData_;
+        if (dataRequestBuilder_ == null) {
+          result.dataRequest_ = dataRequest_;
         } else {
-          result.getData_ = getDataBuilder_.build();
+          result.dataRequest_ = dataRequestBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000010;
         }
-        if (takeSnapshotBuilder_ == null) {
-          result.takeSnapshot_ = takeSnapshot_;
+        if (logSliceRequestBuilder_ == null) {
+          result.logSliceRequest_ = logSliceRequest_;
         } else {
-          result.takeSnapshot_ = takeSnapshotBuilder_.build();
+          result.logSliceRequest_ = logSliceRequestBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        if (rollSnapsotBuilder_ == null) {
-          result.rollSnapsot_ = rollSnapsot_;
+        if (snapshotRequestBuilder_ == null) {
+          result.snapshotRequest_ = snapshotRequest_;
         } else {
-          result.rollSnapsot_ = rollSnapsotBuilder_.build();
+          result.snapshotRequest_ = snapshotRequestBuilder_.build();
         }
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000040;
+        }
+        if (rollSnapsotRequestBuilder_ == null) {
+          result.rollSnapsotRequest_ = rollSnapsotRequest_;
+        } else {
+          result.rollSnapsotRequest_ = rollSnapsotRequestBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
         }
         result.errorCode_ = errorCode_;
         result.bitField0_ = to_bitField0_;
@@ -763,17 +839,20 @@ public final class Protocol {
         if (other.hasConnectResponse()) {
           mergeConnectResponse(other.getConnectResponse());
         }
-        if (other.hasGetLogNames()) {
-          mergeGetLogNames(other.getGetLogNames());
+        if (other.hasLogNamesRequest()) {
+          mergeLogNamesRequest(other.getLogNamesRequest());
         }
-        if (other.hasGetData()) {
-          mergeGetData(other.getGetData());
+        if (other.hasDataRequest()) {
+          mergeDataRequest(other.getDataRequest());
         }
-        if (other.hasTakeSnapshot()) {
-          mergeTakeSnapshot(other.getTakeSnapshot());
+        if (other.hasLogSliceRequest()) {
+          mergeLogSliceRequest(other.getLogSliceRequest());
         }
-        if (other.hasRollSnapsot()) {
-          mergeRollSnapsot(other.getRollSnapsot());
+        if (other.hasSnapshotRequest()) {
+          mergeSnapshotRequest(other.getSnapshotRequest());
+        }
+        if (other.hasRollSnapsotRequest()) {
+          mergeRollSnapsotRequest(other.getRollSnapsotRequest());
         }
         if (other.hasErrorCode()) {
           setErrorCode(other.getErrorCode());
@@ -789,20 +868,26 @@ public final class Protocol {
             return false;
           }
         }
-        if (hasGetData()) {
-          if (!getGetData().isInitialized()) {
+        if (hasDataRequest()) {
+          if (!getDataRequest().isInitialized()) {
             
             return false;
           }
         }
-        if (hasTakeSnapshot()) {
-          if (!getTakeSnapshot().isInitialized()) {
+        if (hasLogSliceRequest()) {
+          if (!getLogSliceRequest().isInitialized()) {
             
             return false;
           }
         }
-        if (hasRollSnapsot()) {
-          if (!getRollSnapsot().isInitialized()) {
+        if (hasSnapshotRequest()) {
+          if (!getSnapshotRequest().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRollSnapsotRequest()) {
+          if (!getRollSnapsotRequest().isInitialized()) {
             
             return false;
           }
@@ -977,468 +1062,584 @@ public final class Protocol {
         return connectResponseBuilder_;
       }
 
-      private retroscope.net.protocol.Protocol.GetLogNames getLogNames_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
+      private retroscope.net.protocol.Protocol.GetLogNames logNamesRequest_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          retroscope.net.protocol.Protocol.GetLogNames, retroscope.net.protocol.Protocol.GetLogNames.Builder, retroscope.net.protocol.Protocol.GetLogNamesOrBuilder> getLogNamesBuilder_;
+          retroscope.net.protocol.Protocol.GetLogNames, retroscope.net.protocol.Protocol.GetLogNames.Builder, retroscope.net.protocol.Protocol.GetLogNamesOrBuilder> logNamesRequestBuilder_;
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public boolean hasGetLogNames() {
+      public boolean hasLogNamesRequest() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public retroscope.net.protocol.Protocol.GetLogNames getGetLogNames() {
-        if (getLogNamesBuilder_ == null) {
-          return getLogNames_;
+      public retroscope.net.protocol.Protocol.GetLogNames getLogNamesRequest() {
+        if (logNamesRequestBuilder_ == null) {
+          return logNamesRequest_;
         } else {
-          return getLogNamesBuilder_.getMessage();
+          return logNamesRequestBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public Builder setGetLogNames(retroscope.net.protocol.Protocol.GetLogNames value) {
-        if (getLogNamesBuilder_ == null) {
+      public Builder setLogNamesRequest(retroscope.net.protocol.Protocol.GetLogNames value) {
+        if (logNamesRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          getLogNames_ = value;
+          logNamesRequest_ = value;
           onChanged();
         } else {
-          getLogNamesBuilder_.setMessage(value);
+          logNamesRequestBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public Builder setGetLogNames(
+      public Builder setLogNamesRequest(
           retroscope.net.protocol.Protocol.GetLogNames.Builder builderForValue) {
-        if (getLogNamesBuilder_ == null) {
-          getLogNames_ = builderForValue.build();
+        if (logNamesRequestBuilder_ == null) {
+          logNamesRequest_ = builderForValue.build();
           onChanged();
         } else {
-          getLogNamesBuilder_.setMessage(builderForValue.build());
+          logNamesRequestBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public Builder mergeGetLogNames(retroscope.net.protocol.Protocol.GetLogNames value) {
-        if (getLogNamesBuilder_ == null) {
+      public Builder mergeLogNamesRequest(retroscope.net.protocol.Protocol.GetLogNames value) {
+        if (logNamesRequestBuilder_ == null) {
           if (((bitField0_ & 0x00000004) == 0x00000004) &&
-              getLogNames_ != retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance()) {
-            getLogNames_ =
-              retroscope.net.protocol.Protocol.GetLogNames.newBuilder(getLogNames_).mergeFrom(value).buildPartial();
+              logNamesRequest_ != retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance()) {
+            logNamesRequest_ =
+              retroscope.net.protocol.Protocol.GetLogNames.newBuilder(logNamesRequest_).mergeFrom(value).buildPartial();
           } else {
-            getLogNames_ = value;
+            logNamesRequest_ = value;
           }
           onChanged();
         } else {
-          getLogNamesBuilder_.mergeFrom(value);
+          logNamesRequestBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000004;
         return this;
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public Builder clearGetLogNames() {
-        if (getLogNamesBuilder_ == null) {
-          getLogNames_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
+      public Builder clearLogNamesRequest() {
+        if (logNamesRequestBuilder_ == null) {
+          logNamesRequest_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
           onChanged();
         } else {
-          getLogNamesBuilder_.clear();
+          logNamesRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public retroscope.net.protocol.Protocol.GetLogNames.Builder getGetLogNamesBuilder() {
+      public retroscope.net.protocol.Protocol.GetLogNames.Builder getLogNamesRequestBuilder() {
         bitField0_ |= 0x00000004;
         onChanged();
-        return getGetLogNamesFieldBuilder().getBuilder();
+        return getLogNamesRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
-      public retroscope.net.protocol.Protocol.GetLogNamesOrBuilder getGetLogNamesOrBuilder() {
-        if (getLogNamesBuilder_ != null) {
-          return getLogNamesBuilder_.getMessageOrBuilder();
+      public retroscope.net.protocol.Protocol.GetLogNamesOrBuilder getLogNamesRequestOrBuilder() {
+        if (logNamesRequestBuilder_ != null) {
+          return logNamesRequestBuilder_.getMessageOrBuilder();
         } else {
-          return getLogNames_;
+          return logNamesRequest_;
         }
       }
       /**
-       * <code>optional .GetLogNames getLogNames = 3;</code>
+       * <code>optional .GetLogNames logNamesRequest = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           retroscope.net.protocol.Protocol.GetLogNames, retroscope.net.protocol.Protocol.GetLogNames.Builder, retroscope.net.protocol.Protocol.GetLogNamesOrBuilder> 
-          getGetLogNamesFieldBuilder() {
-        if (getLogNamesBuilder_ == null) {
-          getLogNamesBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getLogNamesRequestFieldBuilder() {
+        if (logNamesRequestBuilder_ == null) {
+          logNamesRequestBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               retroscope.net.protocol.Protocol.GetLogNames, retroscope.net.protocol.Protocol.GetLogNames.Builder, retroscope.net.protocol.Protocol.GetLogNamesOrBuilder>(
-                  getGetLogNames(),
+                  getLogNamesRequest(),
                   getParentForChildren(),
                   isClean());
-          getLogNames_ = null;
+          logNamesRequest_ = null;
         }
-        return getLogNamesBuilder_;
+        return logNamesRequestBuilder_;
       }
 
-      private retroscope.net.protocol.Protocol.GetData getData_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
+      private retroscope.net.protocol.Protocol.GetData dataRequest_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          retroscope.net.protocol.Protocol.GetData, retroscope.net.protocol.Protocol.GetData.Builder, retroscope.net.protocol.Protocol.GetDataOrBuilder> getDataBuilder_;
+          retroscope.net.protocol.Protocol.GetData, retroscope.net.protocol.Protocol.GetData.Builder, retroscope.net.protocol.Protocol.GetDataOrBuilder> dataRequestBuilder_;
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public boolean hasGetData() {
+      public boolean hasDataRequest() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.GetData getGetData() {
-        if (getDataBuilder_ == null) {
-          return getData_;
+      public retroscope.net.protocol.Protocol.GetData getDataRequest() {
+        if (dataRequestBuilder_ == null) {
+          return dataRequest_;
         } else {
-          return getDataBuilder_.getMessage();
+          return dataRequestBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public Builder setGetData(retroscope.net.protocol.Protocol.GetData value) {
-        if (getDataBuilder_ == null) {
+      public Builder setDataRequest(retroscope.net.protocol.Protocol.GetData value) {
+        if (dataRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          getData_ = value;
+          dataRequest_ = value;
           onChanged();
         } else {
-          getDataBuilder_.setMessage(value);
+          dataRequestBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public Builder setGetData(
+      public Builder setDataRequest(
           retroscope.net.protocol.Protocol.GetData.Builder builderForValue) {
-        if (getDataBuilder_ == null) {
-          getData_ = builderForValue.build();
+        if (dataRequestBuilder_ == null) {
+          dataRequest_ = builderForValue.build();
           onChanged();
         } else {
-          getDataBuilder_.setMessage(builderForValue.build());
+          dataRequestBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public Builder mergeGetData(retroscope.net.protocol.Protocol.GetData value) {
-        if (getDataBuilder_ == null) {
+      public Builder mergeDataRequest(retroscope.net.protocol.Protocol.GetData value) {
+        if (dataRequestBuilder_ == null) {
           if (((bitField0_ & 0x00000008) == 0x00000008) &&
-              getData_ != retroscope.net.protocol.Protocol.GetData.getDefaultInstance()) {
-            getData_ =
-              retroscope.net.protocol.Protocol.GetData.newBuilder(getData_).mergeFrom(value).buildPartial();
+              dataRequest_ != retroscope.net.protocol.Protocol.GetData.getDefaultInstance()) {
+            dataRequest_ =
+              retroscope.net.protocol.Protocol.GetData.newBuilder(dataRequest_).mergeFrom(value).buildPartial();
           } else {
-            getData_ = value;
+            dataRequest_ = value;
           }
           onChanged();
         } else {
-          getDataBuilder_.mergeFrom(value);
+          dataRequestBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000008;
         return this;
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public Builder clearGetData() {
-        if (getDataBuilder_ == null) {
-          getData_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
+      public Builder clearDataRequest() {
+        if (dataRequestBuilder_ == null) {
+          dataRequest_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
           onChanged();
         } else {
-          getDataBuilder_.clear();
+          dataRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.GetData.Builder getGetDataBuilder() {
+      public retroscope.net.protocol.Protocol.GetData.Builder getDataRequestBuilder() {
         bitField0_ |= 0x00000008;
         onChanged();
-        return getGetDataFieldBuilder().getBuilder();
+        return getDataRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.GetDataOrBuilder getGetDataOrBuilder() {
-        if (getDataBuilder_ != null) {
-          return getDataBuilder_.getMessageOrBuilder();
+      public retroscope.net.protocol.Protocol.GetDataOrBuilder getDataRequestOrBuilder() {
+        if (dataRequestBuilder_ != null) {
+          return dataRequestBuilder_.getMessageOrBuilder();
         } else {
-          return getData_;
+          return dataRequest_;
         }
       }
       /**
-       * <code>optional .GetData getData = 4;</code>
+       * <code>optional .GetData dataRequest = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           retroscope.net.protocol.Protocol.GetData, retroscope.net.protocol.Protocol.GetData.Builder, retroscope.net.protocol.Protocol.GetDataOrBuilder> 
-          getGetDataFieldBuilder() {
-        if (getDataBuilder_ == null) {
-          getDataBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getDataRequestFieldBuilder() {
+        if (dataRequestBuilder_ == null) {
+          dataRequestBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               retroscope.net.protocol.Protocol.GetData, retroscope.net.protocol.Protocol.GetData.Builder, retroscope.net.protocol.Protocol.GetDataOrBuilder>(
-                  getGetData(),
+                  getDataRequest(),
                   getParentForChildren(),
                   isClean());
-          getData_ = null;
+          dataRequest_ = null;
         }
-        return getDataBuilder_;
+        return dataRequestBuilder_;
       }
 
-      private retroscope.net.protocol.Protocol.TakeSnapshot takeSnapshot_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
+      private retroscope.net.protocol.Protocol.GetLog logSliceRequest_ = retroscope.net.protocol.Protocol.GetLog.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          retroscope.net.protocol.Protocol.TakeSnapshot, retroscope.net.protocol.Protocol.TakeSnapshot.Builder, retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder> takeSnapshotBuilder_;
+          retroscope.net.protocol.Protocol.GetLog, retroscope.net.protocol.Protocol.GetLog.Builder, retroscope.net.protocol.Protocol.GetLogOrBuilder> logSliceRequestBuilder_;
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public boolean hasTakeSnapshot() {
+      public boolean hasLogSliceRequest() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public retroscope.net.protocol.Protocol.TakeSnapshot getTakeSnapshot() {
-        if (takeSnapshotBuilder_ == null) {
-          return takeSnapshot_;
+      public retroscope.net.protocol.Protocol.GetLog getLogSliceRequest() {
+        if (logSliceRequestBuilder_ == null) {
+          return logSliceRequest_;
         } else {
-          return takeSnapshotBuilder_.getMessage();
+          return logSliceRequestBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public Builder setTakeSnapshot(retroscope.net.protocol.Protocol.TakeSnapshot value) {
-        if (takeSnapshotBuilder_ == null) {
+      public Builder setLogSliceRequest(retroscope.net.protocol.Protocol.GetLog value) {
+        if (logSliceRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          takeSnapshot_ = value;
+          logSliceRequest_ = value;
           onChanged();
         } else {
-          takeSnapshotBuilder_.setMessage(value);
+          logSliceRequestBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public Builder setTakeSnapshot(
-          retroscope.net.protocol.Protocol.TakeSnapshot.Builder builderForValue) {
-        if (takeSnapshotBuilder_ == null) {
-          takeSnapshot_ = builderForValue.build();
+      public Builder setLogSliceRequest(
+          retroscope.net.protocol.Protocol.GetLog.Builder builderForValue) {
+        if (logSliceRequestBuilder_ == null) {
+          logSliceRequest_ = builderForValue.build();
           onChanged();
         } else {
-          takeSnapshotBuilder_.setMessage(builderForValue.build());
+          logSliceRequestBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public Builder mergeTakeSnapshot(retroscope.net.protocol.Protocol.TakeSnapshot value) {
-        if (takeSnapshotBuilder_ == null) {
+      public Builder mergeLogSliceRequest(retroscope.net.protocol.Protocol.GetLog value) {
+        if (logSliceRequestBuilder_ == null) {
           if (((bitField0_ & 0x00000010) == 0x00000010) &&
-              takeSnapshot_ != retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance()) {
-            takeSnapshot_ =
-              retroscope.net.protocol.Protocol.TakeSnapshot.newBuilder(takeSnapshot_).mergeFrom(value).buildPartial();
+              logSliceRequest_ != retroscope.net.protocol.Protocol.GetLog.getDefaultInstance()) {
+            logSliceRequest_ =
+              retroscope.net.protocol.Protocol.GetLog.newBuilder(logSliceRequest_).mergeFrom(value).buildPartial();
           } else {
-            takeSnapshot_ = value;
+            logSliceRequest_ = value;
           }
           onChanged();
         } else {
-          takeSnapshotBuilder_.mergeFrom(value);
+          logSliceRequestBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000010;
         return this;
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public Builder clearTakeSnapshot() {
-        if (takeSnapshotBuilder_ == null) {
-          takeSnapshot_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
+      public Builder clearLogSliceRequest() {
+        if (logSliceRequestBuilder_ == null) {
+          logSliceRequest_ = retroscope.net.protocol.Protocol.GetLog.getDefaultInstance();
           onChanged();
         } else {
-          takeSnapshotBuilder_.clear();
+          logSliceRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public retroscope.net.protocol.Protocol.TakeSnapshot.Builder getTakeSnapshotBuilder() {
+      public retroscope.net.protocol.Protocol.GetLog.Builder getLogSliceRequestBuilder() {
         bitField0_ |= 0x00000010;
         onChanged();
-        return getTakeSnapshotFieldBuilder().getBuilder();
+        return getLogSliceRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
-      public retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder getTakeSnapshotOrBuilder() {
-        if (takeSnapshotBuilder_ != null) {
-          return takeSnapshotBuilder_.getMessageOrBuilder();
+      public retroscope.net.protocol.Protocol.GetLogOrBuilder getLogSliceRequestOrBuilder() {
+        if (logSliceRequestBuilder_ != null) {
+          return logSliceRequestBuilder_.getMessageOrBuilder();
         } else {
-          return takeSnapshot_;
+          return logSliceRequest_;
         }
       }
       /**
-       * <code>optional .TakeSnapshot takeSnapshot = 5;</code>
+       * <code>optional .GetLog logSliceRequest = 5;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
-          retroscope.net.protocol.Protocol.TakeSnapshot, retroscope.net.protocol.Protocol.TakeSnapshot.Builder, retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder> 
-          getTakeSnapshotFieldBuilder() {
-        if (takeSnapshotBuilder_ == null) {
-          takeSnapshotBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              retroscope.net.protocol.Protocol.TakeSnapshot, retroscope.net.protocol.Protocol.TakeSnapshot.Builder, retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder>(
-                  getTakeSnapshot(),
+          retroscope.net.protocol.Protocol.GetLog, retroscope.net.protocol.Protocol.GetLog.Builder, retroscope.net.protocol.Protocol.GetLogOrBuilder> 
+          getLogSliceRequestFieldBuilder() {
+        if (logSliceRequestBuilder_ == null) {
+          logSliceRequestBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              retroscope.net.protocol.Protocol.GetLog, retroscope.net.protocol.Protocol.GetLog.Builder, retroscope.net.protocol.Protocol.GetLogOrBuilder>(
+                  getLogSliceRequest(),
                   getParentForChildren(),
                   isClean());
-          takeSnapshot_ = null;
+          logSliceRequest_ = null;
         }
-        return takeSnapshotBuilder_;
+        return logSliceRequestBuilder_;
       }
 
-      private retroscope.net.protocol.Protocol.RollSnapshot rollSnapsot_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
+      private retroscope.net.protocol.Protocol.TakeSnapshot snapshotRequest_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
-          retroscope.net.protocol.Protocol.RollSnapshot, retroscope.net.protocol.Protocol.RollSnapshot.Builder, retroscope.net.protocol.Protocol.RollSnapshotOrBuilder> rollSnapsotBuilder_;
+          retroscope.net.protocol.Protocol.TakeSnapshot, retroscope.net.protocol.Protocol.TakeSnapshot.Builder, retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder> snapshotRequestBuilder_;
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public boolean hasRollSnapsot() {
+      public boolean hasSnapshotRequest() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public retroscope.net.protocol.Protocol.RollSnapshot getRollSnapsot() {
-        if (rollSnapsotBuilder_ == null) {
-          return rollSnapsot_;
+      public retroscope.net.protocol.Protocol.TakeSnapshot getSnapshotRequest() {
+        if (snapshotRequestBuilder_ == null) {
+          return snapshotRequest_;
         } else {
-          return rollSnapsotBuilder_.getMessage();
+          return snapshotRequestBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public Builder setRollSnapsot(retroscope.net.protocol.Protocol.RollSnapshot value) {
-        if (rollSnapsotBuilder_ == null) {
+      public Builder setSnapshotRequest(retroscope.net.protocol.Protocol.TakeSnapshot value) {
+        if (snapshotRequestBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          rollSnapsot_ = value;
+          snapshotRequest_ = value;
           onChanged();
         } else {
-          rollSnapsotBuilder_.setMessage(value);
+          snapshotRequestBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public Builder setRollSnapsot(
-          retroscope.net.protocol.Protocol.RollSnapshot.Builder builderForValue) {
-        if (rollSnapsotBuilder_ == null) {
-          rollSnapsot_ = builderForValue.build();
+      public Builder setSnapshotRequest(
+          retroscope.net.protocol.Protocol.TakeSnapshot.Builder builderForValue) {
+        if (snapshotRequestBuilder_ == null) {
+          snapshotRequest_ = builderForValue.build();
           onChanged();
         } else {
-          rollSnapsotBuilder_.setMessage(builderForValue.build());
+          snapshotRequestBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public Builder mergeRollSnapsot(retroscope.net.protocol.Protocol.RollSnapshot value) {
-        if (rollSnapsotBuilder_ == null) {
+      public Builder mergeSnapshotRequest(retroscope.net.protocol.Protocol.TakeSnapshot value) {
+        if (snapshotRequestBuilder_ == null) {
           if (((bitField0_ & 0x00000020) == 0x00000020) &&
-              rollSnapsot_ != retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance()) {
-            rollSnapsot_ =
-              retroscope.net.protocol.Protocol.RollSnapshot.newBuilder(rollSnapsot_).mergeFrom(value).buildPartial();
+              snapshotRequest_ != retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance()) {
+            snapshotRequest_ =
+              retroscope.net.protocol.Protocol.TakeSnapshot.newBuilder(snapshotRequest_).mergeFrom(value).buildPartial();
           } else {
-            rollSnapsot_ = value;
+            snapshotRequest_ = value;
           }
           onChanged();
         } else {
-          rollSnapsotBuilder_.mergeFrom(value);
+          snapshotRequestBuilder_.mergeFrom(value);
         }
         bitField0_ |= 0x00000020;
         return this;
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public Builder clearRollSnapsot() {
-        if (rollSnapsotBuilder_ == null) {
-          rollSnapsot_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
+      public Builder clearSnapshotRequest() {
+        if (snapshotRequestBuilder_ == null) {
+          snapshotRequest_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
           onChanged();
         } else {
-          rollSnapsotBuilder_.clear();
+          snapshotRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public retroscope.net.protocol.Protocol.RollSnapshot.Builder getRollSnapsotBuilder() {
+      public retroscope.net.protocol.Protocol.TakeSnapshot.Builder getSnapshotRequestBuilder() {
         bitField0_ |= 0x00000020;
         onChanged();
-        return getRollSnapsotFieldBuilder().getBuilder();
+        return getSnapshotRequestFieldBuilder().getBuilder();
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
-      public retroscope.net.protocol.Protocol.RollSnapshotOrBuilder getRollSnapsotOrBuilder() {
-        if (rollSnapsotBuilder_ != null) {
-          return rollSnapsotBuilder_.getMessageOrBuilder();
+      public retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder getSnapshotRequestOrBuilder() {
+        if (snapshotRequestBuilder_ != null) {
+          return snapshotRequestBuilder_.getMessageOrBuilder();
         } else {
-          return rollSnapsot_;
+          return snapshotRequest_;
         }
       }
       /**
-       * <code>optional .RollSnapshot rollSnapsot = 6;</code>
+       * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.TakeSnapshot, retroscope.net.protocol.Protocol.TakeSnapshot.Builder, retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder> 
+          getSnapshotRequestFieldBuilder() {
+        if (snapshotRequestBuilder_ == null) {
+          snapshotRequestBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              retroscope.net.protocol.Protocol.TakeSnapshot, retroscope.net.protocol.Protocol.TakeSnapshot.Builder, retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder>(
+                  getSnapshotRequest(),
+                  getParentForChildren(),
+                  isClean());
+          snapshotRequest_ = null;
+        }
+        return snapshotRequestBuilder_;
+      }
+
+      private retroscope.net.protocol.Protocol.RollSnapshot rollSnapsotRequest_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.RollSnapshot, retroscope.net.protocol.Protocol.RollSnapshot.Builder, retroscope.net.protocol.Protocol.RollSnapshotOrBuilder> rollSnapsotRequestBuilder_;
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public boolean hasRollSnapsotRequest() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public retroscope.net.protocol.Protocol.RollSnapshot getRollSnapsotRequest() {
+        if (rollSnapsotRequestBuilder_ == null) {
+          return rollSnapsotRequest_;
+        } else {
+          return rollSnapsotRequestBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public Builder setRollSnapsotRequest(retroscope.net.protocol.Protocol.RollSnapshot value) {
+        if (rollSnapsotRequestBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          rollSnapsotRequest_ = value;
+          onChanged();
+        } else {
+          rollSnapsotRequestBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public Builder setRollSnapsotRequest(
+          retroscope.net.protocol.Protocol.RollSnapshot.Builder builderForValue) {
+        if (rollSnapsotRequestBuilder_ == null) {
+          rollSnapsotRequest_ = builderForValue.build();
+          onChanged();
+        } else {
+          rollSnapsotRequestBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public Builder mergeRollSnapsotRequest(retroscope.net.protocol.Protocol.RollSnapshot value) {
+        if (rollSnapsotRequestBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+              rollSnapsotRequest_ != retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance()) {
+            rollSnapsotRequest_ =
+              retroscope.net.protocol.Protocol.RollSnapshot.newBuilder(rollSnapsotRequest_).mergeFrom(value).buildPartial();
+          } else {
+            rollSnapsotRequest_ = value;
+          }
+          onChanged();
+        } else {
+          rollSnapsotRequestBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000040;
+        return this;
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public Builder clearRollSnapsotRequest() {
+        if (rollSnapsotRequestBuilder_ == null) {
+          rollSnapsotRequest_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
+          onChanged();
+        } else {
+          rollSnapsotRequestBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000040);
+        return this;
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public retroscope.net.protocol.Protocol.RollSnapshot.Builder getRollSnapsotRequestBuilder() {
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return getRollSnapsotRequestFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
+       */
+      public retroscope.net.protocol.Protocol.RollSnapshotOrBuilder getRollSnapsotRequestOrBuilder() {
+        if (rollSnapsotRequestBuilder_ != null) {
+          return rollSnapsotRequestBuilder_.getMessageOrBuilder();
+        } else {
+          return rollSnapsotRequest_;
+        }
+      }
+      /**
+       * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
        */
       private com.google.protobuf.SingleFieldBuilder<
           retroscope.net.protocol.Protocol.RollSnapshot, retroscope.net.protocol.Protocol.RollSnapshot.Builder, retroscope.net.protocol.Protocol.RollSnapshotOrBuilder> 
-          getRollSnapsotFieldBuilder() {
-        if (rollSnapsotBuilder_ == null) {
-          rollSnapsotBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+          getRollSnapsotRequestFieldBuilder() {
+        if (rollSnapsotRequestBuilder_ == null) {
+          rollSnapsotRequestBuilder_ = new com.google.protobuf.SingleFieldBuilder<
               retroscope.net.protocol.Protocol.RollSnapshot, retroscope.net.protocol.Protocol.RollSnapshot.Builder, retroscope.net.protocol.Protocol.RollSnapshotOrBuilder>(
-                  getRollSnapsot(),
+                  getRollSnapsotRequest(),
                   getParentForChildren(),
                   isClean());
-          rollSnapsot_ = null;
+          rollSnapsotRequest_ = null;
         }
-        return rollSnapsotBuilder_;
+        return rollSnapsotRequestBuilder_;
       }
 
       private int errorCode_ ;
@@ -1446,7 +1647,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public boolean hasErrorCode() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 errorCode = 15;</code>
@@ -1458,7 +1659,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder setErrorCode(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         errorCode_ = value;
         onChanged();
         return this;
@@ -1467,7 +1668,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder clearErrorCode() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         errorCode_ = 0;
         onChanged();
         return this;
@@ -3025,22 +3226,22 @@ public final class Protocol {
         getLogNameBytes();
 
     /**
-     * <code>optional int64 startTime = 2;</code>
+     * <code>optional int64 HLCstartTime = 2;</code>
      */
-    boolean hasStartTime();
+    boolean hasHLCstartTime();
     /**
-     * <code>optional int64 startTime = 2;</code>
+     * <code>optional int64 HLCstartTime = 2;</code>
      */
-    long getStartTime();
+    long getHLCstartTime();
 
     /**
-     * <code>optional int64 endTime = 3;</code>
+     * <code>optional int64 HLCendTime = 3;</code>
      */
-    boolean hasEndTime();
+    boolean hasHLCendTime();
     /**
-     * <code>optional int64 endTime = 3;</code>
+     * <code>optional int64 HLCendTime = 3;</code>
      */
-    long getEndTime();
+    long getHLCendTime();
   }
   /**
    * Protobuf type {@code GetLog}
@@ -3102,12 +3303,12 @@ public final class Protocol {
             }
             case 16: {
               bitField0_ |= 0x00000002;
-              startTime_ = input.readInt64();
+              hLCstartTime_ = input.readInt64();
               break;
             }
             case 24: {
               bitField0_ |= 0x00000004;
-              endTime_ = input.readInt64();
+              hLCendTime_ = input.readInt64();
               break;
             }
           }
@@ -3192,40 +3393,40 @@ public final class Protocol {
       }
     }
 
-    public static final int STARTTIME_FIELD_NUMBER = 2;
-    private long startTime_;
+    public static final int HLCSTARTTIME_FIELD_NUMBER = 2;
+    private long hLCstartTime_;
     /**
-     * <code>optional int64 startTime = 2;</code>
+     * <code>optional int64 HLCstartTime = 2;</code>
      */
-    public boolean hasStartTime() {
+    public boolean hasHLCstartTime() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional int64 startTime = 2;</code>
+     * <code>optional int64 HLCstartTime = 2;</code>
      */
-    public long getStartTime() {
-      return startTime_;
+    public long getHLCstartTime() {
+      return hLCstartTime_;
     }
 
-    public static final int ENDTIME_FIELD_NUMBER = 3;
-    private long endTime_;
+    public static final int HLCENDTIME_FIELD_NUMBER = 3;
+    private long hLCendTime_;
     /**
-     * <code>optional int64 endTime = 3;</code>
+     * <code>optional int64 HLCendTime = 3;</code>
      */
-    public boolean hasEndTime() {
+    public boolean hasHLCendTime() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional int64 endTime = 3;</code>
+     * <code>optional int64 HLCendTime = 3;</code>
      */
-    public long getEndTime() {
-      return endTime_;
+    public long getHLCendTime() {
+      return hLCendTime_;
     }
 
     private void initFields() {
       logName_ = "";
-      startTime_ = 0L;
-      endTime_ = 0L;
+      hLCstartTime_ = 0L;
+      hLCendTime_ = 0L;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3248,10 +3449,10 @@ public final class Protocol {
         output.writeBytes(1, getLogNameBytes());
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt64(2, startTime_);
+        output.writeInt64(2, hLCstartTime_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeInt64(3, endTime_);
+        output.writeInt64(3, hLCendTime_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -3268,11 +3469,11 @@ public final class Protocol {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, startTime_);
+          .computeInt64Size(2, hLCstartTime_);
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(3, endTime_);
+          .computeInt64Size(3, hLCendTime_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3393,9 +3594,9 @@ public final class Protocol {
         super.clear();
         logName_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
-        startTime_ = 0L;
+        hLCstartTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000002);
-        endTime_ = 0L;
+        hLCendTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
@@ -3432,11 +3633,11 @@ public final class Protocol {
         if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
           to_bitField0_ |= 0x00000002;
         }
-        result.startTime_ = startTime_;
+        result.hLCstartTime_ = hLCstartTime_;
         if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
           to_bitField0_ |= 0x00000004;
         }
-        result.endTime_ = endTime_;
+        result.hLCendTime_ = hLCendTime_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3458,11 +3659,11 @@ public final class Protocol {
           logName_ = other.logName_;
           onChanged();
         }
-        if (other.hasStartTime()) {
-          setStartTime(other.getStartTime());
+        if (other.hasHLCstartTime()) {
+          setHLCstartTime(other.getHLCstartTime());
         }
-        if (other.hasEndTime()) {
-          setEndTime(other.getEndTime());
+        if (other.hasHLCendTime()) {
+          setHLCendTime(other.getHLCendTime());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3571,66 +3772,66 @@ public final class Protocol {
         return this;
       }
 
-      private long startTime_ ;
+      private long hLCstartTime_ ;
       /**
-       * <code>optional int64 startTime = 2;</code>
+       * <code>optional int64 HLCstartTime = 2;</code>
        */
-      public boolean hasStartTime() {
+      public boolean hasHLCstartTime() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional int64 startTime = 2;</code>
+       * <code>optional int64 HLCstartTime = 2;</code>
        */
-      public long getStartTime() {
-        return startTime_;
+      public long getHLCstartTime() {
+        return hLCstartTime_;
       }
       /**
-       * <code>optional int64 startTime = 2;</code>
+       * <code>optional int64 HLCstartTime = 2;</code>
        */
-      public Builder setStartTime(long value) {
+      public Builder setHLCstartTime(long value) {
         bitField0_ |= 0x00000002;
-        startTime_ = value;
+        hLCstartTime_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 startTime = 2;</code>
+       * <code>optional int64 HLCstartTime = 2;</code>
        */
-      public Builder clearStartTime() {
+      public Builder clearHLCstartTime() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        startTime_ = 0L;
+        hLCstartTime_ = 0L;
         onChanged();
         return this;
       }
 
-      private long endTime_ ;
+      private long hLCendTime_ ;
       /**
-       * <code>optional int64 endTime = 3;</code>
+       * <code>optional int64 HLCendTime = 3;</code>
        */
-      public boolean hasEndTime() {
+      public boolean hasHLCendTime() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional int64 endTime = 3;</code>
+       * <code>optional int64 HLCendTime = 3;</code>
        */
-      public long getEndTime() {
-        return endTime_;
+      public long getHLCendTime() {
+        return hLCendTime_;
       }
       /**
-       * <code>optional int64 endTime = 3;</code>
+       * <code>optional int64 HLCendTime = 3;</code>
        */
-      public Builder setEndTime(long value) {
+      public Builder setHLCendTime(long value) {
         bitField0_ |= 0x00000004;
-        endTime_ = value;
+        hLCendTime_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 endTime = 3;</code>
+       * <code>optional int64 HLCendTime = 3;</code>
        */
-      public Builder clearEndTime() {
+      public Builder clearHLCendTime() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        endTime_ = 0L;
+        hLCendTime_ = 0L;
         onChanged();
         return this;
       }
@@ -4740,35 +4941,48 @@ public final class Protocol {
     retroscope.net.protocol.Protocol.DataMapOrBuilder getDataOrBuilder();
 
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    java.util.List<retroscope.net.protocol.Protocol.ExisitngLog> 
+    java.util.List<retroscope.net.protocol.Protocol.LogMeta> 
         getLogsList();
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    retroscope.net.protocol.Protocol.ExisitngLog getLogs(int index);
+    retroscope.net.protocol.Protocol.LogMeta getLogs(int index);
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
     int getLogsCount();
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    java.util.List<? extends retroscope.net.protocol.Protocol.ExisitngLogOrBuilder> 
+    java.util.List<? extends retroscope.net.protocol.Protocol.LogMetaOrBuilder> 
         getLogsOrBuilderList();
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    retroscope.net.protocol.Protocol.ExisitngLogOrBuilder getLogsOrBuilder(
+    retroscope.net.protocol.Protocol.LogMetaOrBuilder getLogsOrBuilder(
         int index);
 
     /**
-     * <code>optional int32 snapshotId = 5;</code>
+     * <code>optional .Log log = 5;</code>
+     */
+    boolean hasLog();
+    /**
+     * <code>optional .Log log = 5;</code>
+     */
+    retroscope.net.protocol.Protocol.Log getLog();
+    /**
+     * <code>optional .Log log = 5;</code>
+     */
+    retroscope.net.protocol.Protocol.LogOrBuilder getLogOrBuilder();
+
+    /**
+     * <code>optional int32 snapshotId = 10;</code>
      */
     boolean hasSnapshotId();
     /**
-     * <code>optional int32 snapshotId = 5;</code>
+     * <code>optional int32 snapshotId = 10;</code>
      */
     int getSnapshotId();
 
@@ -4879,24 +5093,37 @@ public final class Protocol {
             }
             case 34: {
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                logs_ = new java.util.ArrayList<retroscope.net.protocol.Protocol.ExisitngLog>();
+                logs_ = new java.util.ArrayList<retroscope.net.protocol.Protocol.LogMeta>();
                 mutable_bitField0_ |= 0x00000008;
               }
-              logs_.add(input.readMessage(retroscope.net.protocol.Protocol.ExisitngLog.PARSER, extensionRegistry));
+              logs_.add(input.readMessage(retroscope.net.protocol.Protocol.LogMeta.PARSER, extensionRegistry));
               break;
             }
-            case 40: {
+            case 42: {
+              retroscope.net.protocol.Protocol.Log.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = log_.toBuilder();
+              }
+              log_ = input.readMessage(retroscope.net.protocol.Protocol.Log.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(log_);
+                log_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000008;
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000010;
               snapshotId_ = input.readInt32();
               break;
             }
             case 112: {
-              bitField0_ |= 0x00000010;
+              bitField0_ |= 0x00000020;
               nodeId_ = input.readInt32();
               break;
             }
             case 120: {
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000040;
               errorCode_ = input.readInt32();
               break;
             }
@@ -5001,50 +5228,71 @@ public final class Protocol {
     }
 
     public static final int LOGS_FIELD_NUMBER = 4;
-    private java.util.List<retroscope.net.protocol.Protocol.ExisitngLog> logs_;
+    private java.util.List<retroscope.net.protocol.Protocol.LogMeta> logs_;
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    public java.util.List<retroscope.net.protocol.Protocol.ExisitngLog> getLogsList() {
+    public java.util.List<retroscope.net.protocol.Protocol.LogMeta> getLogsList() {
       return logs_;
     }
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    public java.util.List<? extends retroscope.net.protocol.Protocol.ExisitngLogOrBuilder> 
+    public java.util.List<? extends retroscope.net.protocol.Protocol.LogMetaOrBuilder> 
         getLogsOrBuilderList() {
       return logs_;
     }
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
     public int getLogsCount() {
       return logs_.size();
     }
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    public retroscope.net.protocol.Protocol.ExisitngLog getLogs(int index) {
+    public retroscope.net.protocol.Protocol.LogMeta getLogs(int index) {
       return logs_.get(index);
     }
     /**
-     * <code>repeated .ExisitngLog logs = 4;</code>
+     * <code>repeated .LogMeta logs = 4;</code>
      */
-    public retroscope.net.protocol.Protocol.ExisitngLogOrBuilder getLogsOrBuilder(
+    public retroscope.net.protocol.Protocol.LogMetaOrBuilder getLogsOrBuilder(
         int index) {
       return logs_.get(index);
     }
 
-    public static final int SNAPSHOTID_FIELD_NUMBER = 5;
-    private int snapshotId_;
+    public static final int LOG_FIELD_NUMBER = 5;
+    private retroscope.net.protocol.Protocol.Log log_;
     /**
-     * <code>optional int32 snapshotId = 5;</code>
+     * <code>optional .Log log = 5;</code>
      */
-    public boolean hasSnapshotId() {
+    public boolean hasLog() {
       return ((bitField0_ & 0x00000008) == 0x00000008);
     }
     /**
-     * <code>optional int32 snapshotId = 5;</code>
+     * <code>optional .Log log = 5;</code>
+     */
+    public retroscope.net.protocol.Protocol.Log getLog() {
+      return log_;
+    }
+    /**
+     * <code>optional .Log log = 5;</code>
+     */
+    public retroscope.net.protocol.Protocol.LogOrBuilder getLogOrBuilder() {
+      return log_;
+    }
+
+    public static final int SNAPSHOTID_FIELD_NUMBER = 10;
+    private int snapshotId_;
+    /**
+     * <code>optional int32 snapshotId = 10;</code>
+     */
+    public boolean hasSnapshotId() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional int32 snapshotId = 10;</code>
      */
     public int getSnapshotId() {
       return snapshotId_;
@@ -5056,7 +5304,7 @@ public final class Protocol {
      * <code>optional int32 nodeId = 14;</code>
      */
     public boolean hasNodeId() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000020) == 0x00000020);
     }
     /**
      * <code>optional int32 nodeId = 14;</code>
@@ -5071,7 +5319,7 @@ public final class Protocol {
      * <code>optional int32 errorCode = 15;</code>
      */
     public boolean hasErrorCode() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int32 errorCode = 15;</code>
@@ -5085,6 +5333,7 @@ public final class Protocol {
       connectMsg_ = retroscope.net.protocol.Protocol.ConnectMsg.getDefaultInstance();
       data_ = retroscope.net.protocol.Protocol.DataMap.getDefaultInstance();
       logs_ = java.util.Collections.emptyList();
+      log_ = retroscope.net.protocol.Protocol.Log.getDefaultInstance();
       snapshotId_ = 0;
       nodeId_ = 0;
       errorCode_ = 0;
@@ -5113,6 +5362,12 @@ public final class Protocol {
           return false;
         }
       }
+      if (hasLog()) {
+        if (!getLog().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -5133,12 +5388,15 @@ public final class Protocol {
         output.writeMessage(4, logs_.get(i));
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
-        output.writeInt32(5, snapshotId_);
+        output.writeMessage(5, log_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(14, nodeId_);
+        output.writeInt32(10, snapshotId_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeInt32(14, nodeId_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeInt32(15, errorCode_);
       }
       getUnknownFields().writeTo(output);
@@ -5168,13 +5426,17 @@ public final class Protocol {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(5, snapshotId_);
+          .computeMessageSize(5, log_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(14, nodeId_);
+          .computeInt32Size(10, snapshotId_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, nodeId_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, errorCode_);
       }
@@ -5294,6 +5556,7 @@ public final class Protocol {
           getConnectMsgFieldBuilder();
           getDataFieldBuilder();
           getLogsFieldBuilder();
+          getLogFieldBuilder();
         }
       }
       private static Builder create() {
@@ -5322,12 +5585,18 @@ public final class Protocol {
         } else {
           logsBuilder_.clear();
         }
-        snapshotId_ = 0;
+        if (logBuilder_ == null) {
+          log_ = retroscope.net.protocol.Protocol.Log.getDefaultInstance();
+        } else {
+          logBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000010);
-        nodeId_ = 0;
+        snapshotId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000020);
-        errorCode_ = 0;
+        nodeId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
+        errorCode_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -5388,13 +5657,21 @@ public final class Protocol {
         if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000008;
         }
-        result.snapshotId_ = snapshotId_;
+        if (logBuilder_ == null) {
+          result.log_ = log_;
+        } else {
+          result.log_ = logBuilder_.build();
+        }
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.nodeId_ = nodeId_;
+        result.snapshotId_ = snapshotId_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
+        }
+        result.nodeId_ = nodeId_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
         }
         result.errorCode_ = errorCode_;
         result.bitField0_ = to_bitField0_;
@@ -5448,6 +5725,9 @@ public final class Protocol {
             }
           }
         }
+        if (other.hasLog()) {
+          mergeLog(other.getLog());
+        }
         if (other.hasSnapshotId()) {
           setSnapshotId(other.getSnapshotId());
         }
@@ -5476,6 +5756,12 @@ public final class Protocol {
         }
         for (int i = 0; i < getLogsCount(); i++) {
           if (!getLogs(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasLog()) {
+          if (!getLog().isInitialized()) {
             
             return false;
           }
@@ -5766,22 +6052,22 @@ public final class Protocol {
         return dataBuilder_;
       }
 
-      private java.util.List<retroscope.net.protocol.Protocol.ExisitngLog> logs_ =
+      private java.util.List<retroscope.net.protocol.Protocol.LogMeta> logs_ =
         java.util.Collections.emptyList();
       private void ensureLogsIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          logs_ = new java.util.ArrayList<retroscope.net.protocol.Protocol.ExisitngLog>(logs_);
+          logs_ = new java.util.ArrayList<retroscope.net.protocol.Protocol.LogMeta>(logs_);
           bitField0_ |= 0x00000008;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilder<
-          retroscope.net.protocol.Protocol.ExisitngLog, retroscope.net.protocol.Protocol.ExisitngLog.Builder, retroscope.net.protocol.Protocol.ExisitngLogOrBuilder> logsBuilder_;
+          retroscope.net.protocol.Protocol.LogMeta, retroscope.net.protocol.Protocol.LogMeta.Builder, retroscope.net.protocol.Protocol.LogMetaOrBuilder> logsBuilder_;
 
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public java.util.List<retroscope.net.protocol.Protocol.ExisitngLog> getLogsList() {
+      public java.util.List<retroscope.net.protocol.Protocol.LogMeta> getLogsList() {
         if (logsBuilder_ == null) {
           return java.util.Collections.unmodifiableList(logs_);
         } else {
@@ -5789,7 +6075,7 @@ public final class Protocol {
         }
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public int getLogsCount() {
         if (logsBuilder_ == null) {
@@ -5799,9 +6085,9 @@ public final class Protocol {
         }
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.ExisitngLog getLogs(int index) {
+      public retroscope.net.protocol.Protocol.LogMeta getLogs(int index) {
         if (logsBuilder_ == null) {
           return logs_.get(index);
         } else {
@@ -5809,10 +6095,10 @@ public final class Protocol {
         }
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder setLogs(
-          int index, retroscope.net.protocol.Protocol.ExisitngLog value) {
+          int index, retroscope.net.protocol.Protocol.LogMeta value) {
         if (logsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5826,10 +6112,10 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder setLogs(
-          int index, retroscope.net.protocol.Protocol.ExisitngLog.Builder builderForValue) {
+          int index, retroscope.net.protocol.Protocol.LogMeta.Builder builderForValue) {
         if (logsBuilder_ == null) {
           ensureLogsIsMutable();
           logs_.set(index, builderForValue.build());
@@ -5840,9 +6126,9 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public Builder addLogs(retroscope.net.protocol.Protocol.ExisitngLog value) {
+      public Builder addLogs(retroscope.net.protocol.Protocol.LogMeta value) {
         if (logsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5856,10 +6142,10 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder addLogs(
-          int index, retroscope.net.protocol.Protocol.ExisitngLog value) {
+          int index, retroscope.net.protocol.Protocol.LogMeta value) {
         if (logsBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -5873,10 +6159,10 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder addLogs(
-          retroscope.net.protocol.Protocol.ExisitngLog.Builder builderForValue) {
+          retroscope.net.protocol.Protocol.LogMeta.Builder builderForValue) {
         if (logsBuilder_ == null) {
           ensureLogsIsMutable();
           logs_.add(builderForValue.build());
@@ -5887,10 +6173,10 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder addLogs(
-          int index, retroscope.net.protocol.Protocol.ExisitngLog.Builder builderForValue) {
+          int index, retroscope.net.protocol.Protocol.LogMeta.Builder builderForValue) {
         if (logsBuilder_ == null) {
           ensureLogsIsMutable();
           logs_.add(index, builderForValue.build());
@@ -5901,10 +6187,10 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder addAllLogs(
-          java.lang.Iterable<? extends retroscope.net.protocol.Protocol.ExisitngLog> values) {
+          java.lang.Iterable<? extends retroscope.net.protocol.Protocol.LogMeta> values) {
         if (logsBuilder_ == null) {
           ensureLogsIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -5916,7 +6202,7 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder clearLogs() {
         if (logsBuilder_ == null) {
@@ -5929,7 +6215,7 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
       public Builder removeLogs(int index) {
         if (logsBuilder_ == null) {
@@ -5942,16 +6228,16 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.ExisitngLog.Builder getLogsBuilder(
+      public retroscope.net.protocol.Protocol.LogMeta.Builder getLogsBuilder(
           int index) {
         return getLogsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.ExisitngLogOrBuilder getLogsOrBuilder(
+      public retroscope.net.protocol.Protocol.LogMetaOrBuilder getLogsOrBuilder(
           int index) {
         if (logsBuilder_ == null) {
           return logs_.get(index);  } else {
@@ -5959,9 +6245,9 @@ public final class Protocol {
         }
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public java.util.List<? extends retroscope.net.protocol.Protocol.ExisitngLogOrBuilder> 
+      public java.util.List<? extends retroscope.net.protocol.Protocol.LogMetaOrBuilder> 
            getLogsOrBuilderList() {
         if (logsBuilder_ != null) {
           return logsBuilder_.getMessageOrBuilderList();
@@ -5970,33 +6256,33 @@ public final class Protocol {
         }
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.ExisitngLog.Builder addLogsBuilder() {
+      public retroscope.net.protocol.Protocol.LogMeta.Builder addLogsBuilder() {
         return getLogsFieldBuilder().addBuilder(
-            retroscope.net.protocol.Protocol.ExisitngLog.getDefaultInstance());
+            retroscope.net.protocol.Protocol.LogMeta.getDefaultInstance());
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public retroscope.net.protocol.Protocol.ExisitngLog.Builder addLogsBuilder(
+      public retroscope.net.protocol.Protocol.LogMeta.Builder addLogsBuilder(
           int index) {
         return getLogsFieldBuilder().addBuilder(
-            index, retroscope.net.protocol.Protocol.ExisitngLog.getDefaultInstance());
+            index, retroscope.net.protocol.Protocol.LogMeta.getDefaultInstance());
       }
       /**
-       * <code>repeated .ExisitngLog logs = 4;</code>
+       * <code>repeated .LogMeta logs = 4;</code>
        */
-      public java.util.List<retroscope.net.protocol.Protocol.ExisitngLog.Builder> 
+      public java.util.List<retroscope.net.protocol.Protocol.LogMeta.Builder> 
            getLogsBuilderList() {
         return getLogsFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          retroscope.net.protocol.Protocol.ExisitngLog, retroscope.net.protocol.Protocol.ExisitngLog.Builder, retroscope.net.protocol.Protocol.ExisitngLogOrBuilder> 
+          retroscope.net.protocol.Protocol.LogMeta, retroscope.net.protocol.Protocol.LogMeta.Builder, retroscope.net.protocol.Protocol.LogMetaOrBuilder> 
           getLogsFieldBuilder() {
         if (logsBuilder_ == null) {
           logsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              retroscope.net.protocol.Protocol.ExisitngLog, retroscope.net.protocol.Protocol.ExisitngLog.Builder, retroscope.net.protocol.Protocol.ExisitngLogOrBuilder>(
+              retroscope.net.protocol.Protocol.LogMeta, retroscope.net.protocol.Protocol.LogMeta.Builder, retroscope.net.protocol.Protocol.LogMetaOrBuilder>(
                   logs_,
                   ((bitField0_ & 0x00000008) == 0x00000008),
                   getParentForChildren(),
@@ -6006,33 +6292,149 @@ public final class Protocol {
         return logsBuilder_;
       }
 
-      private int snapshotId_ ;
+      private retroscope.net.protocol.Protocol.Log log_ = retroscope.net.protocol.Protocol.Log.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.Log, retroscope.net.protocol.Protocol.Log.Builder, retroscope.net.protocol.Protocol.LogOrBuilder> logBuilder_;
       /**
-       * <code>optional int32 snapshotId = 5;</code>
+       * <code>optional .Log log = 5;</code>
        */
-      public boolean hasSnapshotId() {
+      public boolean hasLog() {
         return ((bitField0_ & 0x00000010) == 0x00000010);
       }
       /**
-       * <code>optional int32 snapshotId = 5;</code>
+       * <code>optional .Log log = 5;</code>
+       */
+      public retroscope.net.protocol.Protocol.Log getLog() {
+        if (logBuilder_ == null) {
+          return log_;
+        } else {
+          return logBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .Log log = 5;</code>
+       */
+      public Builder setLog(retroscope.net.protocol.Protocol.Log value) {
+        if (logBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          log_ = value;
+          onChanged();
+        } else {
+          logBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Log log = 5;</code>
+       */
+      public Builder setLog(
+          retroscope.net.protocol.Protocol.Log.Builder builderForValue) {
+        if (logBuilder_ == null) {
+          log_ = builderForValue.build();
+          onChanged();
+        } else {
+          logBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Log log = 5;</code>
+       */
+      public Builder mergeLog(retroscope.net.protocol.Protocol.Log value) {
+        if (logBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              log_ != retroscope.net.protocol.Protocol.Log.getDefaultInstance()) {
+            log_ =
+              retroscope.net.protocol.Protocol.Log.newBuilder(log_).mergeFrom(value).buildPartial();
+          } else {
+            log_ = value;
+          }
+          onChanged();
+        } else {
+          logBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .Log log = 5;</code>
+       */
+      public Builder clearLog() {
+        if (logBuilder_ == null) {
+          log_ = retroscope.net.protocol.Protocol.Log.getDefaultInstance();
+          onChanged();
+        } else {
+          logBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .Log log = 5;</code>
+       */
+      public retroscope.net.protocol.Protocol.Log.Builder getLogBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getLogFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .Log log = 5;</code>
+       */
+      public retroscope.net.protocol.Protocol.LogOrBuilder getLogOrBuilder() {
+        if (logBuilder_ != null) {
+          return logBuilder_.getMessageOrBuilder();
+        } else {
+          return log_;
+        }
+      }
+      /**
+       * <code>optional .Log log = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.Log, retroscope.net.protocol.Protocol.Log.Builder, retroscope.net.protocol.Protocol.LogOrBuilder> 
+          getLogFieldBuilder() {
+        if (logBuilder_ == null) {
+          logBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              retroscope.net.protocol.Protocol.Log, retroscope.net.protocol.Protocol.Log.Builder, retroscope.net.protocol.Protocol.LogOrBuilder>(
+                  getLog(),
+                  getParentForChildren(),
+                  isClean());
+          log_ = null;
+        }
+        return logBuilder_;
+      }
+
+      private int snapshotId_ ;
+      /**
+       * <code>optional int32 snapshotId = 10;</code>
+       */
+      public boolean hasSnapshotId() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional int32 snapshotId = 10;</code>
        */
       public int getSnapshotId() {
         return snapshotId_;
       }
       /**
-       * <code>optional int32 snapshotId = 5;</code>
+       * <code>optional int32 snapshotId = 10;</code>
        */
       public Builder setSnapshotId(int value) {
-        bitField0_ |= 0x00000010;
+        bitField0_ |= 0x00000020;
         snapshotId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int32 snapshotId = 5;</code>
+       * <code>optional int32 snapshotId = 10;</code>
        */
       public Builder clearSnapshotId() {
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000020);
         snapshotId_ = 0;
         onChanged();
         return this;
@@ -6043,7 +6445,7 @@ public final class Protocol {
        * <code>optional int32 nodeId = 14;</code>
        */
       public boolean hasNodeId() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <code>optional int32 nodeId = 14;</code>
@@ -6055,7 +6457,7 @@ public final class Protocol {
        * <code>optional int32 nodeId = 14;</code>
        */
       public Builder setNodeId(int value) {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000040;
         nodeId_ = value;
         onChanged();
         return this;
@@ -6064,7 +6466,7 @@ public final class Protocol {
        * <code>optional int32 nodeId = 14;</code>
        */
       public Builder clearNodeId() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         nodeId_ = 0;
         onChanged();
         return this;
@@ -6075,7 +6477,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public boolean hasErrorCode() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 errorCode = 15;</code>
@@ -6087,7 +6489,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder setErrorCode(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         errorCode_ = value;
         onChanged();
         return this;
@@ -6096,7 +6498,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder clearErrorCode() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         errorCode_ = 0;
         onChanged();
         return this;
@@ -9855,8 +10257,8 @@ public final class Protocol {
     // @@protoc_insertion_point(class_scope:LogItem)
   }
 
-  public interface ExisitngLogOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:ExisitngLog)
+  public interface LogMetaOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:LogMeta)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -9892,25 +10294,25 @@ public final class Protocol {
     boolean getIsDataMapLog();
   }
   /**
-   * Protobuf type {@code ExisitngLog}
+   * Protobuf type {@code LogMeta}
    */
-  public static final class ExisitngLog extends
+  public static final class LogMeta extends
       com.google.protobuf.GeneratedMessage implements
-      // @@protoc_insertion_point(message_implements:ExisitngLog)
-      ExisitngLogOrBuilder {
-    // Use ExisitngLog.newBuilder() to construct.
-    private ExisitngLog(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      // @@protoc_insertion_point(message_implements:LogMeta)
+      LogMetaOrBuilder {
+    // Use LogMeta.newBuilder() to construct.
+    private LogMeta(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
       this.unknownFields = builder.getUnknownFields();
     }
-    private ExisitngLog(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+    private LogMeta(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
 
-    private static final ExisitngLog defaultInstance;
-    public static ExisitngLog getDefaultInstance() {
+    private static final LogMeta defaultInstance;
+    public static LogMeta getDefaultInstance() {
       return defaultInstance;
     }
 
-    public ExisitngLog getDefaultInstanceForType() {
+    public LogMeta getDefaultInstanceForType() {
       return defaultInstance;
     }
 
@@ -9920,7 +10322,7 @@ public final class Protocol {
         getUnknownFields() {
       return this.unknownFields;
     }
-    private ExisitngLog(
+    private LogMeta(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -9973,28 +10375,28 @@ public final class Protocol {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return retroscope.net.protocol.Protocol.internal_static_ExisitngLog_descriptor;
+      return retroscope.net.protocol.Protocol.internal_static_LogMeta_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return retroscope.net.protocol.Protocol.internal_static_ExisitngLog_fieldAccessorTable
+      return retroscope.net.protocol.Protocol.internal_static_LogMeta_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              retroscope.net.protocol.Protocol.ExisitngLog.class, retroscope.net.protocol.Protocol.ExisitngLog.Builder.class);
+              retroscope.net.protocol.Protocol.LogMeta.class, retroscope.net.protocol.Protocol.LogMeta.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ExisitngLog> PARSER =
-        new com.google.protobuf.AbstractParser<ExisitngLog>() {
-      public ExisitngLog parsePartialFrom(
+    public static com.google.protobuf.Parser<LogMeta> PARSER =
+        new com.google.protobuf.AbstractParser<LogMeta>() {
+      public LogMeta parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ExisitngLog(input, extensionRegistry);
+        return new LogMeta(input, extensionRegistry);
       }
     };
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ExisitngLog> getParserForType() {
+    public com.google.protobuf.Parser<LogMeta> getParserForType() {
       return PARSER;
     }
 
@@ -10143,53 +10545,53 @@ public final class Protocol {
       return super.writeReplace();
     }
 
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(byte[] data)
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(java.io.InputStream input)
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseFrom(input, extensionRegistry);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseDelimitedFrom(java.io.InputStream input)
+    public static retroscope.net.protocol.Protocol.LogMeta parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseDelimitedFrom(
+    public static retroscope.net.protocol.Protocol.LogMeta parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return PARSER.parseDelimitedFrom(input, extensionRegistry);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }
-    public static retroscope.net.protocol.Protocol.ExisitngLog parseFrom(
+    public static retroscope.net.protocol.Protocol.LogMeta parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -10198,7 +10600,7 @@ public final class Protocol {
 
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(retroscope.net.protocol.Protocol.ExisitngLog prototype) {
+    public static Builder newBuilder(retroscope.net.protocol.Protocol.LogMeta prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -10210,25 +10612,25 @@ public final class Protocol {
       return builder;
     }
     /**
-     * Protobuf type {@code ExisitngLog}
+     * Protobuf type {@code LogMeta}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:ExisitngLog)
-        retroscope.net.protocol.Protocol.ExisitngLogOrBuilder {
+        // @@protoc_insertion_point(builder_implements:LogMeta)
+        retroscope.net.protocol.Protocol.LogMetaOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return retroscope.net.protocol.Protocol.internal_static_ExisitngLog_descriptor;
+        return retroscope.net.protocol.Protocol.internal_static_LogMeta_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return retroscope.net.protocol.Protocol.internal_static_ExisitngLog_fieldAccessorTable
+        return retroscope.net.protocol.Protocol.internal_static_LogMeta_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                retroscope.net.protocol.Protocol.ExisitngLog.class, retroscope.net.protocol.Protocol.ExisitngLog.Builder.class);
+                retroscope.net.protocol.Protocol.LogMeta.class, retroscope.net.protocol.Protocol.LogMeta.Builder.class);
       }
 
-      // Construct using retroscope.net.protocol.Protocol.ExisitngLog.newBuilder()
+      // Construct using retroscope.net.protocol.Protocol.LogMeta.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -10263,23 +10665,23 @@ public final class Protocol {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return retroscope.net.protocol.Protocol.internal_static_ExisitngLog_descriptor;
+        return retroscope.net.protocol.Protocol.internal_static_LogMeta_descriptor;
       }
 
-      public retroscope.net.protocol.Protocol.ExisitngLog getDefaultInstanceForType() {
-        return retroscope.net.protocol.Protocol.ExisitngLog.getDefaultInstance();
+      public retroscope.net.protocol.Protocol.LogMeta getDefaultInstanceForType() {
+        return retroscope.net.protocol.Protocol.LogMeta.getDefaultInstance();
       }
 
-      public retroscope.net.protocol.Protocol.ExisitngLog build() {
-        retroscope.net.protocol.Protocol.ExisitngLog result = buildPartial();
+      public retroscope.net.protocol.Protocol.LogMeta build() {
+        retroscope.net.protocol.Protocol.LogMeta result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public retroscope.net.protocol.Protocol.ExisitngLog buildPartial() {
-        retroscope.net.protocol.Protocol.ExisitngLog result = new retroscope.net.protocol.Protocol.ExisitngLog(this);
+      public retroscope.net.protocol.Protocol.LogMeta buildPartial() {
+        retroscope.net.protocol.Protocol.LogMeta result = new retroscope.net.protocol.Protocol.LogMeta(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -10300,16 +10702,16 @@ public final class Protocol {
       }
 
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof retroscope.net.protocol.Protocol.ExisitngLog) {
-          return mergeFrom((retroscope.net.protocol.Protocol.ExisitngLog)other);
+        if (other instanceof retroscope.net.protocol.Protocol.LogMeta) {
+          return mergeFrom((retroscope.net.protocol.Protocol.LogMeta)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(retroscope.net.protocol.Protocol.ExisitngLog other) {
-        if (other == retroscope.net.protocol.Protocol.ExisitngLog.getDefaultInstance()) return this;
+      public Builder mergeFrom(retroscope.net.protocol.Protocol.LogMeta other) {
+        if (other == retroscope.net.protocol.Protocol.LogMeta.getDefaultInstance()) return this;
         if (other.hasLogName()) {
           bitField0_ |= 0x00000001;
           logName_ = other.logName_;
@@ -10345,11 +10747,11 @@ public final class Protocol {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        retroscope.net.protocol.Protocol.ExisitngLog parsedMessage = null;
+        retroscope.net.protocol.Protocol.LogMeta parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (retroscope.net.protocol.Protocol.ExisitngLog) e.getUnfinishedMessage();
+          parsedMessage = (retroscope.net.protocol.Protocol.LogMeta) e.getUnfinishedMessage();
           throw e;
         } finally {
           if (parsedMessage != null) {
@@ -10500,15 +10902,15 @@ public final class Protocol {
         return this;
       }
 
-      // @@protoc_insertion_point(builder_scope:ExisitngLog)
+      // @@protoc_insertion_point(builder_scope:LogMeta)
     }
 
     static {
-      defaultInstance = new ExisitngLog(true);
+      defaultInstance = new LogMeta(true);
       defaultInstance.initFields();
     }
 
-    // @@protoc_insertion_point(class_scope:ExisitngLog)
+    // @@protoc_insertion_point(class_scope:LogMeta)
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
@@ -10577,10 +10979,10 @@ public final class Protocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_LogItem_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_ExisitngLog_descriptor;
+    internal_static_LogMeta_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_ExisitngLog_fieldAccessorTable;
+      internal_static_LogMeta_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -10590,35 +10992,37 @@ public final class Protocol {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016protocol.proto\"\345\001\n\016RetroServerMsg\022\013\n\003R" +
+      "\n\016protocol.proto\"\231\002\n\016RetroServerMsg\022\013\n\003R" +
       "ID\030\001 \001(\003\022,\n\017connectResponse\030\002 \001(\0132\023.Conn" +
-      "ectMsgResponse\022!\n\013getLogNames\030\003 \001(\0132\014.Ge" +
-      "tLogNames\022\031\n\007getData\030\004 \001(\0132\010.GetData\022#\n\014" +
-      "takeSnapshot\030\005 \001(\0132\r.TakeSnapshot\022\"\n\013rol" +
-      "lSnapsot\030\006 \001(\0132\r.RollSnapshot\022\021\n\terrorCo" +
-      "de\030\017 \001(\005\"?\n\022ConnectMsgResponse\022\031\n\021retros" +
-      "copeVersion\030\001 \002(\005\022\016\n\006nodeID\030\002 \002(\005\"\r\n\013Get" +
-      "LogNames\"9\n\007GetData\022\017\n\007logName\030\001 \002(\t\022\017\n\007" +
-      "hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"=\n\006GetLog\022\017\n",
-      "\007logName\030\001 \002(\t\022\021\n\tstartTime\030\002 \001(\003\022\017\n\007end" +
-      "Time\030\003 \001(\003\"\037\n\014TakeSnapshot\022\017\n\007logName\030\001 " +
-      "\002(\t\"0\n\014RollSnapshot\022\017\n\007logName\030\001 \002(\t\022\017\n\007" +
-      "hlcTime\030\002 \002(\003\"\247\001\n\014RetroNodeMsg\022\013\n\003RID\030\001 " +
-      "\001(\003\022\037\n\nconnectMsg\030\002 \001(\0132\013.ConnectMsg\022\026\n\004" +
-      "data\030\003 \001(\0132\010.DataMap\022\032\n\004logs\030\004 \003(\0132\014.Exi" +
-      "sitngLog\022\022\n\nsnapshotId\030\005 \001(\005\022\016\n\006nodeId\030\016" +
-      " \001(\005\022\021\n\terrorCode\030\017 \001(\005\"\'\n\nConnectMsg\022\031\n" +
-      "\021retroscopeVersion\030\001 \002(\005\"B\n\007DataMap\022\014\n\004n" +
-      "ame\030\001 \002(\t\022\030\n\005items\030\002 \003(\0132\t.DataItem\022\017\n\007h",
-      "lcTime\030\003 \002(\003\"7\n\010DataItem\022\013\n\003key\030\001 \002(\014\022\r\n" +
-      "\005value\030\002 \001(\014\022\017\n\007hlcTime\030\003 \001(\003\"j\n\003Log\022\014\n\004" +
-      "name\030\001 \002(\t\022\027\n\017maxLengthMillis\030\002 \002(\003\022#\n\033l" +
-      "ogCheckpointIntervalMillis\030\003 \002(\003\022\027\n\005item" +
-      "s\030\004 \003(\0132\010.LogItem\"K\n\007LogItem\022\013\n\003key\030\001 \002(" +
-      "\014\022\017\n\007hlcTime\030\002 \002(\003\022\021\n\tvalueFrom\030\003 \001(\014\022\017\n" +
-      "\007valueTo\030\004 \001(\014\"F\n\013ExisitngLog\022\017\n\007logName" +
-      "\030\001 \002(\t\022\020\n\010logStart\030\002 \002(\003\022\024\n\014isDataMapLog" +
-      "\030\003 \002(\010B\031\n\027retroscope.net.protocol"
+      "ectMsgResponse\022%\n\017logNamesRequest\030\003 \001(\0132" +
+      "\014.GetLogNames\022\035\n\013dataRequest\030\004 \001(\0132\010.Get" +
+      "Data\022 \n\017logSliceRequest\030\005 \001(\0132\007.GetLog\022&" +
+      "\n\017snapshotRequest\030\r \001(\0132\r.TakeSnapshot\022)" +
+      "\n\022rollSnapsotRequest\030\016 \001(\0132\r.RollSnapsho" +
+      "t\022\021\n\terrorCode\030\017 \001(\005\"?\n\022ConnectMsgRespon" +
+      "se\022\031\n\021retroscopeVersion\030\001 \002(\005\022\016\n\006nodeID\030" +
+      "\002 \002(\005\"\r\n\013GetLogNames\"9\n\007GetData\022\017\n\007logNa",
+      "me\030\001 \002(\t\022\017\n\007hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"" +
+      "C\n\006GetLog\022\017\n\007logName\030\001 \002(\t\022\024\n\014HLCstartTi" +
+      "me\030\002 \001(\003\022\022\n\nHLCendTime\030\003 \001(\003\"\037\n\014TakeSnap" +
+      "shot\022\017\n\007logName\030\001 \002(\t\"0\n\014RollSnapshot\022\017\n" +
+      "\007logName\030\001 \002(\t\022\017\n\007hlcTime\030\002 \002(\003\"\266\001\n\014Retr" +
+      "oNodeMsg\022\013\n\003RID\030\001 \001(\003\022\037\n\nconnectMsg\030\002 \001(" +
+      "\0132\013.ConnectMsg\022\026\n\004data\030\003 \001(\0132\010.DataMap\022\026" +
+      "\n\004logs\030\004 \003(\0132\010.LogMeta\022\021\n\003log\030\005 \001(\0132\004.Lo" +
+      "g\022\022\n\nsnapshotId\030\n \001(\005\022\016\n\006nodeId\030\016 \001(\005\022\021\n" +
+      "\terrorCode\030\017 \001(\005\"\'\n\nConnectMsg\022\031\n\021retros",
+      "copeVersion\030\001 \002(\005\"B\n\007DataMap\022\014\n\004name\030\001 \002" +
+      "(\t\022\030\n\005items\030\002 \003(\0132\t.DataItem\022\017\n\007hlcTime\030" +
+      "\003 \002(\003\"7\n\010DataItem\022\013\n\003key\030\001 \002(\014\022\r\n\005value\030" +
+      "\002 \001(\014\022\017\n\007hlcTime\030\003 \001(\003\"j\n\003Log\022\014\n\004name\030\001 " +
+      "\002(\t\022\027\n\017maxLengthMillis\030\002 \002(\003\022#\n\033logCheck" +
+      "pointIntervalMillis\030\003 \002(\003\022\027\n\005items\030\004 \003(\013" +
+      "2\010.LogItem\"K\n\007LogItem\022\013\n\003key\030\001 \002(\014\022\017\n\007hl" +
+      "cTime\030\002 \002(\003\022\021\n\tvalueFrom\030\003 \001(\014\022\017\n\007valueT" +
+      "o\030\004 \001(\014\"B\n\007LogMeta\022\017\n\007logName\030\001 \002(\t\022\020\n\010l" +
+      "ogStart\030\002 \002(\003\022\024\n\014isDataMapLog\030\003 \002(\010B\031\n\027r",
+      "etroscope.net.protocol"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -10637,7 +11041,7 @@ public final class Protocol {
     internal_static_RetroServerMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RetroServerMsg_descriptor,
-        new java.lang.String[] { "RID", "ConnectResponse", "GetLogNames", "GetData", "TakeSnapshot", "RollSnapsot", "ErrorCode", });
+        new java.lang.String[] { "RID", "ConnectResponse", "LogNamesRequest", "DataRequest", "LogSliceRequest", "SnapshotRequest", "RollSnapsotRequest", "ErrorCode", });
     internal_static_ConnectMsgResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ConnectMsgResponse_fieldAccessorTable = new
@@ -10661,7 +11065,7 @@ public final class Protocol {
     internal_static_GetLog_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLog_descriptor,
-        new java.lang.String[] { "LogName", "StartTime", "EndTime", });
+        new java.lang.String[] { "LogName", "HLCstartTime", "HLCendTime", });
     internal_static_TakeSnapshot_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_TakeSnapshot_fieldAccessorTable = new
@@ -10679,7 +11083,7 @@ public final class Protocol {
     internal_static_RetroNodeMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RetroNodeMsg_descriptor,
-        new java.lang.String[] { "RID", "ConnectMsg", "Data", "Logs", "SnapshotId", "NodeId", "ErrorCode", });
+        new java.lang.String[] { "RID", "ConnectMsg", "Data", "Logs", "Log", "SnapshotId", "NodeId", "ErrorCode", });
     internal_static_ConnectMsg_descriptor =
       getDescriptor().getMessageTypes().get(8);
     internal_static_ConnectMsg_fieldAccessorTable = new
@@ -10710,11 +11114,11 @@ public final class Protocol {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_LogItem_descriptor,
         new java.lang.String[] { "Key", "HlcTime", "ValueFrom", "ValueTo", });
-    internal_static_ExisitngLog_descriptor =
+    internal_static_LogMeta_descriptor =
       getDescriptor().getMessageTypes().get(13);
-    internal_static_ExisitngLog_fieldAccessorTable = new
+    internal_static_LogMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-        internal_static_ExisitngLog_descriptor,
+        internal_static_LogMeta_descriptor,
         new java.lang.String[] { "LogName", "LogStart", "IsDataMapLog", });
   }
 

@@ -4,13 +4,12 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 import retroscope.Retroscope;
 import retroscope.hlc.Timestamp;
-import retroscope.log.LogEntry;
+import retroscope.log.Log;
 import retroscope.log.RetroMap;
 import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
@@ -28,15 +27,15 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
     private int maxKnownId = 0;
     private HashMap<Integer, RemoteNode<K, V>> remoteNodes;
 
-    private HashMap<Long, CallbackWrapper<K, V>> pullCallbacks;
-    private HashMap<Long, CallbackAggregator> pullCallbacksAggregators;
+    private HashMap<Long, CallbackWrapper<K, V>> callbacks;
+    private HashMap<Long, CallbackAggregator> callbacksAggregators;
 
     private ReentrantLock lock;
 
     public Ensemble() {
         remoteNodes = new HashMap<Integer, RemoteNode<K, V>>();
-        pullCallbacks = new HashMap<Long, CallbackWrapper<K, V>>();
-        pullCallbacksAggregators = new HashMap<Long, CallbackAggregator>();
+        callbacks = new HashMap<Long, CallbackWrapper<K, V>>();
+        callbacksAggregators = new HashMap<Long, CallbackAggregator>();
         lock = new ReentrantLock();
     }
 
@@ -74,17 +73,23 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
     private void writeAndFlush(
             Protocol.RetroServerMsg msg,
             long rid,
-            Callbacks.GenericPullCallback callback
+            Callbacks.GenericCallback callback
     ) {
 
         lock.lock();
         for(Map.Entry<Integer, RemoteNode<K,V>> entry : remoteNodes.entrySet()) {
             entry.getValue().getCtx().writeAndFlush(msg);
         }
-        pullCallbacks.put(rid, new CallbackWrapper<K, V>(remoteNodes.size(), callback));
-        if (callback instanceof Callbacks.AggregatePullCallback) {
-            pullCallbacksAggregators.put(rid, new CallbackAggregator(remoteNodes.size()));
+        callbacks.put(rid, new CallbackWrapper<K, V>(remoteNodes.size(), callback));
+        // the if statement is redundant at this time, as currently all callbacks need CallbackAggregators
+        if (callback instanceof Callbacks.PullDataCallback) {
+            callbacksAggregators.put(rid, new CallbackDataAggregator(remoteNodes.size()));
         }
+
+        if (callback instanceof Callbacks.PullLogSliceCallback) {
+            callbacksAggregators.put(rid, new CallbackLogAggregator(remoteNodes.size()));
+        }
+
         lock.unlock();
     }
 
@@ -94,33 +99,33 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
      *
      --------------------------------------------------------*/
 
-    public long pullData(String logName, Callbacks.GenericPullCallback<K, V> callback) {
+    public long pullData(String logName, Callbacks.PullDataCallback<K, V> callback) {
         long rid = getNextRID();
         Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
                 .setRID(rid)
-                .setGetData(Protocol.GetData.newBuilder().setLogName(logName))
+                .setDataRequest(Protocol.GetData.newBuilder().setLogName(logName))
                 .build();
 
         writeAndFlush(msg, rid, callback);
         return rid;
     }
 
-    public long pullData(String logName, long time, Callbacks.GenericPullCallback<K, V> callback) {
+    public long pullData(String logName, long time, Callbacks.PullDataCallback<K, V> callback) {
         long rid = getNextRID();
         Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
                 .setRID(rid)
-                .setGetData(Protocol.GetData.newBuilder().setLogName(logName).setHlcTime(time))
+                .setDataRequest(Protocol.GetData.newBuilder().setLogName(logName).setHlcTime(time))
                 .build();
 
         writeAndFlush(msg, rid, callback);
         return rid;
     }
 
-    public long pullData(String logName, String key, Callbacks.GenericPullCallback<K, V> callback) {
+    public long pullData(String logName, String key, Callbacks.PullDataCallback<K, V> callback) {
         long rid = getNextRID();
         Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
                 .setRID(rid)
-                .setGetData(Protocol.GetData.newBuilder().setLogName(logName)
+                .setDataRequest(Protocol.GetData.newBuilder().setLogName(logName)
                         .addKeys(ProtocolHelpers.serializableToByteString(key)))
                 .build();
 
@@ -128,11 +133,11 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         return rid;
     }
 
-    public long pullData(String logName, String key, long time, Callbacks.GenericPullCallback<K, V> callback) {
+    public long pullData(String logName, String key, long time, Callbacks.PullDataCallback<K, V> callback) {
         long rid = getNextRID();
         Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
                 .setRID(rid)
-                .setGetData(Protocol.GetData.newBuilder().setLogName(logName).setHlcTime(time)
+                .setDataRequest(Protocol.GetData.newBuilder().setLogName(logName).setHlcTime(time)
                         .addKeys(ProtocolHelpers.serializableToByteString(key)))
                 .build();
 
@@ -140,7 +145,37 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         return rid;
     }
 
+    /*------------------------------------------------------
+     *
+     * Methods to request Log Slice form the nodes
+     *
+     ----------------------------------------------------- */
+    public long pullLogSlice(
+            String logName,
+            Timestamp startTime,
+            Timestamp endTime,
+            Callbacks.PullLogSliceCallback<K, V> callback
+    ) {
+        return pullLogSlice(logName, startTime.toLong(), endTime.toLong(), callback);
+    }
 
+    public long pullLogSlice(
+            String logName,
+            long startTime,
+            long endTime,
+            Callbacks.PullLogSliceCallback<K, V> callback
+    ) {
+        long rid = getNextRID();
+        Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
+                .setRID(rid)
+                .setLogSliceRequest(Protocol.GetLog.newBuilder()
+                        .setLogName(logName)
+                        .setHLCstartTime(startTime)
+                        .setHLCendTime(endTime)
+                ).build();
+        writeAndFlush(msg, rid, callback);
+        return rid;
+    }
 
 
 
@@ -165,19 +200,19 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         if (workingNode == null) {
             throw new RetroscopeServerEnsembleException("Node " + nodeId + " is not in the ensemble");
         }
-        CallbackWrapper<K, V> cb = pullCallbacks.get(rid);
+        CallbackWrapper<K, V> cb = callbacks.get(rid);
         //System.out.println("have callback: " + (cb != null));
         if (cb != null) {
             cb.decrementLeftToReceive();
-            cb.getCallback().pullDataComplete(rid, nodeId, logName, data, errorcode);
-            if (cb.getCallback() instanceof Callbacks.AggregatePullCallback) {
-                CallbackAggregator ca = pullCallbacksAggregators.get(rid);
+            if (cb.getCallback() instanceof Callbacks.PullDataCallback) {
+                ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullDataComplete(rid, nodeId, logName, data, errorcode);
+                CallbackDataAggregator ca = (CallbackDataAggregator) callbacksAggregators.get(rid);
                 if (ca != null) {
                     ca.addData(nodeId, errorcode, data);
                 }
                 if (cb.getLeftToReceive() == 0) {
                     //aggregate callback final call
-                    ((Callbacks.AggregatePullCallback) cb.getCallback()).pullAllDataComplete(
+                    ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullAllDataComplete(
                             rid,
                             ca.getNodeIds(),
                             logName,
@@ -185,9 +220,9 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                             ca.getErrors()
                     );
                 }
-            }
-            if (cb.getLeftToReceive() == 0) {
-                pullCallbacks.remove(rid); // clean, we do not need the callback anymore
+                if (cb.getLeftToReceive() == 0) {
+                    callbacks.remove(rid); // clean, we do not need the callback anymore
+                }
             }
         }
         if (HLCtime > 0) {
@@ -195,15 +230,69 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         }
     }
 
+    public void handleLogReceive(
+            int nodeId,
+            long rid,
+            Log<K, V> log,
+            int errorcode
+    ) throws RetroscopeServerEnsembleException {
+        RemoteNode<K, V> workingNode = remoteNodes.get(nodeId);
+        if (workingNode == null) {
+            throw new RetroscopeServerEnsembleException("Node " + nodeId + " is not in the ensemble");
+        }
+        CallbackWrapper<K, V> cb = callbacks.get(rid);
+        //System.out.println("have callback: " + (cb != null));
+        if (cb != null) {
+            cb.decrementLeftToReceive();
+            if (cb.getCallback() instanceof Callbacks.PullLogSliceCallback) {
+                ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback())
+                        .pullDataComplete(rid, nodeId, log, errorcode);
+                CallbackLogAggregator ca = (CallbackLogAggregator) callbacksAggregators.get(rid);
+                if (ca != null) {
+                    ca.addLog(nodeId, errorcode, log);
+                }
+                if (cb.getLeftToReceive() == 0) {
+                    //aggregate callback final call
+                    ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback()).pullAllDataComplete(
+                            rid,
+                            ca.getNodeIds(),
+                            ca.getLogs(),
+                            ca.getErrors()
+                    );
+                }
+
+                if (cb.getLeftToReceive() == 0) {
+                    callbacks.remove(rid); // clean, we do not need the callback anymore
+                }
+            }
+        }
+    }
+
     class CallbackAggregator {
-        private int nodeIds[];
-        private RetroMap<K, V> dataMaps[];
-        private int errors[];
-        int lastPos = 0;
-        public CallbackAggregator(int numNodes){
+        protected int nodeIds[];
+        protected int errors[];
+        protected int lastPos = 0;
+
+        public CallbackAggregator(int numNodes) {
             nodeIds = new int[numNodes];
-            dataMaps = new RetroMap[numNodes];
             errors = new int[numNodes];
+        }
+
+        public int[] getNodeIds() {
+            return nodeIds;
+        }
+
+        public int[] getErrors() {
+            return errors;
+        }
+    }
+
+    class CallbackDataAggregator extends CallbackAggregator {
+        private RetroMap<K, V> dataMaps[];
+
+        public CallbackDataAggregator(int numNodes){
+            super(numNodes);
+            dataMaps = new RetroMap[numNodes];
         }
 
         public void addData(int NodeId, int errorCode, RetroMap<K, V> datamap) {
@@ -213,16 +302,28 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
             lastPos++;
         }
 
-        public int[] getNodeIds() {
-            return nodeIds;
-        }
-
         public RetroMap<K, V>[] getDataMaps() {
             return dataMaps;
         }
 
-        public int[] getErrors() {
-            return errors;
+    }
+
+    class CallbackLogAggregator extends CallbackAggregator {
+        private Log<K, V> logs[];
+
+        public CallbackLogAggregator(int numNodes){
+            super(numNodes);
+            logs = new Log[numNodes];
+        }
+
+        public void addLog(int NodeId, int errorCode, Log<K, V> log) {
+            nodeIds[lastPos] = NodeId;
+            logs[lastPos] = log;
+            errors[lastPos] = errorCode;
+            lastPos++;
+        }
+        public Log<K, V>[] getLogs() {
+            return logs;
         }
     }
 

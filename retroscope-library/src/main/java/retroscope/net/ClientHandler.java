@@ -5,6 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import retroscope.Retroscope;
 import retroscope.RetroscopeException;
+import retroscope.log.Log;
 import retroscope.log.LogOutTimeBoundsException;
 import retroscope.log.RetroMap;
 import retroscope.net.protocol.Protocol;
@@ -19,12 +20,12 @@ import java.io.*;
 class ClientHandler<K extends Serializable, V extends Serializable> extends ChannelInboundHandlerAdapter {
     // private final ByteBuf firstMessage;
 
-    private Client client;
+    private Client<K, V> client;
 
     /**
      * Creates a client-side handler.
      */
-    ClientHandler(Client client) {
+    ClientHandler(Client<K, V> client) {
         this.client = client;
     }
 
@@ -41,10 +42,19 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
             client.setId(protocolServerMessage.getConnectResponse().getNodeID());
         }
 
-        if (protocolServerMessage.hasGetData() && protocolServerMessage.hasRID()) {
+        if (protocolServerMessage.hasDataRequest() && protocolServerMessage.hasRID()) {
             handleGetDataMessage(
                     ctx,
-                    protocolServerMessage.getGetData(),
+                    protocolServerMessage.getDataRequest(),
+                    protocolServerMessage.getRID()
+            );
+        }
+
+        if (protocolServerMessage.hasLogSliceRequest() && protocolServerMessage.hasRID()) {
+            //handle obtaining a log slice
+            handleGetLogSlice(
+                    ctx,
+                    protocolServerMessage.getLogSliceRequest(),
                     protocolServerMessage.getRID()
             );
         }
@@ -124,6 +134,22 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
             }
         }
         ctx.writeAndFlush(dataMsgBuilder.build());
+    }
+
+    public void handleGetLogSlice(ChannelHandlerContext ctx, Protocol.GetLog msg, long rid) {
+        Retroscope<K, V> retroscope = client.getRetroscope();
+        Protocol.RetroNodeMsg.Builder logMsgBuilder = Protocol.RetroNodeMsg.newBuilder();
+        logMsgBuilder.setRID(rid); // return rid back
+        logMsgBuilder.setNodeId(client.getId());
+        try {
+            Log<K, V> slice = retroscope.getLogSlice(msg.getLogName(), msg.getHLCstartTime(), msg.getHLCendTime());
+            logMsgBuilder.setLog(slice.toProtocol());
+        } catch (RetroscopeException re) {
+            logMsgBuilder.setErrorCode(1);
+        } catch (LogOutTimeBoundsException lotbe) {
+            logMsgBuilder.setErrorCode(2);
+        }
+        ctx.writeAndFlush(logMsgBuilder.build());
     }
 
     @Override

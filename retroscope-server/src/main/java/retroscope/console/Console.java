@@ -1,12 +1,11 @@
 package retroscope.console;
 
-import retroscope.log.DataEntry;
+import retroscope.hlc.Timestamp;
+import retroscope.log.Log;
 import retroscope.log.RetroMap;
 import retroscope.net.server.Callbacks;
 import retroscope.nodeensemble.Ensemble;
 
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -20,8 +19,8 @@ public class Console implements Runnable {
         this.ensemble = ensemble;
     }
 
-    private Callbacks.AggregatePullCallback<String, String> callback
-            = new Callbacks.AggregatePullCallback<String, String>() {
+    private Callbacks.PullDataCallback<String, String> callback
+            = new Callbacks.PullDataCallback<String, String>() {
 
         public void pullDataComplete(long rid, int nodeId, String logName, RetroMap data, int errorCode) {
             System.out.println(rid + " @ " + nodeId + " for log: " + logName);
@@ -37,6 +36,23 @@ public class Console implements Runnable {
         }
     };
 
+    private Callbacks.PullLogSliceCallback<String, String> logCallback
+            = new Callbacks.PullLogSliceCallback<String, String>() {
+
+        public void pullDataComplete(long rid, int nodeId, Log<String, String> log, int errorCode) {
+            System.out.println(rid + " @ " + nodeId + " log: " + log.getName());
+            System.out.println(log);
+        }
+
+        public void pullAllDataComplete(long rid, int[] nodeIds, Log<String, String>[] logs, int[] errorCode) {
+            for (int i = 0; i < nodeIds.length; i++) {
+                System.out.println("All Logs:");
+                System.out.println(rid + " @ " + nodeIds[i] + " log: " + logs[i].getName());
+                System.out.println(logs[i]);
+            }
+        }
+    };
+
     public void run() {
         Scanner in = new Scanner(System.in);
         while(true) {
@@ -46,7 +62,7 @@ public class Console implements Runnable {
                 System.exit(0);
             }
             if (input.equals("gettime")) {
-                System.out.println(System.currentTimeMillis());
+                System.out.println(new Timestamp(System.currentTimeMillis(), (short)0).toLong());
             }
             String[] pieces = input.split(" ");
 
@@ -73,6 +89,14 @@ public class Console implements Runnable {
                     }
                 } else {
                     System.err.println("getitem needs more stuff");
+                }
+            }
+
+            if (pieces[0].equals("getslice")) {
+                if (pieces.length == 4) {
+                    long timeStart = Long.parseLong(pieces[2]);
+                    long timeEnd = Long.parseLong(pieces[3]);
+                    ensemble.pullLogSlice(pieces[1], timeStart, timeEnd, logCallback);
                 }
             }
         }
