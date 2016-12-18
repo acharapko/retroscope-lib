@@ -2,6 +2,8 @@ package retroscope.log;
 
 import retroscope.hlc.Timestamp;
 import org.junit.Test;
+import retroscope.net.protocol.Protocol;
+
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -30,7 +32,7 @@ public class LogTest {
 
             t = t.add(2 + rand.nextInt(7), (short)0);
             DataEntry<String> d1
-                    = new DataEntry<String>("val1", t);
+                    = new DataEntry<String>("val" + i, t);
 
             LogEntry<String, String> le = new LogEntry<String, String>("test", dp, d1);
             if (i == 0) {
@@ -43,6 +45,24 @@ public class LogTest {
             dp = d1;
         }
         return log;
+    }
+
+    @Test
+    public void testProtocolConversion() throws Exception {
+        Protocol.Log protoLog = log.toProtocol();
+        Log<String, String> recreatedlog = new Log<String, String>(protoLog);
+        assertTrue(log.getLength() == recreatedlog.getLength());
+
+        LogEntry<String, String> origLogEntry = log.getHead();
+        LogEntry<String, String> recreatedLogEntry = recreatedlog.getHead();
+        while (origLogEntry != null) {
+            assertTrue(origLogEntry.getTime().compareTo(recreatedLogEntry.getTime()) == 0);
+            assertTrue(origLogEntry.getKey().equals(recreatedLogEntry.getKey()));
+            assertTrue(origLogEntry.getFromV().getValue().equals(recreatedLogEntry.getFromV().getValue()));
+            assertTrue(origLogEntry.getToV().getValue().equals(recreatedLogEntry.getToV().getValue()));
+            origLogEntry = origLogEntry.getNext();
+            recreatedLogEntry = recreatedLogEntry.getNext();
+        }
     }
 
     @Test

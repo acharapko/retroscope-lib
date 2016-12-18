@@ -65,6 +65,7 @@ public class Log<K extends Serializable, V extends Serializable> {
         //ArrayList<LogEntry<K, V>> logSlice = new ArrayList<LogEntry<K, V>>(protocolLog.getItemsCount());
         for (int i = 0; i < protocolLog.getItemsCount(); i++) {
             Protocol.LogItem item = protocolLog.getItems(i);
+            //System.out.println(item);
             V valTo = null;
             V valFrom = null;
             if (item.hasValueFrom()) {
@@ -72,9 +73,11 @@ public class Log<K extends Serializable, V extends Serializable> {
             }
             if (item.hasValueTo()) {
                 valTo = ProtocolHelpers.byteStringToSerializable(item.getValueTo());
+            } else {
+                System.out.println("poop");
             }
             K key = ProtocolHelpers.byteStringToSerializable(item.getKey());
-            LogEntry<K, V> entry = new LogEntry<K, V>(
+            logEntry = new LogEntry<K, V>(
                     key,
                     new DataEntry<V>(valFrom),
                     new DataEntry<V>(valTo, new Timestamp(item.getHlcTime()))
@@ -84,8 +87,7 @@ public class Log<K extends Serializable, V extends Serializable> {
                 logEntry.setPrev(prevLogEntry);
                 prevLogEntry.setNext(logEntry);
             } else {
-                head = entry;
-                logEntry = entry;
+                head = logEntry;
             }
             prevLogEntry = logEntry;
             length++;
@@ -504,7 +506,7 @@ public class Log<K extends Serializable, V extends Serializable> {
                 logItemBuilder.setValueFrom(ProtocolHelpers.serializableToByteString(logEntry.getFromV().getValue()));
             }
             if (logEntry.getToV().getValue() != null) {
-                logItemBuilder.setValueFrom(ProtocolHelpers.serializableToByteString(logEntry.getToV().getValue()));
+                logItemBuilder.setValueTo(ProtocolHelpers.serializableToByteString(logEntry.getToV().getValue()));
             }
             protocolMsgBuilder.addItems(logItemBuilder);
 
