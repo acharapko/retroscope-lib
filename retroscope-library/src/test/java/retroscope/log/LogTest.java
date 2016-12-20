@@ -4,6 +4,8 @@ import retroscope.hlc.Timestamp;
 import org.junit.Test;
 import retroscope.net.protocol.Protocol;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 import static org.junit.Assert.*;
@@ -13,6 +15,8 @@ import static org.junit.Assert.*;
  * Tests for the basic Log class
  */
 public class LogTest {
+
+
     Log<String, String> log;
     int length = 10;
     LogEntry<String, String> head, tail;
@@ -20,10 +24,10 @@ public class LogTest {
     @org.junit.Before
     public void setUp() throws Exception {
         log = new Log<String, String>(length * 10, "test123");
-        log = populateTheLog(log);
+        log = populateTheLog(log, length, length);
     }
 
-    private Log<String, String> populateTheLog(Log<String, String> log) throws Exception{
+    private Log<String, String> populateTheLog(Log<String, String> log, int length, int mod) throws Exception{
         Timestamp t = new Timestamp();
         Random rand = new Random(System.nanoTime());
         DataEntry<String> dp
@@ -32,7 +36,7 @@ public class LogTest {
 
             t = t.add(2 + rand.nextInt(7), (short)0);
             DataEntry<String> d1
-                    = new DataEntry<String>("val" + i, t);
+                    = new DataEntry<String>("val" + i % mod, t);
 
             LogEntry<String, String> le = new LogEntry<String, String>("test", dp, d1);
             if (i == 0) {
@@ -45,6 +49,77 @@ public class LogTest {
             dp = d1;
         }
         return log;
+    }
+
+    @Test
+    public void findEntriesByKey() throws Exception {
+        int mod = 20;
+        length = 100;
+        log = new Log<String, String>(length * 20, "test123");
+        populateTheLog(log, length, mod);
+        Timestamp t = log.getTail().getTime();
+        Random rand = new Random(System.nanoTime());
+        DataEntry<String> dp = log.getTail().getToV();
+
+        for (int i = 0; i < mod; i++) {
+
+            t = t.add(2 + rand.nextInt(7), (short)0);
+            DataEntry<String> d1
+                    = new DataEntry<String>("val" + i % mod, t);
+
+            LogEntry<String, String> le = new LogEntry<String, String>("test1", dp, d1);
+
+            log.append(le);
+            dp = d1;
+        }
+
+        for(int i = 0; i < mod; i++) {
+            String v = "val" + i;
+            ArrayList<LogEntry<String, String>> results = log.findEntriesByKey("test", v, new Comparator<String>() {
+                public int compare(String o1, String o2) {
+                    if (o1.equals(o2)) {
+                        return 0;
+                    }
+                    return -1;
+                }
+            }, 0);
+
+            assertTrue(results.size() == length / mod);
+            for (LogEntry<String, String> le : results) {
+                assertTrue(le.getKey().equals("test"));
+                assertTrue(le.getToV().getValue().equals(v));
+            }
+
+            results = log.findEntriesByKey("test", v, new Comparator<String>() {
+                public int compare(String o1, String o2) {
+                    if (o1.equals(o2)) {
+                        return 0;
+                    }
+                    return -1;
+                }
+            }, -1); // not equal
+
+            assertTrue(results.size() == length - (length / mod));
+            for (LogEntry<String, String> le : results) {
+                assertTrue(le.getKey().equals("test"));
+                assertTrue(!le.getToV().getValue().equals(v));
+            }
+
+            results = log.findEntriesByKey("test1", v, new Comparator<String>() {
+                public int compare(String o1, String o2) {
+                    if (o1.equals(o2)) {
+                        return 0;
+                    }
+                    return -1;
+                }
+            }, 0);
+
+            assertTrue(results.size() == 1);
+            for (LogEntry<String, String> le : results) {
+                assertTrue(le.getKey().equals("test1"));
+                assertTrue(le.getToV().getValue().equals(v));
+            }
+        }
     }
 
     @Test
@@ -137,7 +212,7 @@ public class LogTest {
         //populate the retroscope.log first
         length = 100;
         log = new Log<String, String>(length * 10, "test123", 50);
-        log = populateTheLog(log);
+        log = populateTheLog(log, length, length);
         for (int checkNum = 0; checkNum < length; checkNum++) {
             findCheck = log.getHead();
             for (int i = 0; i < checkNum; i++) {

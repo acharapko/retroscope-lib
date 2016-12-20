@@ -4,8 +4,14 @@ import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
+import retroscope.util.ByteArray;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -200,6 +206,29 @@ public class Log<K extends Serializable, V extends Serializable> {
             return rollForwards(time, startLE);
         }
 
+    }
+
+
+    /**
+     * This is a linear search for the log. It scans the entire log for matches to a specified Key
+     * Indexed log may come in the future.
+     * @param key K key of the item to search for
+     * @param val V condition Val
+     * @param comparator Comparator used to compare values.
+     * @param acceptedVal int comparator value used for accepting LogEntry
+     * @return
+     */
+    public ArrayList<LogEntry<K, V>> findEntriesByKey(K key, V val, Comparator<V> comparator, int acceptedVal) {
+        ArrayList<LogEntry<K, V>> entries = new ArrayList<LogEntry<K, V>>();
+
+        LogEntry<K, V> logEntry = head;
+        while (logEntry != null) {
+            if (key.equals(logEntry.getKey()) && comparator.compare(logEntry.getToV().getValue(), val) == acceptedVal) {
+                entries.add(logEntry);
+            }
+            logEntry = logEntry.getNext();
+        }
+        return entries;
     }
 
     private LogEntry<K, V> rollForwards(Timestamp find, LogEntry<K, V> startingLE)
@@ -514,4 +543,21 @@ public class Log<K extends Serializable, V extends Serializable> {
         }
         return protocolMsgBuilder.build();
     }
+
+    /*public ByteArray toByteArray() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        LogEntry<K, V> logEntry = head;
+        LogEntry<K, V> prevLogEntry = null;
+
+        while (logEntry != null) {
+
+
+
+            prevLogEntry = logEntry;
+            logEntry = logEntry.getNext();
+        }
+
+        new ByteArray(out.toByteArray());
+    }*/
 }
