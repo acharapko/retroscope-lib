@@ -1,0 +1,169 @@
+%{
+package retroscope.rql;
+import retroscope.rql.syntaxtree.*;
+import java.util.HashMap;
+
+%}
+// D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql\src\main\java\retroscope\rql\rql.jacc -t
+%class rqlParser
+%interface mTokens
+%next              	nextToken()
+%get               	lexer.token
+%semantic Object : 	lexer.semanticValue
+
+%token <String>  IDENTIFIER
+%token <Integer> INTEGER_LITERAL 
+%token <Float>   FLOAT_LITERAL
+%token <String>	 STRING_LITERAL
+%token <String> '{' '(' '[' ']' ')' '}' ';' ',' '='  '<' '+' '-' '*' '.' '!'
+%token <String> EXPLAIN SELECT
+%token <String> COUNT SUM
+%token <String> FROM WHEN AT ON TO
+%token <String> NODES ALL_NODES TIME
+%token <String> TRUE FALSE AND OR NEQ EQ GEQ LEQ
+
+/* Precedence and associativity of operators */
+%right '='
+%left '!'
+%left AND
+%left OR
+%left EQ NEQ
+%left '<' '>' LEQ GEQ
+%left '+' '-'
+%left '*' '/' '%'
+
+%type <Expression>  		Expression AtTimeExtended
+%type <IdentifierList>  	IdentifierList
+%type <When>              	When
+%type <AtNodes>             AtNodes
+%type <OnTime>             	OnTime
+%type <Param>             	Param
+%type <ParamList>           ParamList
+%type <Aggregator>          Aggregator
+%type <Query>               Query
+%type <QueryEnd>            QueryEnd
+
+
+/* start symbol */
+%start Statements
+
+%%
+
+Statements 			: 	Statement Statements  									        {}
+					|                                                                   {}
+					;
+
+Statement           :   Query ';'                                                       {$1.execute();}
+                    |   EXPLAIN Query ';'                                               {$2.explain();}
+                    |   Expression ';'                                                  {$$ = new EvalExpression($1);}
+                    ;
+
+Query               :   SELECT ParamList FROM IdentifierList QueryEnd                   {$$ = new Query($2, $4, $5, currentEnv);}
+                    ;
+
+QueryEnd            :   When AtNodes OnTime                                             {$$ = new QueryEnd($1, $2, $3);}
+                    ;
+
+When                :   WHEN Expression                                                 {$$ = new When($2);}
+                    |                                                                   {$$ = null;}
+                    ;
+
+
+AtNodes             :   AT NODES IdentifierList                                         {$$ = new AtNodes($3);}
+                    |   AT ALL_NODES                                                    {$$ = new AtNodes();}
+                    |                                                                   {$$ = null;}
+                    ;
+
+OnTime              :   ON TIME Expression AtTimeExtended                               {$$ = new OnTime($3, $4);}
+                    |                                                                   {$$ = null;}
+                    ;
+
+AtTimeExtended      :   TO Expression                                                   {$$ = $2;}
+                    |                                                                   {$$ = null;}
+                    ;
+
+ParamList           :   Param ',' ParamList                                             {$$ = new ParamList($1, $3);}
+                    |   Param                                                           {$$ = new ParamList($1);}
+                    ;
+
+Param               :   IDENTIFIER                                                      {$$ = new Param($1);}
+                    |   IDENTIFIER '.' IDENTIFIER                                       {$$ = new Param($1, $3);}
+                    |   Aggregator '(' IDENTIFIER ')'                                   {$$ = new Param($3);}
+                    |   Aggregator '(' IDENTIFIER '.' IDENTIFIER ')'                    {$$ = new Param($3, $5);}
+                    ;
+
+Aggregator          :   COUNT                                                           {$$ = new Aggregator(AggregatorType.COUNT);}
+                    |   SUM                                                             {$$ = new Aggregator(AggregatorType.SUM);}
+                    ;
+
+IdentifierList      :   IDENTIFIER ',' IdentifierList                                   {$$ = new IdentifierList($1, $3);}
+                    |   IDENTIFIER                                                      {$$ = new IdentifierList($1);}
+                    ;
+
+Expression			:	'-' Expression											        {$$ = new Minus($2);}
+					|	Expression '+' Expression									    {$$ = new Plus($1, $3);}
+					|	Expression '-' Expression										{$$ = new Minus($1, $3);}
+					|	Expression '/' Expression										{$$ = new Divide($1, $3);}
+					| 	Expression '*' Expression										{$$ = new Multiply($1, $3);}
+					| 	Expression '%' Expression										{$$ = new Mod($1, $3);}
+					|	'(' Expression ')'											    {$$ = $2;}
+					| 	Expression '=' Expression										{$$ = new EQExpression($1, $3);}
+					|	Expression EQ Expression										{$$ = new EQExpression($1, $3);}
+					|	Expression NEQ Expression										{$$ = new NEQExpression($1, $3);}
+					|	Expression LEQ Expression										{$$ = new LEQExpression($1, $3);}
+					|	Expression GEQ Expression										{$$ = new GEQExpression($1, $3);}
+					|	Expression '<' Expression										{$$ = new LessThanExpression($1, $3);}
+					|	Expression '>' Expression										{$$ = new GreaterThanExpression($1, $3);}
+					| 	'!' Expression											        {$$ = new NotExpression($2);}
+					|	Expression AND Expression										{$$ = new And($1, $3);}
+					|	Expression OR Expression										{$$ = new Or($1, $3);}
+					|	IDENTIFIER											            {$$ = new Identifier($1, currentEnv);}
+					|	IDENTIFIER '.' IDENTIFIER							            {$$ = new Identifier($1, $3, currentEnv);}
+					| 	INTEGER_LITERAL											        {$$ = new IntegerLiteral($1);}
+					|	FLOAT_LITERAL											        {$$ = new FloatLiteral($1);}
+					|	STRING_LITERAL											        {$$ = new StringLiteral($1);}
+					|	TRUE											                {$$ = new IntegerLiteral(1);}
+					|	FALSE											                {$$ = new IntegerLiteral(0);}
+					;
+
+%%
+
+
+/* code in the parser class*/
+
+private Scanner lexer;
+private RQLEnvironment currentEnv;
+
+/* constructor registering a lexer for lang */
+public rqlParser(Scanner lexer){
+    this.lexer=lexer;
+}
+
+/* implementation of the nextToken() using lexer.yylex() that throws an
+exception 
+*/
+
+private int nextToken(){
+      try{ 
+          return lexer.yylex();
+       }catch(java.io.IOException e){System.out.println("IO exception from lexer!");e.printStackTrace();}
+       return 0;
+}	
+
+
+private void yyerror(String msg) { 
+    System.out.println(
+      "ERROR "+ msg + "\n" +
+      " at line   " +(lexer.line() + 1) + "\n" + 
+      " at column " +(lexer.column() + 1) + "\n" + 
+      " with token <<" + lexer.semanticValue + ">>"); }
+
+
+public RQLEnvironment getEnvironment() {
+    return currentEnv;
+}
+
+public void setEnvironment(RQLEnvironment currentEnv) {
+    this.currentEnv = currentEnv;
+}
+
