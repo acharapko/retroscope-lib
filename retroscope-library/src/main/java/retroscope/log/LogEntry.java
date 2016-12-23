@@ -117,4 +117,14 @@ public class LogEntry<K,V> implements Cloneable{
         return clone;
     }
 
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(getKey());
+        sb.append(": ");
+        sb.append(fromV);
+        sb.append(" -> ");
+        sb.append(toV);
+        return sb.toString();
+    }
+
 }

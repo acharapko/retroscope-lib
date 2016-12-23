@@ -491,7 +491,7 @@ public class LogTest {
         }
 
         LogEntry<String, String> logEntry = log.getHead();
-        for (int i = 0; i < len - 12 ; i++) {
+        for (int i = 0; i < len - 10 ; i++) {
             LogEntry<String, String> sliceEnd = logEntry;
             for (int j = 0; j < 10 ; j++) {
                 sliceEnd = sliceEnd.getNext();
@@ -512,6 +512,67 @@ public class LogTest {
             assertTrue(slice.getLogCheckpointIntervalMs() == log.getLogCheckpointIntervalMs());
 
             logEntry = logEntry.getNext();
+        }
+
+
+    }
+
+    @Test
+    public void logSlicePartialKeysAsArray() throws Exception {
+        Log<String, String> log = new Log<String, String>(1000, "test");
+        Random rand = new Random(System.nanoTime());
+        Timestamp t = new Timestamp();
+        int len = 100;
+        for (int i = 0; i < len; i++) {
+            t = t.add(2 + rand.nextInt(2), (short)0);
+            DataEntry<String> dp
+                    = new DataEntry<String>("val" + (i - 1), t);
+
+            DataEntry<String> d1
+                    = new DataEntry<String>("val " + i, t);
+
+            log.append(new LogEntry<String, String>("key" + (i % 10), dp, d1));
+        }
+
+
+
+        for (int k = 0; k < 9; k++) {
+            LogEntry<String, String> logEntry = log.getHead();
+            for (int i = 0; i < len - 19; i++) {
+                LogEntry<String, String> sliceEnd = logEntry;
+                for (int j = 0; j < 19; j++) {
+                    sliceEnd = sliceEnd.getNext();
+                }
+                Timestamp sliceStartTime = logEntry.getTime();
+                int r = rand.nextInt(1);
+                sliceStartTime = sliceStartTime.add(r, (short) 0);
+
+                Timestamp sliceEndTime = sliceEnd.getTime();
+                r = rand.nextInt(1);
+                sliceEndTime = sliceEndTime.add(r, (short) 0);
+
+                ArrayList<String> keys = new ArrayList<String>();
+                keys.add("key"+k);
+                keys.add("key"+(k+1));
+
+                Log<String, String> slice = log.logSlice(keys, sliceStartTime, sliceEndTime);
+
+                System.out.println(slice);
+
+                LogEntry<String, String> le = slice.getHead();
+                int l = 0;
+                while (le != null) {
+                    //System.out.println("   " + le);
+                    assertTrue(keys.contains(le.getKey()));
+
+                    le = le.getNext();
+                    l++;
+                }
+                assertTrue(slice.getLength() == 4);
+                assertTrue(slice.getLength() == l);
+
+                logEntry = logEntry.getNext();
+            }
         }
 
 

@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -434,6 +435,34 @@ public class Log<K extends Serializable, V extends Serializable> {
                 .setHeadAndTail(head, tail);
     }
 
+    public Log<K, V> logSlice(List keys, Timestamp sliceStart, Timestamp sliceEnd)
+            throws LogOutTimeBoundsException {
+        LogEntry<K, V> currentOriginalLogItem = this.findEntry(sliceStart);
+
+        LogEntry<K, V> head = null;
+        LogEntry<K, V> currentLogItem = null;
+        LogEntry<K, V> tempLogItem = null;
+        int length = 0;
+        while (currentOriginalLogItem != null && currentOriginalLogItem.getTime().compareTo(sliceEnd) <= 0) {
+            if (keys.contains(currentOriginalLogItem.getKey())) {
+                //add to log slice
+                length++;
+                tempLogItem = currentLogItem;
+                currentLogItem = currentOriginalLogItem.clone();
+                if (tempLogItem == null) {
+                    head = currentLogItem;
+                } else {
+                    tempLogItem.setNext(currentLogItem);
+                }
+                currentLogItem.setPrev(tempLogItem);
+            }
+            currentOriginalLogItem = currentOriginalLogItem.getNext();
+        }
+        Log<K, V> l = new Log<K, V>(this.maxLengthMillis, this.name, this.logCheckpointIntervalMs)
+                .setHeadAndTail(head, tempLogItem);
+        l.length = length;
+        return l;
+    }
 
     public int getLength() {
         return length;
