@@ -1,4 +1,5 @@
-//java -jar JFlex D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql\src\main\java\retroscope\rql
+//java -jar JFlex.jar D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql-server\src\main\java\retroscope\rql\rql.flex
+package retroscope.rql;
 %%
 
 %class Scanner
@@ -37,6 +38,11 @@ IntegerLiteral=0|[1-9][0-9]*
 "AT"  		    	{return token=AT;}
 "TIME"              {return token=TIME;}
 "TO"                {return token=TO;}
+"ON"                {return token=ON;}
+"LINK"              {return token=LINK;}
+"BETWEEN"           {return token=BETWEEN;}
+"AFTER"             {return token=AFTER;}
+"BEFORE"            {return token=BEFORE;}
 "NODES"             {return token=NODES;}
 "ALL_NODES"         {return token=ALL_NODES;}
 "TRUE"              {return token=TRUE;}
@@ -86,6 +92,7 @@ L?\"(\.|[^\"])*\"	{semanticValue=yytext(); return STRING_LITERAL;}
 \>			        {return token='>';}
 \|			        {return token='|';}
 \.			        {return token='.';}
+:			        {return token=':';}
 ;               	{return token=';';}
 ,			        {return token=',';}
 

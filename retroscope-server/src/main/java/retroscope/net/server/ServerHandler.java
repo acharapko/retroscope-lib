@@ -6,6 +6,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import retroscope.log.DataMapLog;
 import retroscope.log.Log;
 import retroscope.log.RetroMap;
 import retroscope.net.protocol.Protocol;
@@ -84,7 +85,11 @@ public class ServerHandler<K extends Serializable, V extends Serializable> exten
                 errcode = responseMsg.getErrorCode();
             } else {
                 Protocol.Log log = responseMsg.getLog();
-                logSlice = new Log<K, V>(log);
+                if (log.hasDataMap()) {
+                    logSlice = new DataMapLog<K, V>(log);
+                } else {
+                    logSlice = new Log<K, V>(log);
+                }
             }
 
             try {

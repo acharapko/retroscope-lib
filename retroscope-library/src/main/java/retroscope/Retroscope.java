@@ -633,6 +633,8 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
         return workingLog.logSlice(sliceStart, sliceEnd);
     }
 
+
+
     /**
      * Takes a snapshot and gives back the snapshot ID. This
      * is similar as getAllData with timestamp, except snapshots
@@ -767,6 +769,9 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
         return timeTick(new Timestamp(ByteHelper.bytesToLong(receiveData, offset)));
     }
 
+    public Log<K, V> getLog(String logName) {
+        return getLog(logName, false);
+    }
 
     /*----------------------------------------------------------
      *
@@ -774,9 +779,6 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      *
      *----------------------------------------------------------*/
 
-    private Log<K, V> getLog(String logName) {
-        return getLog(logName, false);
-    }
 
     private Log<K, V> getLog(String logName, boolean dataMapLogIfEmpty) {
         Log<K, V> workingLog = null;

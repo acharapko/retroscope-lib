@@ -12,7 +12,7 @@
         <module>retroscope-server</module>
         <module>retroscope-library</module>
         <module>retroscope-example</module>
-        <module>rql</module>
+        <module>rql-server</module>
     </modules>
 
     <dependencies>

@@ -142,7 +142,12 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
         logMsgBuilder.setRID(rid); // return rid back
         logMsgBuilder.setNodeId(client.getId());
         try {
-            Log<K, V> slice = retroscope.getLogSlice(msg.getLogName(), msg.getHLCstartTime(), msg.getHLCendTime());
+            Log<K, V> slice = null;
+            if (msg.hasHLCendTime() && msg.hasHLCstartTime()) {
+                slice = retroscope.getLogSlice(msg.getLogName(), msg.getHLCstartTime(), msg.getHLCendTime());
+            } else {
+                slice = retroscope.getLog(msg.getLogName());
+            }
             logMsgBuilder.setLog(slice.toProtocol());
         } catch (RetroscopeException re) {
             logMsgBuilder.setErrorCode(1);

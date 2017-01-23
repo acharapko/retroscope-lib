@@ -3242,6 +3242,25 @@ public final class Protocol {
      * <code>optional int64 HLCendTime = 3;</code>
      */
     long getHLCendTime();
+
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    com.google.protobuf.ProtocolStringList
+        getParameterNamesList();
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    int getParameterNamesCount();
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    java.lang.String getParameterNames(int index);
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getParameterNamesBytes(int index);
   }
   /**
    * Protobuf type {@code GetLog}
@@ -3311,6 +3330,15 @@ public final class Protocol {
               hLCendTime_ = input.readInt64();
               break;
             }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+                parameterNames_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000008;
+              }
+              parameterNames_.add(bs);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -3319,6 +3347,9 @@ public final class Protocol {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
+          parameterNames_ = parameterNames_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -3423,10 +3454,40 @@ public final class Protocol {
       return hLCendTime_;
     }
 
+    public static final int PARAMETERNAMES_FIELD_NUMBER = 4;
+    private com.google.protobuf.LazyStringList parameterNames_;
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getParameterNamesList() {
+      return parameterNames_;
+    }
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    public int getParameterNamesCount() {
+      return parameterNames_.size();
+    }
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    public java.lang.String getParameterNames(int index) {
+      return parameterNames_.get(index);
+    }
+    /**
+     * <code>repeated string parameterNames = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getParameterNamesBytes(int index) {
+      return parameterNames_.getByteString(index);
+    }
+
     private void initFields() {
       logName_ = "";
       hLCstartTime_ = 0L;
       hLCendTime_ = 0L;
+      parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3454,6 +3515,9 @@ public final class Protocol {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeInt64(3, hLCendTime_);
       }
+      for (int i = 0; i < parameterNames_.size(); i++) {
+        output.writeBytes(4, parameterNames_.getByteString(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -3474,6 +3538,15 @@ public final class Protocol {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, hLCendTime_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < parameterNames_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(parameterNames_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getParameterNamesList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -3598,6 +3671,8 @@ public final class Protocol {
         bitField0_ = (bitField0_ & ~0x00000002);
         hLCendTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
+        parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
 
@@ -3638,6 +3713,11 @@ public final class Protocol {
           to_bitField0_ |= 0x00000004;
         }
         result.hLCendTime_ = hLCendTime_;
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          parameterNames_ = parameterNames_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.parameterNames_ = parameterNames_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3664,6 +3744,16 @@ public final class Protocol {
         }
         if (other.hasHLCendTime()) {
           setHLCendTime(other.getHLCendTime());
+        }
+        if (!other.parameterNames_.isEmpty()) {
+          if (parameterNames_.isEmpty()) {
+            parameterNames_ = other.parameterNames_;
+            bitField0_ = (bitField0_ & ~0x00000008);
+          } else {
+            ensureParameterNamesIsMutable();
+            parameterNames_.addAll(other.parameterNames_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3832,6 +3922,99 @@ public final class Protocol {
       public Builder clearHLCendTime() {
         bitField0_ = (bitField0_ & ~0x00000004);
         hLCendTime_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureParameterNamesIsMutable() {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
+          parameterNames_ = new com.google.protobuf.LazyStringArrayList(parameterNames_);
+          bitField0_ |= 0x00000008;
+         }
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getParameterNamesList() {
+        return parameterNames_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public int getParameterNamesCount() {
+        return parameterNames_.size();
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public java.lang.String getParameterNames(int index) {
+        return parameterNames_.get(index);
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getParameterNamesBytes(int index) {
+        return parameterNames_.getByteString(index);
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public Builder setParameterNames(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureParameterNamesIsMutable();
+        parameterNames_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public Builder addParameterNames(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureParameterNamesIsMutable();
+        parameterNames_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public Builder addAllParameterNames(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureParameterNamesIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, parameterNames_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public Builder clearParameterNames() {
+        parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string parameterNames = 4;</code>
+       */
+      public Builder addParameterNamesBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureParameterNamesIsMutable();
+        parameterNames_.add(value);
         onChanged();
         return this;
       }
@@ -8560,6 +8743,19 @@ public final class Protocol {
      */
     retroscope.net.protocol.Protocol.LogItemOrBuilder getItemsOrBuilder(
         int index);
+
+    /**
+     * <code>optional .DataMap dataMap = 5;</code>
+     */
+    boolean hasDataMap();
+    /**
+     * <code>optional .DataMap dataMap = 5;</code>
+     */
+    retroscope.net.protocol.Protocol.DataMap getDataMap();
+    /**
+     * <code>optional .DataMap dataMap = 5;</code>
+     */
+    retroscope.net.protocol.Protocol.DataMapOrBuilder getDataMapOrBuilder();
   }
   /**
    * Protobuf type {@code Log}
@@ -8639,6 +8835,19 @@ public final class Protocol {
                 mutable_bitField0_ |= 0x00000008;
               }
               items_.add(input.readMessage(retroscope.net.protocol.Protocol.LogItem.PARSER, extensionRegistry));
+              break;
+            }
+            case 42: {
+              retroscope.net.protocol.Protocol.DataMap.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000008) == 0x00000008)) {
+                subBuilder = dataMap_.toBuilder();
+              }
+              dataMap_ = input.readMessage(retroscope.net.protocol.Protocol.DataMap.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(dataMap_);
+                dataMap_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000008;
               break;
             }
           }
@@ -8791,11 +9000,33 @@ public final class Protocol {
       return items_.get(index);
     }
 
+    public static final int DATAMAP_FIELD_NUMBER = 5;
+    private retroscope.net.protocol.Protocol.DataMap dataMap_;
+    /**
+     * <code>optional .DataMap dataMap = 5;</code>
+     */
+    public boolean hasDataMap() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <code>optional .DataMap dataMap = 5;</code>
+     */
+    public retroscope.net.protocol.Protocol.DataMap getDataMap() {
+      return dataMap_;
+    }
+    /**
+     * <code>optional .DataMap dataMap = 5;</code>
+     */
+    public retroscope.net.protocol.Protocol.DataMapOrBuilder getDataMapOrBuilder() {
+      return dataMap_;
+    }
+
     private void initFields() {
       name_ = "";
       maxLengthMillis_ = 0L;
       logCheckpointIntervalMillis_ = 0L;
       items_ = java.util.Collections.emptyList();
+      dataMap_ = retroscope.net.protocol.Protocol.DataMap.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8821,6 +9052,12 @@ public final class Protocol {
           return false;
         }
       }
+      if (hasDataMap()) {
+        if (!getDataMap().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -8839,6 +9076,9 @@ public final class Protocol {
       }
       for (int i = 0; i < items_.size(); i++) {
         output.writeMessage(4, items_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeMessage(5, dataMap_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -8864,6 +9104,10 @@ public final class Protocol {
       for (int i = 0; i < items_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, items_.get(i));
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, dataMap_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8979,6 +9223,7 @@ public final class Protocol {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getItemsFieldBuilder();
+          getDataMapFieldBuilder();
         }
       }
       private static Builder create() {
@@ -8999,6 +9244,12 @@ public final class Protocol {
         } else {
           itemsBuilder_.clear();
         }
+        if (dataMapBuilder_ == null) {
+          dataMap_ = retroscope.net.protocol.Protocol.DataMap.getDefaultInstance();
+        } else {
+          dataMapBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -9047,6 +9298,14 @@ public final class Protocol {
           result.items_ = items_;
         } else {
           result.items_ = itemsBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        if (dataMapBuilder_ == null) {
+          result.dataMap_ = dataMap_;
+        } else {
+          result.dataMap_ = dataMapBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -9101,6 +9360,9 @@ public final class Protocol {
             }
           }
         }
+        if (other.hasDataMap()) {
+          mergeDataMap(other.getDataMap());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -9120,6 +9382,12 @@ public final class Protocol {
         }
         for (int i = 0; i < getItemsCount(); i++) {
           if (!getItems(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasDataMap()) {
+          if (!getDataMap().isInitialized()) {
             
             return false;
           }
@@ -9524,6 +9792,122 @@ public final class Protocol {
           items_ = null;
         }
         return itemsBuilder_;
+      }
+
+      private retroscope.net.protocol.Protocol.DataMap dataMap_ = retroscope.net.protocol.Protocol.DataMap.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.DataMap, retroscope.net.protocol.Protocol.DataMap.Builder, retroscope.net.protocol.Protocol.DataMapOrBuilder> dataMapBuilder_;
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public boolean hasDataMap() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public retroscope.net.protocol.Protocol.DataMap getDataMap() {
+        if (dataMapBuilder_ == null) {
+          return dataMap_;
+        } else {
+          return dataMapBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public Builder setDataMap(retroscope.net.protocol.Protocol.DataMap value) {
+        if (dataMapBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          dataMap_ = value;
+          onChanged();
+        } else {
+          dataMapBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public Builder setDataMap(
+          retroscope.net.protocol.Protocol.DataMap.Builder builderForValue) {
+        if (dataMapBuilder_ == null) {
+          dataMap_ = builderForValue.build();
+          onChanged();
+        } else {
+          dataMapBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public Builder mergeDataMap(retroscope.net.protocol.Protocol.DataMap value) {
+        if (dataMapBuilder_ == null) {
+          if (((bitField0_ & 0x00000010) == 0x00000010) &&
+              dataMap_ != retroscope.net.protocol.Protocol.DataMap.getDefaultInstance()) {
+            dataMap_ =
+              retroscope.net.protocol.Protocol.DataMap.newBuilder(dataMap_).mergeFrom(value).buildPartial();
+          } else {
+            dataMap_ = value;
+          }
+          onChanged();
+        } else {
+          dataMapBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000010;
+        return this;
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public Builder clearDataMap() {
+        if (dataMapBuilder_ == null) {
+          dataMap_ = retroscope.net.protocol.Protocol.DataMap.getDefaultInstance();
+          onChanged();
+        } else {
+          dataMapBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public retroscope.net.protocol.Protocol.DataMap.Builder getDataMapBuilder() {
+        bitField0_ |= 0x00000010;
+        onChanged();
+        return getDataMapFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      public retroscope.net.protocol.Protocol.DataMapOrBuilder getDataMapOrBuilder() {
+        if (dataMapBuilder_ != null) {
+          return dataMapBuilder_.getMessageOrBuilder();
+        } else {
+          return dataMap_;
+        }
+      }
+      /**
+       * <code>optional .DataMap dataMap = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.DataMap, retroscope.net.protocol.Protocol.DataMap.Builder, retroscope.net.protocol.Protocol.DataMapOrBuilder> 
+          getDataMapFieldBuilder() {
+        if (dataMapBuilder_ == null) {
+          dataMapBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              retroscope.net.protocol.Protocol.DataMap, retroscope.net.protocol.Protocol.DataMap.Builder, retroscope.net.protocol.Protocol.DataMapOrBuilder>(
+                  getDataMap(),
+                  getParentForChildren(),
+                  isClean());
+          dataMap_ = null;
+        }
+        return dataMapBuilder_;
       }
 
       // @@protoc_insertion_point(builder_scope:Log)
@@ -11003,26 +11387,27 @@ public final class Protocol {
       "se\022\031\n\021retroscopeVersion\030\001 \002(\005\022\016\n\006nodeID\030" +
       "\002 \002(\005\"\r\n\013GetLogNames\"9\n\007GetData\022\017\n\007logNa",
       "me\030\001 \002(\t\022\017\n\007hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"" +
-      "C\n\006GetLog\022\017\n\007logName\030\001 \002(\t\022\024\n\014HLCstartTi" +
-      "me\030\002 \001(\003\022\022\n\nHLCendTime\030\003 \001(\003\"\037\n\014TakeSnap" +
-      "shot\022\017\n\007logName\030\001 \002(\t\"0\n\014RollSnapshot\022\017\n" +
-      "\007logName\030\001 \002(\t\022\017\n\007hlcTime\030\002 \002(\003\"\266\001\n\014Retr" +
-      "oNodeMsg\022\013\n\003RID\030\001 \001(\003\022\037\n\nconnectMsg\030\002 \001(" +
-      "\0132\013.ConnectMsg\022\026\n\004data\030\003 \001(\0132\010.DataMap\022\026" +
-      "\n\004logs\030\004 \003(\0132\010.LogMeta\022\021\n\003log\030\005 \001(\0132\004.Lo" +
-      "g\022\022\n\nsnapshotId\030\n \001(\005\022\016\n\006nodeId\030\016 \001(\005\022\021\n" +
-      "\terrorCode\030\017 \001(\005\"\'\n\nConnectMsg\022\031\n\021retros",
-      "copeVersion\030\001 \002(\005\"B\n\007DataMap\022\014\n\004name\030\001 \002" +
-      "(\t\022\030\n\005items\030\002 \003(\0132\t.DataItem\022\017\n\007hlcTime\030" +
-      "\003 \002(\003\"7\n\010DataItem\022\013\n\003key\030\001 \002(\014\022\r\n\005value\030" +
-      "\002 \001(\014\022\017\n\007hlcTime\030\003 \001(\003\"j\n\003Log\022\014\n\004name\030\001 " +
-      "\002(\t\022\027\n\017maxLengthMillis\030\002 \002(\003\022#\n\033logCheck" +
-      "pointIntervalMillis\030\003 \002(\003\022\027\n\005items\030\004 \003(\013" +
-      "2\010.LogItem\"K\n\007LogItem\022\013\n\003key\030\001 \002(\014\022\017\n\007hl" +
-      "cTime\030\002 \002(\003\022\021\n\tvalueFrom\030\003 \001(\014\022\017\n\007valueT" +
-      "o\030\004 \001(\014\"B\n\007LogMeta\022\017\n\007logName\030\001 \002(\t\022\020\n\010l" +
-      "ogStart\030\002 \002(\003\022\024\n\014isDataMapLog\030\003 \002(\010B\031\n\027r",
-      "etroscope.net.protocol"
+      "[\n\006GetLog\022\017\n\007logName\030\001 \002(\t\022\024\n\014HLCstartTi" +
+      "me\030\002 \001(\003\022\022\n\nHLCendTime\030\003 \001(\003\022\026\n\016paramete" +
+      "rNames\030\004 \003(\t\"\037\n\014TakeSnapshot\022\017\n\007logName\030" +
+      "\001 \002(\t\"0\n\014RollSnapshot\022\017\n\007logName\030\001 \002(\t\022\017" +
+      "\n\007hlcTime\030\002 \002(\003\"\266\001\n\014RetroNodeMsg\022\013\n\003RID\030" +
+      "\001 \001(\003\022\037\n\nconnectMsg\030\002 \001(\0132\013.ConnectMsg\022\026" +
+      "\n\004data\030\003 \001(\0132\010.DataMap\022\026\n\004logs\030\004 \003(\0132\010.L" +
+      "ogMeta\022\021\n\003log\030\005 \001(\0132\004.Log\022\022\n\nsnapshotId\030" +
+      "\n \001(\005\022\016\n\006nodeId\030\016 \001(\005\022\021\n\terrorCode\030\017 \001(\005",
+      "\"\'\n\nConnectMsg\022\031\n\021retroscopeVersion\030\001 \002(" +
+      "\005\"B\n\007DataMap\022\014\n\004name\030\001 \002(\t\022\030\n\005items\030\002 \003(" +
+      "\0132\t.DataItem\022\017\n\007hlcTime\030\003 \002(\003\"7\n\010DataIte" +
+      "m\022\013\n\003key\030\001 \002(\014\022\r\n\005value\030\002 \001(\014\022\017\n\007hlcTime" +
+      "\030\003 \001(\003\"\205\001\n\003Log\022\014\n\004name\030\001 \002(\t\022\027\n\017maxLengt" +
+      "hMillis\030\002 \002(\003\022#\n\033logCheckpointIntervalMi" +
+      "llis\030\003 \002(\003\022\027\n\005items\030\004 \003(\0132\010.LogItem\022\031\n\007d" +
+      "ataMap\030\005 \001(\0132\010.DataMap\"K\n\007LogItem\022\013\n\003key" +
+      "\030\001 \002(\014\022\017\n\007hlcTime\030\002 \002(\003\022\021\n\tvalueFrom\030\003 \001" +
+      "(\014\022\017\n\007valueTo\030\004 \001(\014\"B\n\007LogMeta\022\017\n\007logNam",
+      "e\030\001 \002(\t\022\020\n\010logStart\030\002 \002(\003\022\024\n\014isDataMapLo" +
+      "g\030\003 \002(\010B\031\n\027retroscope.net.protocol"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11065,7 +11450,7 @@ public final class Protocol {
     internal_static_GetLog_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLog_descriptor,
-        new java.lang.String[] { "LogName", "HLCstartTime", "HLCendTime", });
+        new java.lang.String[] { "LogName", "HLCstartTime", "HLCendTime", "ParameterNames", });
     internal_static_TakeSnapshot_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_TakeSnapshot_fieldAccessorTable = new
@@ -11107,7 +11492,7 @@ public final class Protocol {
     internal_static_Log_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Log_descriptor,
-        new java.lang.String[] { "Name", "MaxLengthMillis", "LogCheckpointIntervalMillis", "Items", });
+        new java.lang.String[] { "Name", "MaxLengthMillis", "LogCheckpointIntervalMillis", "Items", "DataMap", });
     internal_static_LogItem_descriptor =
       getDescriptor().getMessageTypes().get(12);
     internal_static_LogItem_fieldAccessorTable = new

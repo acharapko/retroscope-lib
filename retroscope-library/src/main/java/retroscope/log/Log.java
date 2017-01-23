@@ -110,9 +110,9 @@ public class Log<K extends Serializable, V extends Serializable> {
 
 
     public int addKnownEntries(LogEntry<K, V> entry) {
-        knownCheckpointLogEntries.put(known_snapshot_log_id, entry);
+        knownCheckpointLogEntries.put(++known_snapshot_log_id, entry);
         entry.setSnapshotEntryId(known_snapshot_log_id);
-        return known_snapshot_log_id++;
+        return known_snapshot_log_id;
     }
 
     public LogEntry<K, V> getKnownEntry(int id) {
@@ -345,7 +345,7 @@ public class Log<K extends Serializable, V extends Serializable> {
         LogEntry<K, V> currentLogItem = startingPoint;
         boolean notEnd = true;
         RetroMap<K, V> diffMap = new RetroMap<K, V>(getLength());
-        diffMap.setAssociatedLogEntry(currentLogItem.getPrev());
+        diffMap.setAssociatedLogEntry(currentLogItem);
 
         while (notEnd && currentLogItem != null) {
             if (timeInThePast.compareTo(currentLogItem.getTime()) < 0) {

@@ -6,8 +6,9 @@ import java.util.Map;
 
 /**
  * Created by ALEKS on 10/23/2016.
+ *
  */
-public class RetroMap<K, V> extends HashMap<K, DataEntry<V>> {
+public class RetroMap<K, V> extends HashMap<K, DataEntry<V>> implements Cloneable {
 
     protected LogEntry<K, V> associatedLogEntry;
 
@@ -59,9 +60,9 @@ public class RetroMap<K, V> extends HashMap<K, DataEntry<V>> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         Iterator<Entry<K, DataEntry<V>>> it = entrySet().iterator();
-        sb.append("RetroMap (");
-        sb.append(this.getAssociatedLogEntry());
-        sb.append(")\n");
+        sb.append("RetroMap");
+        //sb.append(this.getAssociatedLogEntry());
+        sb.append("\n");
         while (it.hasNext()) {
             Entry<K, DataEntry<V>> pair = it.next();
             sb.append(pair.getKey());
@@ -71,4 +72,8 @@ public class RetroMap<K, V> extends HashMap<K, DataEntry<V>> {
         }
         return sb.toString();
     }
+
+    /*public RetroMap<K, V> clone() {
+        return
+    }*/
 }

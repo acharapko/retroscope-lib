@@ -50,8 +50,8 @@ public class ByteHelper {
     }
 
     public static byte[] intToBytes(int value) {
-        byte[] bytes = new byte[LONG_SIZE];
-        ByteHelper.longToBytes(bytes, value, 0);
+        byte[] bytes = new byte[INT_SIZE];
+        ByteHelper.intToBytes(bytes, value, 0);
         return bytes;
     }
 
@@ -85,6 +85,22 @@ public class ByteHelper {
         long bits = bytesToLong(bytes, offset);
         double d = Double.longBitsToDouble(bits);
         return d;
+    }
+
+
+
+
+    public static String arrayToHexSring(byte[] array) {
+        return arrayToHexSring(array, 0, array.length);
+    }
+
+    public static String arrayToHexSring(byte[] array, int offset, int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = offset; i < length; i++) {
+            sb.append(String.format("%02x", array[i]).toUpperCase());
+            sb.append(" ");
+        }
+        return sb.toString();
     }
 
 

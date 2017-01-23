@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 /**
  * Created by aleksey on 10/15/16.
+ *
  */
 public class netHLCSerializer {
 

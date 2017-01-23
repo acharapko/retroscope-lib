@@ -35,6 +35,7 @@ message GetLog {
     required string logName = 1;
     optional int64 HLCstartTime = 2;
     optional int64 HLCendTime = 3;
+    repeated string parameterNames = 4;
 }
 
 message TakeSnapshot {
@@ -82,6 +83,7 @@ message Log {
     required int64 maxLengthMillis = 2;
     required int64 logCheckpointIntervalMillis = 3;
     repeated LogItem items = 4;
+    optional DataMap dataMap = 5;
 }
 
 message LogItem {

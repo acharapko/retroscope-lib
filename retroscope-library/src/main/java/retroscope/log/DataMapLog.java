@@ -2,6 +2,8 @@ package retroscope.log;
 
 import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
+import retroscope.net.protocol.Protocol;
+import retroscope.net.protocol.ProtocolHelpers;
 import retroscope.util.ByteArray;
 
 import java.io.Serializable;
@@ -21,9 +23,9 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
      * - some evidence suggests it scales better under high contention
      * - it allows us to acquire lock and perform multiple gets and puts "atomically"
      */
-    private RetroMap<K, V> dataMap;
-    private HashMap<Integer, RetroMap<K, V>> snapshots;
-    private HashMap<Long, HashMap<K, LogEntry<K, V>>> bidirectionalDataMapDiffs;
+    protected RetroMap<K, V> dataMap;
+    protected HashMap<Integer, RetroMap<K, V>> snapshots;
+    protected HashMap<Long, HashMap<K, LogEntry<K, V>>> bidirectionalDataMapDiffs;
 
     public DataMapLog(long maxLengthMillis, String name) {
         this(maxLengthMillis, name, 100);
@@ -34,6 +36,12 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
         dataMap = new RetroMap<K, V>(100);
         bidirectionalDataMapDiffs = new HashMap<Long, HashMap<K, LogEntry<K, V>>>(10);
         snapshots = new HashMap<Integer, RetroMap<K, V>>(10);
+    }
+
+    public DataMapLog(Protocol.Log protocolLog) {
+        super(protocolLog);
+        //also restore datamap
+        this.dataMap = ProtocolHelpers.protocolToRetroMap(protocolLog.getDataMap());
     }
 
     @Override
@@ -67,6 +75,16 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
                 }
             }
         }
+    }
+
+    public Protocol.Log toProtocol() {
+
+        Protocol.Log.Builder builder = super.toProtocol().toBuilder();
+
+        builder.setDataMap(ProtocolHelpers.retroMapToProtocol(dataMap, this.name, head.getTime().toLong()));
+
+        return builder.build();
+
     }
 
 

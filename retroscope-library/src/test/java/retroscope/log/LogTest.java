@@ -143,9 +143,9 @@ public class LogTest {
     @Test
     public void testAddKnownEntries() throws Exception {
         LogEntry<String, String> fifthLog = log.getHead().getNext().getNext().getNext().getNext();
-        assertTrue(log.addKnownEntries(fifthLog) == 0);
+        assertTrue(log.addKnownEntries(fifthLog) == 1);
         LogEntry<String, String> seventhLog = fifthLog.getNext().getNext();
-        assertTrue(log.addKnownEntries(seventhLog) == 1);
+        assertTrue(log.addKnownEntries(seventhLog) == 2);
     }
 
     @Test
@@ -557,7 +557,7 @@ public class LogTest {
 
                 Log<String, String> slice = log.logSlice(keys, sliceStartTime, sliceEndTime);
 
-                System.out.println(slice);
+                //System.out.println(slice);
 
                 LogEntry<String, String> le = slice.getHead();
                 int l = 0;

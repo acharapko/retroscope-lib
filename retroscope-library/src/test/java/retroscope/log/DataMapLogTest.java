@@ -346,7 +346,7 @@ public class DataMapLogTest {
             maps[i].putAll(log.getAllData());
             times[i] = t.clone();
         }
-
+        /*
         int snapshotId = log.makeSnapshot(times[9]);
         RetroMap<String, String> testMap = log.getSnapshot(snapshotId);
         LogEntry<String, String> kle = testMap.getAssociatedLogEntry();
@@ -355,9 +355,6 @@ public class DataMapLogTest {
         for (int i = 10; i < length; i++) {
             log.rollSnapshot(snapshotId, times[i]);
             testMap = log.getSnapshot(snapshotId);
-            /*System.out.println(i + "-=-=-=-=-=-=-=-=-=-=-=-");
-            System.out.println(testMap);
-            System.out.println(maps[i]);*/
             assertTrue(testMap.equals(maps[i]));
         }
 
@@ -367,6 +364,17 @@ public class DataMapLogTest {
         assertTrue(testMap.equals(maps[9]));
         //System.out.println("Start roll");
         for (int i = 10; i < length; i+=5) {
+            log.rollSnapshot(snapshotId, times[i]);
+            testMap = log.getSnapshot(snapshotId);
+            assertTrue(testMap.equals(maps[i]));
+        }
+        */
+        //and some backwards rolling
+        int snapshotId = log.makeSnapshot(times[99]);
+        RetroMap<String, String> testMap = log.getSnapshot(snapshotId);
+        assertTrue(testMap.equals(maps[99]));
+        //System.out.println("Start roll");
+        for (int i = length - 2; i > 9; i-=5) {
             log.rollSnapshot(snapshotId, times[i]);
             testMap = log.getSnapshot(snapshotId);
             /*System.out.println(i + "-=-=-=-=-=-=-=-=-=-=-=-");

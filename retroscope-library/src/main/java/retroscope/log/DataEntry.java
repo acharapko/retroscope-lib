@@ -5,7 +5,7 @@ import retroscope.hlc.Timestamp;
 /**
  * Created by aleksey on 10/17/16.
  *
- * This class represents data item hold in the logs and datamaps
+ * This class represents data item held in the logs and datamaps
  */
 public class DataEntry<V> {
 

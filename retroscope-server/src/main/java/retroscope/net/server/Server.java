@@ -32,13 +32,13 @@ public class Server<K extends Serializable, V extends Serializable> {
     static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
 
     private SyncRunner syncRunner;
-    private Ensemble<K, V> ensemble;
+    private Ensemble<K, V> masterEnsemble;
 
     public static void main(String[] args) {
         //TODO server starts here
         System.out.println("Starting Server");
         Server<String, String> s = new Server<String, String>();
-        Console c = new Console(s.ensemble);
+        Console c = new Console(s.masterEnsemble);
         Thread t = new Thread(c);
         t.start();
         try {
@@ -51,7 +51,7 @@ public class Server<K extends Serializable, V extends Serializable> {
     }
 
     public Server() {
-        ensemble = new Ensemble<K, V>();
+        masterEnsemble = new Ensemble<K, V>();
     }
 
     public void startServer() throws InterruptedException, SSLException, java.security.cert.CertificateException {
@@ -87,7 +87,7 @@ public class Server<K extends Serializable, V extends Serializable> {
                             p.addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
                             p.addLast("protobufEncoder", new ProtobufEncoder());
 
-                            p.addLast(new ServerHandler<K, V>(ensemble));
+                            p.addLast(new ServerHandler<K, V>(masterEnsemble));
                         }
                     });
 
@@ -103,13 +103,17 @@ public class Server<K extends Serializable, V extends Serializable> {
         System.out.println("done");
     }
 
-    public Ensemble<K, V> getEnsemble() {
-        return this.ensemble;
+    public Ensemble<K, V> getMasterEnsemble() {
+        return this.masterEnsemble;
     }
 
     public void close() {
         syncRunner.stop();
         //this.channel.close();
+    }
+
+    public int getEnsembleSize() {
+        return this.masterEnsemble.getEnsembleSize();
     }
 
 

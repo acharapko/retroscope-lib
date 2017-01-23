@@ -12,6 +12,7 @@ import java.util.Map;
 
 /**
  * Created by Aleksey on 11/2/2016.
+ *
  */
 public class ProtocolHelpers {
 

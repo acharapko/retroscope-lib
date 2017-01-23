@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -22,11 +23,11 @@ import retroscope.net.server.Callbacks;
  */
 public class Ensemble<K extends Serializable, V extends Serializable> {
 
-    //private
-    private long maxKnownRID;
-    private int maxKnownId = 0;
-    private HashMap<Integer, RemoteNode<K, V>> remoteNodes;
+    public static int maxKnownId = 0;
+    public static long maxKnownRID;
 
+    //private
+    private HashMap<Integer, RemoteNode<K, V>> remoteNodes;
     private HashMap<Long, CallbackWrapper<K, V>> callbacks;
     private HashMap<Long, CallbackAggregator> callbacksAggregators;
 
@@ -39,11 +40,11 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         lock = new ReentrantLock();
     }
 
-    private int getNextId() {
+    public static int incrementId() {
         return ++maxKnownId;
     }
 
-    public long getNextRID() {
+    public static long getNextRID() {
         maxKnownRID++;
         if (maxKnownRID == Long.MAX_VALUE) {
             maxKnownRID = 0;
@@ -51,10 +52,21 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         return maxKnownRID;
     }
 
+    public int getEnsembleSize() {
+        return remoteNodes.size();
+    }
+
+
+    /**
+     * This method processes new connection to the ensemble. typically we want to do it on masterEnsemble
+     * containing all nodes. When we need a subset of all nodes, we can create a smaller ensemble.
+     * @param ctx ChannelHandlerContext channel context
+     * @param connectMsg ConnectMsg connect message from the remote node
+     */
     public void processConnect(ChannelHandlerContext ctx, Protocol.ConnectMsg connectMsg) {
         if (connectMsg.getRetroscopeVersion() == Retroscope.VERSION) {
             lock.lock();
-            RemoteNode<K, V> remoteNode = new RemoteNode<K, V>(getNextId(), ctx);
+            RemoteNode<K, V> remoteNode = new RemoteNode<K, V>(incrementId(), ctx);
             remoteNodes.put(remoteNode.getId(), remoteNode);
             lock.unlock();
             Protocol.ConnectMsgResponse connectMsgResponse = Protocol.ConnectMsgResponse.newBuilder()
@@ -68,6 +80,24 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         } else {
             System.err.println("Version mismatch");
         }
+    }
+
+
+    /**
+     * Retrieves a subset of this Ensemble containing all nodes with provided ids
+     * subset ensemble has no callback or aggregators registered, even if there were some
+     * in the parent Ensemble
+     * @param ids int[] list of node ids to be in subset ensemble
+     * @return Ensemble<K, V> subset ensemble
+     */
+    public Ensemble<K, V> getSubset(int[] ids) {
+        Ensemble<K, V> en = new Ensemble<K, V>();
+        for (int i : ids) {
+            if (remoteNodes.containsKey(i)) {
+                en.remoteNodes.put(i, remoteNodes.get(i));
+            }
+        }
+        return en;
     }
 
     private void writeAndFlush(
@@ -176,6 +206,31 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         writeAndFlush(msg, rid, callback);
         return rid;
     }
+
+    public long pullLog(String logName, Callbacks.PullLogSliceCallback<K, V> callback) {
+        long rid = getNextRID();
+        Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
+                .setRID(rid)
+                .setLogSliceRequest(Protocol.GetLog.newBuilder()
+                        .setLogName(logName)
+                ).build();
+        writeAndFlush(msg, rid, callback);
+        return rid;
+    }
+
+    public long pullLog(String logName, List<String> keys, Callbacks.PullLogSliceCallback<K, V> callback) {
+        long rid = getNextRID();
+        Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
+                .setRID(rid)
+                .setLogSliceRequest(Protocol.GetLog.newBuilder()
+                        .setLogName(logName)
+                        .addAllParameterNames(keys)
+                ).build();
+        writeAndFlush(msg, rid, callback);
+        return rid;
+    }
+
+
 
 
 

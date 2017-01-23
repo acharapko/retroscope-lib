@@ -4,7 +4,7 @@ import retroscope.rql.syntaxtree.*;
 import java.util.HashMap;
 
 %}
-// D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql\src\main\java\retroscope\rql\rql.jacc -t
+// D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql-server\src\main\java\retroscope\rql\rql.jacc -t
 %class rqlParser
 %interface mTokens
 %next              	nextToken()
@@ -13,24 +13,27 @@ import java.util.HashMap;
 
 %token <String>  IDENTIFIER
 %token <Integer> INTEGER_LITERAL 
-%token <Float>   FLOAT_LITERAL
+%token <Double>  FLOAT_LITERAL
 %token <String>	 STRING_LITERAL
 %token <String> '{' '(' '[' ']' ')' '}' ';' ',' '='  '<' '+' '-' '*' '.' '!'
 %token <String> EXPLAIN SELECT
+%token <String> BETWEEN AFTER BEFORE
 %token <String> COUNT SUM
 %token <String> FROM WHEN AT ON TO
 %token <String> NODES ALL_NODES TIME
 %token <String> TRUE FALSE AND OR NEQ EQ GEQ LEQ
 
 /* Precedence and associativity of operators */
-%right '='
+//%right ASSIGN
 %left '!'
 %left AND
 %left OR
-%left EQ NEQ
+%left LINK
+%left '=' EQ NEQ
 %left '<' '>' LEQ GEQ
 %left '+' '-'
 %left '*' '/' '%'
+
 
 %type <Expression>  		Expression AtTimeExtended
 %type <IdentifierList>  	IdentifierList
@@ -42,6 +45,7 @@ import java.util.HashMap;
 %type <Aggregator>          Aggregator
 %type <Query>               Query
 %type <QueryEnd>            QueryEnd
+%type <ExpressionList>      ExpressionList
 
 
 /* start symbol */
@@ -61,7 +65,13 @@ Statement           :   Query ';'                                               
 Query               :   SELECT ParamList FROM IdentifierList QueryEnd                   {$$ = new Query($2, $4, $5, currentEnv);}
                     ;
 
-QueryEnd            :   When AtNodes OnTime                                             {$$ = new QueryEnd($1, $2, $3);}
+QueryEnd            :   When TimeSearch AtNodes OnTime                                  {$$ = new QueryEnd($1, $3, $4);}
+                    ;
+
+TimeSearch          :   BETWEEN '(' Expression ',' Expression ')' LINK Expression       {}
+                    |   BEFORE Expression                                               {}
+                    |   AFTER Expression                                                {}
+                    |
                     ;
 
 When                :   WHEN Expression                                                 {$$ = new When($2);}
@@ -100,31 +110,40 @@ IdentifierList      :   IDENTIFIER ',' IdentifierList                           
                     |   IDENTIFIER                                                      {$$ = new IdentifierList($1);}
                     ;
 
-Expression			:	'-' Expression											        {$$ = new Minus($2);}
-					|	Expression '+' Expression									    {$$ = new Plus($1, $3);}
-					|	Expression '-' Expression										{$$ = new Minus($1, $3);}
-					|	Expression '/' Expression										{$$ = new Divide($1, $3);}
-					| 	Expression '*' Expression										{$$ = new Multiply($1, $3);}
-					| 	Expression '%' Expression										{$$ = new Mod($1, $3);}
+Expression			:	'-' Expression											        {$$ = new Minus(currentEnv, $2);}
+					|	Expression '+' Expression									    {$$ = new Plus(currentEnv, $1, $3);}
+					|	Expression '-' Expression										{$$ = new Minus(currentEnv, $1, $3);}
+					|	Expression '/' Expression										{$$ = new Divide(currentEnv, $1, $3);}
+					| 	Expression '*' Expression										{$$ = new Multiply(currentEnv, $1, $3);}
+					| 	Expression '%' Expression										{$$ = new Mod(currentEnv, $1, $3);}
 					|	'(' Expression ')'											    {$$ = $2;}
-					| 	Expression '=' Expression										{$$ = new EQExpression($1, $3);}
-					|	Expression EQ Expression										{$$ = new EQExpression($1, $3);}
-					|	Expression NEQ Expression										{$$ = new NEQExpression($1, $3);}
-					|	Expression LEQ Expression										{$$ = new LEQExpression($1, $3);}
-					|	Expression GEQ Expression										{$$ = new GEQExpression($1, $3);}
-					|	Expression '<' Expression										{$$ = new LessThanExpression($1, $3);}
-					|	Expression '>' Expression										{$$ = new GreaterThanExpression($1, $3);}
-					| 	'!' Expression											        {$$ = new NotExpression($2);}
-					|	Expression AND Expression										{$$ = new And($1, $3);}
-					|	Expression OR Expression										{$$ = new Or($1, $3);}
-					|	IDENTIFIER											            {$$ = new Identifier($1, currentEnv);}
-					|	IDENTIFIER '.' IDENTIFIER							            {$$ = new Identifier($1, $3, currentEnv);}
-					| 	INTEGER_LITERAL											        {$$ = new IntegerLiteral($1);}
-					|	FLOAT_LITERAL											        {$$ = new FloatLiteral($1);}
-					|	STRING_LITERAL											        {$$ = new StringLiteral($1);}
-					|	TRUE											                {$$ = new IntegerLiteral(1);}
-					|	FALSE											                {$$ = new IntegerLiteral(0);}
+					| 	Expression '=' Expression										{$$ = new EQExpression(currentEnv, $1, $3);}
+					|	Expression EQ Expression										{$$ = new EQExpression(currentEnv, $1, $3);}
+					|	Expression NEQ Expression										{$$ = new NEQExpression(currentEnv, $1, $3);}
+					|	Expression LEQ Expression										{$$ = new LEQExpression(currentEnv, $1, $3);}
+					|	Expression GEQ Expression										{$$ = new GEQExpression(currentEnv, $1, $3);}
+					|	Expression '<' Expression										{$$ = new LessThanExpression(currentEnv, $1, $3);}
+					|	Expression '>' Expression										{$$ = new GreaterThanExpression(currentEnv, $1, $3);}
+					| 	'!' Expression											        {$$ = new NotExpression(currentEnv, $2);}
+					|	Expression AND Expression										{$$ = new And(currentEnv, $1, $3);}
+					|	Expression OR Expression										{$$ = new Or(currentEnv, $1, $3);}
+					|   Expression LINK Expression                                      {$$ = new LinkConditionalExpression(currentEnv, $1, $3);}
+					|   IDENTIFIER '(' ExpressionList ')'                               {$$ = new FuncCall(currentEnv, $1, $3);}
+					|	IDENTIFIER											            {$$ = new Variable($1, currentEnv, true);}
+					|	IDENTIFIER '.' IDENTIFIER							            {$$ = new Variable($1, $3, currentEnv, true);}
+					|	IDENTIFIER '.' IDENTIFIER ':' IDENTIFIER			            {$$ = new Variable($1, $3, $5, currentEnv, true);}
+					|	IDENTIFIER ':' IDENTIFIER			                            {$$ = new Variable("", $1, $3, currentEnv, true);}
+					| 	INTEGER_LITERAL											        {$$ = new IntegerLiteral(currentEnv, $1);}
+					|	FLOAT_LITERAL											        {$$ = new FloatLiteral(currentEnv, $1);}
+					|	STRING_LITERAL											        {$$ = new StringLiteral(currentEnv, $1);}
+					|	TRUE											                {$$ = new IntegerLiteral(currentEnv, 1);}
+					|	FALSE											                {$$ = new IntegerLiteral(currentEnv, 0);}
 					;
+
+ExpressionList      :   Expression ',' ExpressionList                                   {$$ = new ExpressionList($1, $3);}
+                    |   Expression                                                      {$$ = new ExpressionList($1);}
+                    |                                                                   {$$ = new ExpressionList();}
+                    ;
 
 %%
 
@@ -163,7 +182,8 @@ public RQLEnvironment getEnvironment() {
     return currentEnv;
 }
 
-public void setEnvironment(RQLEnvironment currentEnv) {
+public rqlParser setEnvironment(RQLEnvironment currentEnv) {
     this.currentEnv = currentEnv;
+    return this;
 }
 
