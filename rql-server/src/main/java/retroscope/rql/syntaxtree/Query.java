@@ -70,6 +70,10 @@ public class Query {
         }
         if (!rqlScope.hasRunTimeErrors()) {
             rqlScope.retrieveRemoteLogs(logs.getIdentifiers());
+
+            //at this point we evaluate Time Search
+
+            //and now we evaluate WHEN conditions 
             rqlScope.findCutsByCondition(qe.getConditions());
         }
     }

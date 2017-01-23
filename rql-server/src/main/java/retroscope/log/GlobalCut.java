@@ -67,6 +67,8 @@ public class GlobalCut implements Cloneable {
         gc.count = count;
         gc.localSnapshotNames = new ArrayList<String>(localSnapshotNames.size());
         gc.localSnapshotNames.addAll(localSnapshotNames);
+        gc.nodeIds = new ArrayList<Integer>(nodeIds.size());
+        gc.nodeIds.addAll(nodeIds);
         gc.localSnapshots = new ArrayList<RetroMap<String, RQLItem>>(localSnapshots.size());
         for(RetroMap<String, RQLItem> ls : localSnapshots) {
             RetroMap<String, RQLItem> clone = new RetroMap<String, RQLItem>();

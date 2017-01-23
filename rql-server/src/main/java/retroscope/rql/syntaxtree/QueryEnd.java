@@ -9,12 +9,15 @@ public class QueryEnd {
     private Expression conditions;
     private AtNodes nodeIds;
     private Expression timeEx1, timeEx2;
+    private TimeSearch ts;
 
-    public QueryEnd(When w,  AtNodes nodes, OnTime time)    {
+    public QueryEnd(When w, TimeSearch ts, AtNodes nodes, OnTime time)    {
         if (w != null) {
             conditions = w.getConditions();
         }
         nodeIds = nodes;
+
+        this.ts = ts;
 
         if (time != null) {
             timeEx1 = time.getTimeEx1();
@@ -36,5 +39,9 @@ public class QueryEnd {
 
     public Expression getTimeEx2() {
         return timeEx2;
+    }
+
+    public TimeSearch getTs() {
+        return ts;
     }
 }

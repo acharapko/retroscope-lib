@@ -45,6 +45,7 @@ IntegerLiteral=0|[1-9][0-9]*
 "BEFORE"            {return token=BEFORE;}
 "NODES"             {return token=NODES;}
 "ALL_NODES"         {return token=ALL_NODES;}
+"SAME_NODE"         {return token=SAME_NODE;}
 "TRUE"              {return token=TRUE;}
 "FALSE"             {return token=FALSE;}
 

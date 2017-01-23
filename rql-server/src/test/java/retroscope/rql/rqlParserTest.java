@@ -369,7 +369,7 @@ public class rqlParserTest {
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 this.logs.add(testrqlmap);
-                System.out.println(testrqlmap.getHead().getTime());
+                //System.out.println(testrqlmap.getHead().getTime());
 
                 // on this one we create DataMap and then put it to the RQLDataMap
                 testLog = new DataMapLog<String, RQLItem>(1000000, "test");
@@ -391,7 +391,7 @@ public class rqlParserTest {
                 }
                 testrqlmap = new RQLDataMapLog(2, testLog);
                 this.logs.add(testrqlmap);
-                System.out.println(testrqlmap.getHead().getTime());
+                //System.out.println(testrqlmap.getHead().getTime());
             }
 
             @Override
@@ -412,8 +412,130 @@ public class rqlParserTest {
 
         rql.parse();
         ArrayList<GlobalCut> cuts = rql.getEnvironment().getGlobalCuts();
-        System.out.println("# of cuts: " + cuts.size());
+        //System.out.println("# of cuts: " + cuts.size());
         assertTrue(cuts.size() == LOG_LENGTH - 175/5);
+
+        for(int c = 0; c < cuts.size(); c++) {
+
+            ArrayList<RetroMap<String, RQLItem>> snaps = cuts.get(c).getLocalSnapshots();
+            ArrayList<String> snapNames = cuts.get(c).getLocalSnapshotNames();
+            ArrayList<Integer> snapNodes = cuts.get(c).getNodeIds();
+            int a = 0, b = 0;
+            for (int i = 0; i < snaps.size(); i++) {
+                if (snapNodes.get(i) == 1) {
+                    a = snaps.get(i).get("a").getValue().getField("").getIntVal();
+                }
+                if (snapNodes.get(i) == 2) {
+                    b = snaps.get(i).get("b").getValue().getField("").getIntVal();
+                }
+            }
+            assertTrue(a*b >= 175);
+        }
+
+    }
+
+
+    @Test
+    public void twoNodeLogLinkSameNodeQuery() throws Exception {
+
+        StringReader q1 = new StringReader("SELECT test.a, test.b FROM test WHEN (a >= 40 AND a <= 80) LINK SAME_NODE;");
+        Scanner scanner = new Scanner(q1);
+        scanner.yylex();
+
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            public void retrieveRemoteLogs(String[] logs) {
+                Timestamp ts[] = new Timestamp[LOG_LENGTH];
+                ts[0] = new Timestamp();
+                Random rand = new Random(System.nanoTime());
+                int logTime = 7;
+                for (int i = 1; i < LOG_LENGTH; i++) {
+                    ts[i] = ts[i - 1].add(2 + rand.nextInt(logTime), (short)0);
+                }
+                // on this log we append directly to RQLDatamap
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
+
+                for (int i = 0; i < LOG_LENGTH; i++) {
+
+                    RQLItem item = new RQLItem().addField("", 2*i).addField("t", i);
+                    DataEntry<RQLItem> d1
+                            = new DataEntry<RQLItem>(item, ts[i]);
+
+                    //System.out.println(item.getField("").getIntVal());
+                    String key = ("a");
+                    LogEntry<String, RQLItem> le
+                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+
+                    try {
+                        //System.out.println(t + " - " + key);
+                        testrqlmap.append(le);
+                    } catch (RetroscopeException re) {re.printStackTrace();}
+                }
+                this.logs.add(testrqlmap);
+                //System.out.println(testrqlmap.getHead().getTime());
+
+                // on this one we create DataMap and then put it to the RQLDataMap
+                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                rand = new Random(System.nanoTime());
+                for (int i = 0; i < LOG_LENGTH; i++) {
+                    RQLItem item = new RQLItem().addField("", 3*i).addField("t", i);
+                    DataEntry<RQLItem> d1
+                            = new DataEntry<RQLItem>(item, ts[i]);
+
+                    //System.out.println(item.getField("").getIntVal());
+                    String key = ("a");
+                    LogEntry<String, RQLItem> le
+                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+
+                    try {
+                        //System.out.println(t + " - " + key);
+                        testLog.append(le);
+                    } catch (RetroscopeException re) {re.printStackTrace();}
+                }
+                testrqlmap = new RQLDataMapLog(2, testLog);
+                this.logs.add(testrqlmap);
+                //System.out.println(testrqlmap.getHead().getTime());
+            }
+
+            @Override
+            public void retrieveRemoteLogs(String[] logs, Timestamp startTime, Timestamp endTime) {
+
+            }
+
+            @Override
+            public void retrieveSingleCut(String[] logs, Timestamp cutTime) {
+
+            }
+
+            @Override
+            public void retrieveRemoteLogs(String[] logs, Timestamp startTime, Timestamp endTime, int[] nodeList) {
+
+            }
+        });
+
+        rql.parse();
+        ArrayList<GlobalCut> cuts = rql.getEnvironment().getGlobalCuts();
+        //System.out.println("# of cuts: " + cuts.size());
+        assertTrue(cuts.size() == 27);
+
+        for(int c = 0; c < cuts.size(); c++) {
+
+            ArrayList<RetroMap<String, RQLItem>> snaps = cuts.get(c).getLocalSnapshots();
+            ArrayList<String> snapNames = cuts.get(c).getLocalSnapshotNames();
+            ArrayList<Integer> snapNodes = cuts.get(c).getNodeIds();
+            int a1 = 0, a2 = 0;
+            for (int i = 0; i < snaps.size(); i++) {
+                if (snapNodes.get(i) == 1) {
+                    a1 = snaps.get(i).get("a").getValue().getField("").getIntVal();
+                }
+
+                if (snapNodes.get(i) == 2) {
+                    a2 = snaps.get(i).get("a").getValue().getField("").getIntVal();
+                }
+            }
+            assertTrue((a1 >=40 && a1 <=80) || (a2 >=40 && a2 <= 80));
+        }
+
     }
 
 

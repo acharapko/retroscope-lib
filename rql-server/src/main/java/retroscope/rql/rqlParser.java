@@ -1,4 +1,4 @@
-// Output created by jacc on Sat Jan 21 22:14:05 EST 2017
+// Output created by jacc on Sun Jan 22 23:26:58 EST 2017
 
 
 package retroscope.rql;
@@ -30,7 +30,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 117:
+                case 118:
                     yyn = yys0();
                     continue;
 
@@ -39,13 +39,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 118:
+                case 119:
                     switch (yytok) {
                         case ENDINPUT:
-                            yyn = 234;
+                            yyn = 236;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 2:
@@ -53,7 +53,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 119:
+                case 120:
                     yyn = yys2();
                     continue;
 
@@ -62,13 +62,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 120:
+                case 121:
                     switch (yytok) {
                         case ';':
                             yyn = 32;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 4:
@@ -76,7 +76,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 121:
+                case 122:
                     yyn = yys4();
                     continue;
 
@@ -89,13 +89,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 122:
+                case 123:
                     switch (yytok) {
                         case SELECT:
                             yyn = 10;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 6:
@@ -107,7 +107,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 123:
+                case 124:
                     yyn = yys6();
                     continue;
 
@@ -120,7 +120,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 124:
+                case 125:
                     yyn = yys7();
                     continue;
 
@@ -133,7 +133,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 125:
+                case 126:
                     yyn = yys8();
                     continue;
 
@@ -146,7 +146,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 126:
+                case 127:
                     yyn = yys9();
                     continue;
 
@@ -159,7 +159,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 127:
+                case 128:
                     switch (yytok) {
                         case COUNT:
                             yyn = 41;
@@ -171,7 +171,7 @@ class rqlParser implements mTokens {
                             yyn = 43;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 11:
@@ -183,7 +183,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 128:
+                case 129:
                     yyn = yys11();
                     continue;
 
@@ -196,7 +196,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 129:
+                case 130:
                     yyn = yys12();
                     continue;
 
@@ -209,7 +209,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 130:
+                case 131:
                     yyn = yys13();
                     continue;
 
@@ -222,7 +222,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 131:
+                case 132:
                     yyn = yys14();
                     continue;
 
@@ -235,7 +235,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 132:
+                case 133:
                     yyn = yys15();
                     continue;
 
@@ -248,7 +248,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 133:
+                case 134:
                     yyn = yys16();
                     continue;
 
@@ -261,7 +261,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 134:
+                case 135:
                     yyn = yys17();
                     continue;
 
@@ -274,7 +274,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 135:
+                case 136:
                     yyn = yys18();
                     continue;
 
@@ -287,7 +287,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 136:
+                case 137:
                     yyn = yys19();
                     continue;
 
@@ -300,7 +300,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 137:
+                case 138:
                     yyn = yys20();
                     continue;
 
@@ -313,7 +313,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 138:
+                case 139:
                     yyn = yys21();
                     continue;
 
@@ -326,7 +326,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 139:
+                case 140:
                     yyn = yys22();
                     continue;
 
@@ -339,7 +339,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 140:
+                case 141:
                     yyn = yys23();
                     continue;
 
@@ -352,7 +352,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 141:
+                case 142:
                     yyn = yys24();
                     continue;
 
@@ -365,7 +365,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 142:
+                case 143:
                     yyn = yys25();
                     continue;
 
@@ -378,7 +378,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 143:
+                case 144:
                     yyn = yys26();
                     continue;
 
@@ -391,7 +391,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 144:
+                case 145:
                     yyn = yys27();
                     continue;
 
@@ -404,7 +404,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 145:
+                case 146:
                     yyn = yys28();
                     continue;
 
@@ -417,7 +417,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 146:
+                case 147:
                     yyn = yys29();
                     continue;
 
@@ -430,7 +430,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 147:
+                case 148:
                     yyn = yys30();
                     continue;
 
@@ -443,7 +443,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 148:
+                case 149:
                     yyn = yys31();
                     continue;
 
@@ -456,7 +456,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 149:
+                case 150:
                     yyn = yys32();
                     continue;
 
@@ -465,13 +465,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 150:
+                case 151:
                     switch (yytok) {
                         case ENDINPUT:
                             yyn = yyr1();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 34:
@@ -479,13 +479,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 151:
+                case 152:
                     switch (yytok) {
                         case ';':
-                            yyn = 62;
+                            yyn = 63;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 35:
@@ -497,30 +497,12 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 152:
+                case 153:
                     yyn = yys35();
                     continue;
 
                 case 36:
                     yyst[yysp] = 36;
-                    yysv[yysp] = (lexer.semanticValue
-                                 );
-                    yytok = (nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 153:
-                    switch (yytok) {
-                        case IDENTIFIER:
-                            yyn = 65;
-                            continue;
-                    }
-                    yyn = 237;
-                    continue;
-
-                case 37:
-                    yyst[yysp] = 37;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -534,7 +516,25 @@ class rqlParser implements mTokens {
                             yyn = 66;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
+                    continue;
+
+                case 37:
+                    yyst[yysp] = 37;
+                    yysv[yysp] = (lexer.semanticValue
+                                 );
+                    yytok = (nextToken()
+                            );
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 155:
+                    switch (yytok) {
+                        case IDENTIFIER:
+                            yyn = 67;
+                            continue;
+                    }
+                    yyn = 239;
                     continue;
 
                 case 38:
@@ -542,16 +542,16 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 155:
+                case 156:
                     switch (yytok) {
                         case ',':
-                            yyn = 67;
+                            yyn = 68;
                             continue;
                         case FROM:
                             yyn = yyr22();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 39:
@@ -559,13 +559,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 156:
+                case 157:
                     switch (yytok) {
                         case FROM:
-                            yyn = 68;
+                            yyn = 69;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 40:
@@ -573,13 +573,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 157:
+                case 158:
                     switch (yytok) {
                         case '(':
-                            yyn = 69;
+                            yyn = 70;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 41:
@@ -591,13 +591,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 158:
+                case 159:
                     switch (yytok) {
                         case '(':
                             yyn = yyr27();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 42:
@@ -609,17 +609,17 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 159:
+                case 160:
                     switch (yytok) {
                         case '.':
-                            yyn = 70;
+                            yyn = 71;
                             continue;
                         case FROM:
                         case ',':
                             yyn = yyr23();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 43:
@@ -631,13 +631,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 160:
+                case 161:
                     switch (yytok) {
                         case '(':
                             yyn = yyr28();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 44:
@@ -645,7 +645,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 161:
+                case 162:
                     yyn = yys44();
                     continue;
 
@@ -654,7 +654,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 162:
+                case 163:
                     yyn = yys45();
                     continue;
 
@@ -663,7 +663,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 163:
+                case 164:
                     yyn = yys46();
                     continue;
 
@@ -672,7 +672,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 164:
+                case 165:
                     yyn = yys47();
                     continue;
 
@@ -681,7 +681,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 165:
+                case 166:
                     yyn = yys48();
                     continue;
 
@@ -690,7 +690,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 166:
+                case 167:
                     yyn = yys49();
                     continue;
 
@@ -699,7 +699,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 167:
+                case 168:
                     yyn = yys50();
                     continue;
 
@@ -708,16 +708,20 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 168:
+                case 169:
                     yyn = yys51();
                     continue;
 
                 case 52:
                     yyst[yysp] = 52;
+                    yysv[yysp] = (lexer.semanticValue
+                                 );
+                    yytok = (nextToken()
+                            );
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 169:
+                case 170:
                     yyn = yys52();
                     continue;
 
@@ -726,7 +730,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 170:
+                case 171:
                     yyn = yys53();
                     continue;
 
@@ -735,7 +739,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 171:
+                case 172:
                     yyn = yys54();
                     continue;
 
@@ -744,7 +748,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 172:
+                case 173:
                     yyn = yys55();
                     continue;
 
@@ -753,7 +757,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 173:
+                case 174:
                     yyn = yys56();
                     continue;
 
@@ -762,7 +766,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 174:
+                case 175:
                     yyn = yys57();
                     continue;
 
@@ -771,7 +775,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 175:
+                case 176:
                     yyn = yys58();
                     continue;
 
@@ -780,7 +784,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 176:
+                case 177:
                     yyn = yys59();
                     continue;
 
@@ -789,7 +793,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 177:
+                case 178:
                     yyn = yys60();
                     continue;
 
@@ -798,12 +802,21 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 178:
+                case 179:
                     yyn = yys61();
                     continue;
 
                 case 62:
                     yyst[yysp] = 62;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 180:
+                    yyn = yys62();
+                    continue;
+
+                case 63:
+                    yyst[yysp] = 63;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -811,16 +824,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 179:
-                    yyn = yys62();
-                    continue;
-
-                case 63:
-                    yyst[yysp] = 63;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 180:
+                case 181:
                     yyn = yys63();
                     continue;
 
@@ -829,26 +833,22 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 181:
-                    switch (yytok) {
-                        case ')':
-                            yyn = 73;
-                            continue;
-                    }
-                    yyn = 237;
+                case 182:
+                    yyn = yys64();
                     continue;
 
                 case 65:
                     yyst[yysp] = 65;
-                    yysv[yysp] = (lexer.semanticValue
-                                 );
-                    yytok = (nextToken()
-                            );
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 182:
-                    yyn = yys65();
+                case 183:
+                    switch (yytok) {
+                        case ')':
+                            yyn = 74;
+                            continue;
+                    }
+                    yyn = 239;
                     continue;
 
                 case 66:
@@ -860,7 +860,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 183:
+                case 184:
                     yyn = yys66();
                     continue;
 
@@ -873,19 +873,8 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 184:
-                    switch (yytok) {
-                        case COUNT:
-                            yyn = 41;
-                            continue;
-                        case IDENTIFIER:
-                            yyn = 42;
-                            continue;
-                        case SUM:
-                            yyn = 43;
-                            continue;
-                    }
-                    yyn = 237;
+                case 185:
+                    yyn = yys67();
                     continue;
 
                 case 68:
@@ -897,13 +886,19 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 185:
+                case 186:
                     switch (yytok) {
+                        case COUNT:
+                            yyn = 41;
+                            continue;
                         case IDENTIFIER:
-                            yyn = 77;
+                            yyn = 42;
+                            continue;
+                        case SUM:
+                            yyn = 43;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 69:
@@ -915,13 +910,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 186:
+                case 187:
                     switch (yytok) {
                         case IDENTIFIER:
                             yyn = 78;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 70:
@@ -933,13 +928,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 187:
+                case 188:
                     switch (yytok) {
                         case IDENTIFIER:
                             yyn = 79;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 71:
@@ -951,8 +946,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 188:
-                    yyn = yys71();
+                case 189:
+                    switch (yytok) {
+                        case IDENTIFIER:
+                            yyn = 80;
+                            continue;
+                    }
+                    yyn = 239;
                     continue;
 
                 case 72:
@@ -964,7 +964,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 189:
+                case 190:
                     yyn = yys72();
                     continue;
 
@@ -977,7 +977,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 190:
+                case 191:
                     yyn = yys73();
                     continue;
 
@@ -990,40 +990,12 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 191:
-                    switch (yytok) {
-                        case IDENTIFIER:
-                            yyn = 81;
-                            continue;
-                    }
-                    yyn = 237;
+                case 192:
+                    yyn = yys74();
                     continue;
 
                 case 75:
                     yyst[yysp] = 75;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 192:
-                    switch (yytok) {
-                        case FROM:
-                            yyn = yyr21();
-                            continue;
-                    }
-                    yyn = 237;
-                    continue;
-
-                case 76:
-                    yyst[yysp] = 76;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 193:
-                    yyn = yys76();
-                    continue;
-
-                case 77:
-                    yyst[yysp] = 77;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1031,7 +1003,35 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
+                case 193:
+                    switch (yytok) {
+                        case IDENTIFIER:
+                            yyn = 82;
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 76:
+                    yyst[yysp] = 76;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
                 case 194:
+                    switch (yytok) {
+                        case FROM:
+                            yyn = yyr21();
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 77:
+                    yyst[yysp] = 77;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 195:
                     yyn = yys77();
                     continue;
 
@@ -1044,16 +1044,8 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 195:
-                    switch (yytok) {
-                        case ')':
-                            yyn = 86;
-                            continue;
-                        case '.':
-                            yyn = 87;
-                            continue;
-                    }
-                    yyn = 237;
+                case 196:
+                    yyn = yys78();
                     continue;
 
                 case 79:
@@ -1065,32 +1057,20 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 196:
+                case 197:
                     switch (yytok) {
-                        case FROM:
-                        case ',':
-                            yyn = yyr24();
+                        case ')':
+                            yyn = 87;
+                            continue;
+                        case '.':
+                            yyn = 88;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 80:
                     yyst[yysp] = 80;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 197:
-                    switch (yytok) {
-                        case ')':
-                            yyn = yyr59();
-                            continue;
-                    }
-                    yyn = 237;
-                    continue;
-
-                case 81:
-                    yyst[yysp] = 81;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1099,34 +1079,31 @@ class rqlParser implements mTokens {
                         yyexpand();
                     }
                 case 198:
-                    yyn = yys81();
+                    switch (yytok) {
+                        case FROM:
+                        case ',':
+                            yyn = yyr24();
+                            continue;
+                    }
+                    yyn = 239;
                     continue;
 
-                case 82:
-                    yyst[yysp] = 82;
+                case 81:
+                    yyst[yysp] = 81;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 199:
                     switch (yytok) {
-                        case ';':
-                            yyn = yyr6();
+                        case ')':
+                            yyn = yyr60();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
-                case 83:
-                    yyst[yysp] = 83;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 200:
-                    yyn = yys83();
-                    continue;
-
-                case 84:
-                    yyst[yysp] = 84;
+                case 82:
+                    yyst[yysp] = 82;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1134,7 +1111,30 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
+                case 200:
+                    yyn = yys82();
+                    continue;
+
+                case 83:
+                    yyst[yysp] = 83;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
                 case 201:
+                    switch (yytok) {
+                        case ';':
+                            yyn = yyr6();
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 84:
+                    yyst[yysp] = 84;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 202:
                     yyn = yys84();
                     continue;
 
@@ -1147,13 +1147,8 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 202:
-                    switch (yytok) {
-                        case IDENTIFIER:
-                            yyn = 77;
-                            continue;
-                    }
-                    yyn = 237;
+                case 203:
+                    yyn = yys85();
                     continue;
 
                 case 86:
@@ -1165,14 +1160,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 203:
+                case 204:
                     switch (yytok) {
-                        case FROM:
-                        case ',':
-                            yyn = yyr25();
+                        case IDENTIFIER:
+                            yyn = 78;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 87:
@@ -1184,35 +1178,18 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 204:
+                case 205:
                     switch (yytok) {
-                        case IDENTIFIER:
-                            yyn = 94;
+                        case FROM:
+                        case ',':
+                            yyn = yyr25();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 88:
                     yyst[yysp] = 88;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 205:
-                    switch (yytok) {
-                        case AT:
-                            yyn = 96;
-                            continue;
-                        case ';':
-                        case ON:
-                            yyn = yyr16();
-                            continue;
-                    }
-                    yyn = 237;
-                    continue;
-
-                case 89:
-                    yyst[yysp] = 89;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1221,7 +1198,30 @@ class rqlParser implements mTokens {
                         yyexpand();
                     }
                 case 206:
-                    yyn = yys89();
+                    switch (yytok) {
+                        case IDENTIFIER:
+                            yyn = 95;
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 89:
+                    yyst[yysp] = 89;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 207:
+                    switch (yytok) {
+                        case AT:
+                            yyn = 97;
+                            continue;
+                        case ';':
+                        case ON:
+                            yyn = yyr16();
+                            continue;
+                    }
+                    yyn = 239;
                     continue;
 
                 case 90:
@@ -1233,7 +1233,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 207:
+                case 208:
                     yyn = yys90();
                     continue;
 
@@ -1246,35 +1246,12 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 208:
-                    switch (yytok) {
-                        case '(':
-                            yyn = 99;
-                            continue;
-                    }
-                    yyn = 237;
+                case 209:
+                    yyn = yys91();
                     continue;
 
                 case 92:
                     yyst[yysp] = 92;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 209:
-                    yyn = yys92();
-                    continue;
-
-                case 93:
-                    yyst[yysp] = 93;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 210:
-                    yyn = yys93();
-                    continue;
-
-                case 94:
-                    yyst[yysp] = 94;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1282,34 +1259,35 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 211:
+                case 210:
                     switch (yytok) {
-                        case ')':
+                        case '(':
                             yyn = 100;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
-                case 95:
-                    yyst[yysp] = 95;
+                case 93:
+                    yyst[yysp] = 93;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 211:
+                    yyn = yys93();
+                    continue;
+
+                case 94:
+                    yyst[yysp] = 94;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 212:
-                    switch (yytok) {
-                        case ON:
-                            yyn = 102;
-                            continue;
-                        case ';':
-                            yyn = yyr18();
-                            continue;
-                    }
-                    yyn = 237;
+                    yyn = yys94();
                     continue;
 
-                case 96:
-                    yyst[yysp] = 96;
+                case 95:
+                    yyst[yysp] = 95;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1319,36 +1297,32 @@ class rqlParser implements mTokens {
                     }
                 case 213:
                     switch (yytok) {
-                        case ALL_NODES:
-                            yyn = 103;
-                            continue;
-                        case NODES:
-                            yyn = 104;
+                        case ')':
+                            yyn = 101;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
-                case 97:
-                    yyst[yysp] = 97;
+                case 96:
+                    yyst[yysp] = 96;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 214:
-                    yyn = yys97();
-                    continue;
-
-                case 98:
-                    yyst[yysp] = 98;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
+                    switch (yytok) {
+                        case ON:
+                            yyn = 103;
+                            continue;
+                        case ';':
+                            yyn = yyr18();
+                            continue;
                     }
-                case 215:
-                    yyn = yys98();
+                    yyn = 239;
                     continue;
 
-                case 99:
-                    yyst[yysp] = 99;
+                case 97:
+                    yyst[yysp] = 97;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1356,7 +1330,33 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
+                case 215:
+                    switch (yytok) {
+                        case ALL_NODES:
+                            yyn = 104;
+                            continue;
+                        case NODES:
+                            yyn = 105;
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 98:
+                    yyst[yysp] = 98;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
                 case 216:
+                    yyn = yys98();
+                    continue;
+
+                case 99:
+                    yyst[yysp] = 99;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 217:
                     yyn = yys99();
                     continue;
 
@@ -1369,32 +1369,12 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 217:
-                    switch (yytok) {
-                        case FROM:
-                        case ',':
-                            yyn = yyr26();
-                            continue;
-                    }
-                    yyn = 237;
+                case 218:
+                    yyn = yys100();
                     continue;
 
                 case 101:
                     yyst[yysp] = 101;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 218:
-                    switch (yytok) {
-                        case ';':
-                            yyn = yyr7();
-                            continue;
-                    }
-                    yyn = 237;
-                    continue;
-
-                case 102:
-                    yyst[yysp] = 102;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1404,11 +1384,26 @@ class rqlParser implements mTokens {
                     }
                 case 219:
                     switch (yytok) {
-                        case TIME:
-                            yyn = 106;
+                        case FROM:
+                        case ',':
+                            yyn = yyr26();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
+                    continue;
+
+                case 102:
+                    yyst[yysp] = 102;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 220:
+                    switch (yytok) {
+                        case ';':
+                            yyn = yyr7();
+                            continue;
+                    }
+                    yyn = 239;
                     continue;
 
                 case 103:
@@ -1420,14 +1415,13 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 220:
+                case 221:
                     switch (yytok) {
-                        case ';':
-                        case ON:
-                            yyn = yyr15();
+                        case TIME:
+                            yyn = 107;
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 104:
@@ -1439,26 +1433,18 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 221:
+                case 222:
                     switch (yytok) {
-                        case IDENTIFIER:
-                            yyn = 77;
+                        case ';':
+                        case ON:
+                            yyn = yyr15();
                             continue;
                     }
-                    yyn = 237;
+                    yyn = 239;
                     continue;
 
                 case 105:
                     yyst[yysp] = 105;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 222:
-                    yyn = yys105();
-                    continue;
-
-                case 106:
-                    yyst[yysp] = 106;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1467,26 +1453,25 @@ class rqlParser implements mTokens {
                         yyexpand();
                     }
                 case 223:
+                    switch (yytok) {
+                        case IDENTIFIER:
+                            yyn = 78;
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 106:
+                    yyst[yysp] = 106;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 224:
                     yyn = yys106();
                     continue;
 
                 case 107:
                     yyst[yysp] = 107;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 224:
-                    switch (yytok) {
-                        case ';':
-                        case ON:
-                            yyn = yyr14();
-                            continue;
-                    }
-                    yyn = 237;
-                    continue;
-
-                case 108:
-                    yyst[yysp] = 108;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1495,15 +1480,34 @@ class rqlParser implements mTokens {
                         yyexpand();
                     }
                 case 225:
-                    yyn = yys108();
+                    yyn = yys107();
                     continue;
 
-                case 109:
-                    yyst[yysp] = 109;
+                case 108:
+                    yyst[yysp] = 108;
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
                 case 226:
+                    switch (yytok) {
+                        case ';':
+                        case ON:
+                            yyn = yyr14();
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 109:
+                    yyst[yysp] = 109;
+                    yysv[yysp] = (lexer.semanticValue
+                                 );
+                    yytok = (nextToken()
+                            );
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 227:
                     yyn = yys109();
                     continue;
 
@@ -1512,7 +1516,7 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 227:
+                case 228:
                     yyn = yys110();
                     continue;
 
@@ -1521,26 +1525,22 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 228:
+                case 229:
+                    yyn = yys111();
+                    continue;
+
+                case 112:
+                    yyst[yysp] = 112;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 230:
                     switch (yytok) {
                         case ';':
                             yyn = yyr17();
                             continue;
                     }
-                    yyn = 237;
-                    continue;
-
-                case 112:
-                    yyst[yysp] = 112;
-                    yysv[yysp] = (lexer.semanticValue
-                                 );
-                    yytok = (nextToken()
-                            );
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 229:
-                    yyn = yys112();
+                    yyn = 239;
                     continue;
 
                 case 113:
@@ -1552,26 +1552,12 @@ class rqlParser implements mTokens {
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 230:
-                    switch (yytok) {
-                        case LINK:
-                            yyn = 115;
-                            continue;
-                    }
-                    yyn = 237;
+                case 231:
+                    yyn = yys113();
                     continue;
 
                 case 114:
                     yyst[yysp] = 114;
-                    if (++yysp>=yyst.length) {
-                        yyexpand();
-                    }
-                case 231:
-                    yyn = yys114();
-                    continue;
-
-                case 115:
-                    yyst[yysp] = 115;
                     yysv[yysp] = (lexer.semanticValue
                                  );
                     yytok = (nextToken()
@@ -1580,25 +1566,52 @@ class rqlParser implements mTokens {
                         yyexpand();
                     }
                 case 232:
+                    switch (yytok) {
+                        case LINK:
+                            yyn = 116;
+                            continue;
+                    }
+                    yyn = 239;
+                    continue;
+
+                case 115:
+                    yyst[yysp] = 115;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
+                case 233:
                     yyn = yys115();
                     continue;
 
                 case 116:
                     yyst[yysp] = 116;
+                    yysv[yysp] = (lexer.semanticValue
+                                 );
+                    yytok = (nextToken()
+                            );
                     if (++yysp>=yyst.length) {
                         yyexpand();
                     }
-                case 233:
+                case 234:
                     yyn = yys116();
                     continue;
 
-                case 234:
-                    return true;
+                case 117:
+                    yyst[yysp] = 117;
+                    if (++yysp>=yyst.length) {
+                        yyexpand();
+                    }
                 case 235:
-                    yyerror("stack overflow");
+                    yyn = yys117();
+                    continue;
+
                 case 236:
-                    return false;
+                    return true;
                 case 237:
+                    yyerror("stack overflow");
+                case 238:
+                    return false;
+                case 239:
                     yyerror("syntax error");
                     return false;
             }
@@ -1643,7 +1656,7 @@ class rqlParser implements mTokens {
             case ENDINPUT:
                 return yyr2();
         }
-        return 237;
+        return 239;
     }
 
     private int yys2() {
@@ -1681,7 +1694,7 @@ class rqlParser implements mTokens {
             case '>':
                 return 31;
         }
-        return 237;
+        return 239;
     }
 
     private int yys4() {
@@ -1711,69 +1724,69 @@ class rqlParser implements mTokens {
             case ENDINPUT:
                 return yyr2();
         }
-        return 237;
+        return 239;
     }
 
     private int yys6() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
-                return yyr58();
+                return yyr59();
         }
-        return 237;
+        return 239;
     }
 
     private int yys7() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
-                return yyr55();
+                return yyr56();
         }
-        return 237;
+        return 239;
     }
 
     private int yys8() {
@@ -1781,26 +1794,27 @@ class rqlParser implements mTokens {
             case SUM:
             case TRUE:
             case TIME:
-            case ALL_NODES:
-            case error:
-            case WHEN:
-            case INTEGER_LITERAL:
             case ENDINPUT:
-            case '{':
+            case WHEN:
+            case COUNT:
+            case '!':
+            case ALL_NODES:
+            case EXPLAIN:
             case '}':
             case FROM:
-            case '!':
+            case error:
             case IDENTIFIER:
-            case COUNT:
+            case INTEGER_LITERAL:
             case '[':
             case ']':
+            case SAME_NODE:
             case FALSE:
             case NODES:
-            case SELECT:
-            case EXPLAIN:
             case FLOAT_LITERAL:
+            case '{':
+            case SELECT:
             case STRING_LITERAL:
-                return 237;
+                return 239;
             case '(':
                 return 35;
             case '.':
@@ -1808,100 +1822,100 @@ class rqlParser implements mTokens {
             case ':':
                 return 37;
         }
-        return yyr50();
+        return yyr51();
     }
 
     private int yys9() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
-                return yyr54();
+                return yyr55();
         }
-        return 237;
+        return 239;
     }
 
     private int yys11() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
-            case LEQ:
-            case EQ:
-            case AT:
-            case AFTER:
-                return yyr56();
-        }
-        return 237;
-    }
-
-    private int yys12() {
-        switch (yytok) {
+            case LINK:
             case '%':
-            case TO:
-            case GEQ:
-            case BETWEEN:
-            case AND:
-            case '>':
-            case OR:
-            case ';':
-            case ON:
-            case BEFORE:
-            case '/':
-            case '-':
-            case ',':
-            case NEQ:
-            case '+':
-            case '<':
-            case '=':
-            case '*':
-            case LINK:
-            case ')':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr57();
         }
-        return 237;
+        return 239;
+    }
+
+    private int yys12() {
+        switch (yytok) {
+            case TO:
+            case GEQ:
+            case BETWEEN:
+            case AND:
+            case '>':
+            case '=':
+            case OR:
+            case '/':
+            case ON:
+            case BEFORE:
+            case '-':
+            case ',':
+            case '+':
+            case NEQ:
+            case ';':
+            case '<':
+            case '*':
+            case ')':
+            case LINK:
+            case '%':
+            case LEQ:
+            case EQ:
+            case AT:
+            case AFTER:
+                return yyr58();
+        }
+        return 239;
     }
 
     private int yys13() {
@@ -1925,7 +1939,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys14() {
@@ -1949,7 +1963,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys15() {
@@ -1973,7 +1987,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys16() {
@@ -1997,7 +2011,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys17() {
@@ -2021,7 +2035,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys18() {
@@ -2045,7 +2059,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys19() {
@@ -2069,7 +2083,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys20() {
@@ -2092,8 +2106,10 @@ class rqlParser implements mTokens {
                 return 14;
             case '-':
                 return 15;
+            case SAME_NODE:
+                return 52;
         }
-        return 237;
+        return 239;
     }
 
     private int yys21() {
@@ -2117,7 +2133,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys22() {
@@ -2141,7 +2157,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys23() {
@@ -2165,7 +2181,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys24() {
@@ -2189,7 +2205,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys25() {
@@ -2213,7 +2229,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys26() {
@@ -2237,7 +2253,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys27() {
@@ -2261,15 +2277,15 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys28() {
         switch (yytok) {
             case '!':
             case INTEGER_LITERAL:
-            case IDENTIFIER:
             case TRUE:
+            case IDENTIFIER:
             case ENDINPUT:
             case STRING_LITERAL:
             case SELECT:
@@ -2280,7 +2296,7 @@ class rqlParser implements mTokens {
             case '(':
                 return yyr5();
         }
-        return 237;
+        return 239;
     }
 
     private int yys29() {
@@ -2304,7 +2320,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys30() {
@@ -2328,7 +2344,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys31() {
@@ -2352,15 +2368,15 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys32() {
         switch (yytok) {
             case '!':
             case INTEGER_LITERAL:
-            case IDENTIFIER:
             case TRUE:
+            case IDENTIFIER:
             case ENDINPUT:
             case STRING_LITERAL:
             case SELECT:
@@ -2371,7 +2387,7 @@ class rqlParser implements mTokens {
             case '(':
                 return yyr3();
         }
-        return 237;
+        return 239;
     }
 
     private int yys35() {
@@ -2395,9 +2411,9 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
             case ')':
-                return yyr61();
+                return yyr62();
         }
-        return 237;
+        return 239;
     }
 
     private int yys44() {
@@ -2443,7 +2459,7 @@ class rqlParser implements mTokens {
             case AFTER:
                 return yyr45();
         }
-        return 237;
+        return 239;
     }
 
     private int yys45() {
@@ -2479,9 +2495,9 @@ class rqlParser implements mTokens {
             case '>':
                 return 31;
             case ')':
-                return 71;
+                return 72;
         }
-        return 237;
+        return 239;
     }
 
     private int yys46() {
@@ -2497,25 +2513,25 @@ class rqlParser implements mTokens {
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
             case ON:
             case BEFORE:
             case '-':
             case ',':
-            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '+':
-            case LINK:
+            case NEQ:
             case ')':
+            case LINK:
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr31();
         }
-        return 237;
+        return 239;
     }
 
     private int yys47() {
@@ -2560,7 +2576,7 @@ class rqlParser implements mTokens {
             case AFTER:
                 return yyr46();
         }
-        return 237;
+        return 239;
     }
 
     private int yys48() {
@@ -2586,21 +2602,21 @@ class rqlParser implements mTokens {
             case TO:
             case BETWEEN:
             case AND:
-            case OR:
+            case '=':
             case ';':
+            case OR:
             case ON:
             case BEFORE:
-            case '=':
             case ',':
             case NEQ:
-            case LINK:
             case ')':
+            case LINK:
             case EQ:
             case AT:
             case AFTER:
                 return yyr39();
         }
-        return 237;
+        return 239;
     }
 
     private int yys49() {
@@ -2620,23 +2636,23 @@ class rqlParser implements mTokens {
             case BETWEEN:
             case AND:
             case '>':
-            case OR:
+            case '=':
             case ';':
+            case OR:
             case ON:
             case BEFORE:
-            case ',':
             case '<':
-            case '=':
+            case ',':
             case NEQ:
-            case LINK:
             case ')':
+            case LINK:
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr42();
         }
-        return 237;
+        return 239;
     }
 
     private int yys50() {
@@ -2656,23 +2672,23 @@ class rqlParser implements mTokens {
             case BETWEEN:
             case AND:
             case '>':
-            case OR:
+            case '=':
             case ';':
+            case OR:
             case ON:
             case BEFORE:
-            case ',':
             case '<':
-            case '=':
+            case ',':
             case NEQ:
-            case LINK:
             case ')':
+            case LINK:
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr41();
         }
-        return 237;
+        return 239;
     }
 
     private int yys51() {
@@ -2704,21 +2720,52 @@ class rqlParser implements mTokens {
             case TO:
             case BETWEEN:
             case AND:
-            case OR:
             case ';':
+            case OR:
             case ON:
             case BEFORE:
             case ',':
-            case LINK:
             case ')':
+            case LINK:
             case AT:
             case AFTER:
                 return yyr48();
         }
-        return 237;
+        return 239;
     }
 
     private int yys52() {
+        switch (yytok) {
+            case TO:
+            case GEQ:
+            case BETWEEN:
+            case AND:
+            case '>':
+            case '=':
+            case OR:
+            case '/':
+            case ON:
+            case BEFORE:
+            case '-':
+            case ',':
+            case '+':
+            case NEQ:
+            case ';':
+            case '<':
+            case '*':
+            case ')':
+            case LINK:
+            case '%':
+            case LEQ:
+            case EQ:
+            case AT:
+            case AFTER:
+                return yyr49();
+        }
+        return 239;
+    }
+
+    private int yys53() {
         switch (yytok) {
             case GEQ:
                 return 18;
@@ -2741,24 +2788,24 @@ class rqlParser implements mTokens {
             case TO:
             case BETWEEN:
             case AND:
-            case OR:
+            case '=':
             case ';':
+            case OR:
             case ON:
             case BEFORE:
-            case '=':
             case ',':
             case NEQ:
-            case LINK:
             case ')':
+            case LINK:
             case EQ:
             case AT:
             case AFTER:
                 return yyr40();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys53() {
+    private int yys54() {
         switch (yytok) {
             case EQ:
                 return 17;
@@ -2789,8 +2836,8 @@ class rqlParser implements mTokens {
             case TO:
             case BETWEEN:
             case AND:
-            case OR:
             case ';':
+            case OR:
             case ON:
             case BEFORE:
             case ',':
@@ -2799,103 +2846,69 @@ class rqlParser implements mTokens {
             case AFTER:
                 return yyr47();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys54() {
+    private int yys55() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr36();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys55() {
+    private int yys56() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr35();
         }
-        return 237;
-    }
-
-    private int yys56() {
-        switch (yytok) {
-            case '%':
-                return 23;
-            case '*':
-                return 24;
-            case '/':
-                return 27;
-            case TO:
-            case GEQ:
-            case BETWEEN:
-            case AND:
-            case '>':
-            case OR:
-            case ';':
-            case ON:
-            case BEFORE:
-            case '-':
-            case ',':
-            case NEQ:
-            case '<':
-            case '=':
-            case '+':
-            case LINK:
-            case ')':
-            case LEQ:
-            case EQ:
-            case AT:
-            case AFTER:
-                return yyr32();
-        }
-        return 237;
+        return 239;
     }
 
     private int yys57() {
@@ -2911,59 +2924,93 @@ class rqlParser implements mTokens {
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
             case ON:
             case BEFORE:
             case '-':
             case ',':
-            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '+':
-            case LINK:
+            case NEQ:
             case ')':
+            case LINK:
+            case LEQ:
+            case EQ:
+            case AT:
+            case AFTER:
+                return yyr32();
+        }
+        return 239;
+    }
+
+    private int yys58() {
+        switch (yytok) {
+            case '%':
+                return 23;
+            case '*':
+                return 24;
+            case '/':
+                return 27;
+            case TO:
+            case GEQ:
+            case BETWEEN:
+            case AND:
+            case '>':
+            case '=':
+            case OR:
+            case ON:
+            case BEFORE:
+            case '-':
+            case ',':
+            case ';':
+            case '<':
+            case '+':
+            case NEQ:
+            case ')':
+            case LINK:
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr33();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys58() {
+    private int yys59() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr34();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys59() {
+    private int yys60() {
         switch (yytok) {
             case '%':
                 return 23;
@@ -2980,26 +3027,26 @@ class rqlParser implements mTokens {
             case BETWEEN:
             case AND:
             case '>':
-            case OR:
+            case '=':
             case ';':
+            case OR:
             case ON:
             case BEFORE:
-            case ',':
             case '<':
-            case '=':
+            case ',':
             case NEQ:
-            case LINK:
             case ')':
+            case LINK:
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr43();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys60() {
+    private int yys61() {
         switch (yytok) {
             case GEQ:
                 return 18;
@@ -3022,24 +3069,24 @@ class rqlParser implements mTokens {
             case TO:
             case BETWEEN:
             case AND:
-            case OR:
+            case '=':
             case ';':
+            case OR:
             case ON:
             case BEFORE:
-            case '=':
             case ',':
             case NEQ:
-            case LINK:
             case ')':
+            case LINK:
             case EQ:
             case AT:
             case AFTER:
                 return yyr38();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys61() {
+    private int yys62() {
         switch (yytok) {
             case '%':
                 return 23;
@@ -3056,31 +3103,31 @@ class rqlParser implements mTokens {
             case BETWEEN:
             case AND:
             case '>':
-            case OR:
+            case '=':
             case ';':
+            case OR:
             case ON:
             case BEFORE:
-            case ',':
             case '<':
-            case '=':
+            case ',':
             case NEQ:
-            case LINK:
             case ')':
+            case LINK:
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr44();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys62() {
+    private int yys63() {
         switch (yytok) {
             case '!':
             case INTEGER_LITERAL:
-            case IDENTIFIER:
             case TRUE:
+            case IDENTIFIER:
             case ENDINPUT:
             case STRING_LITERAL:
             case SELECT:
@@ -3091,10 +3138,10 @@ class rqlParser implements mTokens {
             case '(':
                 return yyr4();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys63() {
+    private int yys64() {
         switch (yytok) {
             case AND:
                 return 16;
@@ -3127,109 +3174,109 @@ class rqlParser implements mTokens {
             case '>':
                 return 31;
             case ',':
-                return 72;
+                return 73;
             case ')':
-                return yyr60();
+                return yyr61();
         }
-        return 237;
-    }
-
-    private int yys65() {
-        switch (yytok) {
-            case ':':
-                return 74;
-            case '%':
-            case TO:
-            case GEQ:
-            case BETWEEN:
-            case AND:
-            case '>':
-            case OR:
-            case ';':
-            case ON:
-            case BEFORE:
-            case '/':
-            case '-':
-            case ',':
-            case NEQ:
-            case '+':
-            case '<':
-            case '=':
-            case '*':
-            case LINK:
-            case ')':
-            case LEQ:
-            case EQ:
-            case AT:
-            case AFTER:
-                return yyr51();
-        }
-        return 237;
+        return 239;
     }
 
     private int yys66() {
         switch (yytok) {
-            case '%':
+            case ':':
+                return 75;
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
-                return yyr53();
+                return yyr52();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys71() {
+    private int yys67() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
+            case LEQ:
+            case EQ:
+            case AT:
+            case AFTER:
+                return yyr54();
+        }
+        return 239;
+    }
+
+    private int yys72() {
+        switch (yytok) {
+            case TO:
+            case GEQ:
+            case BETWEEN:
+            case AND:
+            case '>':
+            case '=':
+            case OR:
+            case '/':
+            case ON:
+            case BEFORE:
+            case '-':
+            case ',':
+            case '+':
+            case NEQ:
+            case ';':
+            case '<':
+            case '*':
+            case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
                 return yyr37();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys72() {
+    private int yys73() {
         switch (yytok) {
             case FALSE:
                 return 6;
@@ -3250,46 +3297,46 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
             case ')':
-                return yyr61();
+                return yyr62();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys73() {
+    private int yys74() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
-                return yyr49();
+                return yyr50();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys76() {
+    private int yys77() {
         switch (yytok) {
             case WHEN:
-                return 84;
+                return 85;
             case BETWEEN:
             case ';':
             case ON:
@@ -3298,13 +3345,13 @@ class rqlParser implements mTokens {
             case AFTER:
                 return yyr13();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys77() {
+    private int yys78() {
         switch (yytok) {
             case ',':
-                return 85;
+                return 86;
             case WHEN:
             case BETWEEN:
             case ';':
@@ -3314,57 +3361,57 @@ class rqlParser implements mTokens {
             case AFTER:
                 return yyr30();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys81() {
+    private int yys82() {
         switch (yytok) {
-            case '%':
             case TO:
             case GEQ:
             case BETWEEN:
             case AND:
             case '>':
+            case '=':
             case OR:
-            case ';':
+            case '/':
             case ON:
             case BEFORE:
-            case '/':
             case '-':
             case ',':
-            case NEQ:
             case '+':
+            case NEQ:
+            case ';':
             case '<':
-            case '=':
             case '*':
-            case LINK:
             case ')':
+            case LINK:
+            case '%':
             case LEQ:
             case EQ:
             case AT:
             case AFTER:
-                return yyr52();
+                return yyr53();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys83() {
+    private int yys84() {
         switch (yytok) {
             case AFTER:
-                return 89;
-            case BEFORE:
                 return 90;
-            case BETWEEN:
+            case BEFORE:
                 return 91;
+            case BETWEEN:
+                return 92;
             case ';':
             case ON:
             case AT:
                 return yyr11();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys84() {
+    private int yys85() {
         switch (yytok) {
             case FALSE:
                 return 6;
@@ -3385,31 +3432,7 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
-    }
-
-    private int yys89() {
-        switch (yytok) {
-            case FALSE:
-                return 6;
-            case FLOAT_LITERAL:
-                return 7;
-            case IDENTIFIER:
-                return 8;
-            case INTEGER_LITERAL:
-                return 9;
-            case STRING_LITERAL:
-                return 11;
-            case TRUE:
-                return 12;
-            case '!':
-                return 13;
-            case '(':
-                return 14;
-            case '-':
-                return 15;
-        }
-        return 237;
+        return 239;
     }
 
     private int yys90() {
@@ -3433,10 +3456,34 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
-    private int yys92() {
+    private int yys91() {
+        switch (yytok) {
+            case FALSE:
+                return 6;
+            case FLOAT_LITERAL:
+                return 7;
+            case IDENTIFIER:
+                return 8;
+            case INTEGER_LITERAL:
+                return 9;
+            case STRING_LITERAL:
+                return 11;
+            case TRUE:
+                return 12;
+            case '!':
+                return 13;
+            case '(':
+                return 14;
+            case '-':
+                return 15;
+        }
+        return 239;
+    }
+
+    private int yys93() {
         switch (yytok) {
             case AND:
                 return 16;
@@ -3476,10 +3523,10 @@ class rqlParser implements mTokens {
             case AFTER:
                 return yyr12();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys93() {
+    private int yys94() {
         switch (yytok) {
             case WHEN:
             case BETWEEN:
@@ -3490,47 +3537,7 @@ class rqlParser implements mTokens {
             case AFTER:
                 return yyr29();
         }
-        return 237;
-    }
-
-    private int yys97() {
-        switch (yytok) {
-            case AND:
-                return 16;
-            case EQ:
-                return 17;
-            case GEQ:
-                return 18;
-            case LEQ:
-                return 19;
-            case LINK:
-                return 20;
-            case NEQ:
-                return 21;
-            case OR:
-                return 22;
-            case '%':
-                return 23;
-            case '*':
-                return 24;
-            case '+':
-                return 25;
-            case '-':
-                return 26;
-            case '/':
-                return 27;
-            case '<':
-                return 29;
-            case '=':
-                return 30;
-            case '>':
-                return 31;
-            case ';':
-            case ON:
-            case AT:
-                return yyr10();
-        }
-        return 237;
+        return 239;
     }
 
     private int yys98() {
@@ -3568,12 +3575,52 @@ class rqlParser implements mTokens {
             case ';':
             case ON:
             case AT:
-                return yyr9();
+                return yyr10();
         }
-        return 237;
+        return 239;
     }
 
     private int yys99() {
+        switch (yytok) {
+            case AND:
+                return 16;
+            case EQ:
+                return 17;
+            case GEQ:
+                return 18;
+            case LEQ:
+                return 19;
+            case LINK:
+                return 20;
+            case NEQ:
+                return 21;
+            case OR:
+                return 22;
+            case '%':
+                return 23;
+            case '*':
+                return 24;
+            case '+':
+                return 25;
+            case '-':
+                return 26;
+            case '/':
+                return 27;
+            case '<':
+                return 29;
+            case '=':
+                return 30;
+            case '>':
+                return 31;
+            case ';':
+            case ON:
+            case AT:
+                return yyr9();
+        }
+        return 239;
+    }
+
+    private int yys100() {
         switch (yytok) {
             case FALSE:
                 return 6;
@@ -3594,10 +3641,10 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
-    private int yys105() {
+    private int yys106() {
         switch (yytok) {
             case AND:
                 return 16;
@@ -3630,12 +3677,12 @@ class rqlParser implements mTokens {
             case '>':
                 return 31;
             case ',':
-                return 108;
+                return 109;
         }
-        return 237;
+        return 239;
     }
 
-    private int yys106() {
+    private int yys107() {
         switch (yytok) {
             case FALSE:
                 return 6;
@@ -3656,71 +3703,31 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
-    }
-
-    private int yys108() {
-        switch (yytok) {
-            case FALSE:
-                return 6;
-            case FLOAT_LITERAL:
-                return 7;
-            case IDENTIFIER:
-                return 8;
-            case INTEGER_LITERAL:
-                return 9;
-            case STRING_LITERAL:
-                return 11;
-            case TRUE:
-                return 12;
-            case '!':
-                return 13;
-            case '(':
-                return 14;
-            case '-':
-                return 15;
-        }
-        return 237;
+        return 239;
     }
 
     private int yys109() {
         switch (yytok) {
-            case AND:
-                return 16;
-            case EQ:
-                return 17;
-            case GEQ:
-                return 18;
-            case LEQ:
-                return 19;
-            case LINK:
-                return 20;
-            case NEQ:
-                return 21;
-            case OR:
-                return 22;
-            case '%':
-                return 23;
-            case '*':
-                return 24;
-            case '+':
-                return 25;
+            case FALSE:
+                return 6;
+            case FLOAT_LITERAL:
+                return 7;
+            case IDENTIFIER:
+                return 8;
+            case INTEGER_LITERAL:
+                return 9;
+            case STRING_LITERAL:
+                return 11;
+            case TRUE:
+                return 12;
+            case '!':
+                return 13;
+            case '(':
+                return 14;
             case '-':
-                return 26;
-            case '/':
-                return 27;
-            case '<':
-                return 29;
-            case '=':
-                return 30;
-            case '>':
-                return 31;
-            case TO:
-                return 112;
-            case ';':
-                return yyr20();
+                return 15;
         }
-        return 237;
+        return 239;
     }
 
     private int yys110() {
@@ -3755,13 +3762,53 @@ class rqlParser implements mTokens {
                 return 30;
             case '>':
                 return 31;
-            case ')':
+            case TO:
                 return 113;
+            case ';':
+                return yyr20();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys112() {
+    private int yys111() {
+        switch (yytok) {
+            case AND:
+                return 16;
+            case EQ:
+                return 17;
+            case GEQ:
+                return 18;
+            case LEQ:
+                return 19;
+            case LINK:
+                return 20;
+            case NEQ:
+                return 21;
+            case OR:
+                return 22;
+            case '%':
+                return 23;
+            case '*':
+                return 24;
+            case '+':
+                return 25;
+            case '-':
+                return 26;
+            case '/':
+                return 27;
+            case '<':
+                return 29;
+            case '=':
+                return 30;
+            case '>':
+                return 31;
+            case ')':
+                return 114;
+        }
+        return 239;
+    }
+
+    private int yys113() {
         switch (yytok) {
             case FALSE:
                 return 6;
@@ -3782,10 +3829,10 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
-    private int yys114() {
+    private int yys115() {
         switch (yytok) {
             case AND:
                 return 16;
@@ -3820,10 +3867,10 @@ class rqlParser implements mTokens {
             case ';':
                 return yyr19();
         }
-        return 237;
+        return 239;
     }
 
-    private int yys115() {
+    private int yys116() {
         switch (yytok) {
             case FALSE:
                 return 6;
@@ -3844,10 +3891,10 @@ class rqlParser implements mTokens {
             case '-':
                 return 15;
         }
-        return 237;
+        return 239;
     }
 
-    private int yys116() {
+    private int yys117() {
         switch (yytok) {
             case AND:
                 return 16;
@@ -3884,7 +3931,7 @@ class rqlParser implements mTokens {
             case AT:
                 return yyr8();
         }
-        return 237;
+        return 239;
     }
 
     private int yyr1() { // Statements : Statement Statements
@@ -3909,31 +3956,31 @@ class rqlParser implements mTokens {
     private int yyr14() { // AtNodes : AT NODES IdentifierList
         {yyrv = new AtNodes(((IdentifierList)yysv[yysp-1]));}
         yysv[yysp-=3] = yyrv;
-        return 95;
+        return 96;
     }
 
     private int yyr15() { // AtNodes : AT ALL_NODES
         {yyrv = new AtNodes();}
         yysv[yysp-=2] = yyrv;
-        return 95;
+        return 96;
     }
 
     private int yyr16() { // AtNodes : /* empty */
         {yyrv = null;}
         yysv[yysp-=0] = yyrv;
-        return 95;
+        return 96;
     }
 
     private int yyr19() { // AtTimeExtended : TO Expression
         {yyrv = ((Expression)yysv[yysp-1]);}
         yysv[yysp-=2] = yyrv;
-        return 111;
+        return 112;
     }
 
     private int yyr20() { // AtTimeExtended : /* empty */
         {yyrv = null;}
         yysv[yysp-=0] = yyrv;
-        return 111;
+        return 112;
     }
 
     private int yyr31() { // Expression : '-' Expression
@@ -4044,61 +4091,67 @@ class rqlParser implements mTokens {
         return yypExpression();
     }
 
-    private int yyr49() { // Expression : IDENTIFIER '(' ExpressionList ')'
+    private int yyr49() { // Expression : Expression LINK SAME_NODE
+        {yyrv = new LinkConditionalExpression(currentEnv, ((Expression)yysv[yysp-3]));}
+        yysv[yysp-=3] = yyrv;
+        return yypExpression();
+    }
+
+    private int yyr50() { // Expression : IDENTIFIER '(' ExpressionList ')'
         {yyrv = new FuncCall(currentEnv, ((String)yysv[yysp-4]), ((ExpressionList)yysv[yysp-2]));}
         yysv[yysp-=4] = yyrv;
         return yypExpression();
     }
 
-    private int yyr50() { // Expression : IDENTIFIER
+    private int yyr51() { // Expression : IDENTIFIER
         {yyrv = new Variable(((String)yysv[yysp-1]), currentEnv, true);}
         yysv[yysp-=1] = yyrv;
         return yypExpression();
     }
 
-    private int yyr51() { // Expression : IDENTIFIER '.' IDENTIFIER
+    private int yyr52() { // Expression : IDENTIFIER '.' IDENTIFIER
         {yyrv = new Variable(((String)yysv[yysp-3]), ((String)yysv[yysp-1]), currentEnv, true);}
         yysv[yysp-=3] = yyrv;
         return yypExpression();
     }
 
-    private int yyr52() { // Expression : IDENTIFIER '.' IDENTIFIER ':' IDENTIFIER
+    private int yyr53() { // Expression : IDENTIFIER '.' IDENTIFIER ':' IDENTIFIER
         {yyrv = new Variable(((String)yysv[yysp-5]), ((String)yysv[yysp-3]), ((String)yysv[yysp-1]), currentEnv, true);}
         yysv[yysp-=5] = yyrv;
         return yypExpression();
     }
 
-    private int yyr53() { // Expression : IDENTIFIER ':' IDENTIFIER
+    private int yyr54() { // Expression : IDENTIFIER ':' IDENTIFIER
         {yyrv = new Variable("", ((String)yysv[yysp-3]), ((String)yysv[yysp-1]), currentEnv, true);}
         yysv[yysp-=3] = yyrv;
         return yypExpression();
     }
 
-    private int yyr54() { // Expression : INTEGER_LITERAL
+    private int yyr55() { // Expression : INTEGER_LITERAL
         {yyrv = new IntegerLiteral(currentEnv, ((Integer)yysv[yysp-1]));}
         yysv[yysp-=1] = yyrv;
         return yypExpression();
     }
 
-    private int yyr55() { // Expression : FLOAT_LITERAL
+    private int yyr56() { // Expression : FLOAT_LITERAL
         {yyrv = new FloatLiteral(currentEnv, ((Double)yysv[yysp-1]));}
         yysv[yysp-=1] = yyrv;
         return yypExpression();
     }
 
-    private int yyr56() { // Expression : STRING_LITERAL
+    private int yyr57() { // Expression : STRING_LITERAL
         {yyrv = new StringLiteral(currentEnv, ((String)yysv[yysp-1]));}
         yysv[yysp-=1] = yyrv;
         return yypExpression();
     }
 
-    private int yyr57() { // Expression : TRUE
+    private int yyr58() { // Expression : TRUE
         {yyrv = new IntegerLiteral(currentEnv, 1);}
         yysv[yysp-=1] = yyrv;
         return yypExpression();
     }
 
-    private int yyr58() { // Expression : FALSE
+    private int yyr59() { // Expression : FALSE
         {yyrv = new IntegerLiteral(currentEnv, 0);}
         yysv[yysp-=1] = yyrv;
         return yypExpression();
@@ -4106,24 +4159,24 @@ class rqlParser implements mTokens {
 
     private int yypExpression() {
         switch (yyst[yysp-1]) {
-            case 115: return 116;
-            case 112: return 114;
-            case 108: return 110;
-            case 106: return 109;
-            case 99: return 105;
+            case 116: return 117;
+            case 113: return 115;
+            case 109: return 111;
+            case 107: return 110;
+            case 100: return 106;
+            case 91: return 99;
             case 90: return 98;
-            case 89: return 97;
-            case 84: return 92;
-            case 31: return 61;
-            case 30: return 60;
-            case 29: return 59;
-            case 27: return 58;
-            case 26: return 57;
-            case 25: return 56;
-            case 24: return 55;
-            case 23: return 54;
-            case 22: return 53;
-            case 21: return 52;
+            case 85: return 93;
+            case 31: return 62;
+            case 30: return 61;
+            case 29: return 60;
+            case 27: return 59;
+            case 26: return 58;
+            case 25: return 57;
+            case 24: return 56;
+            case 23: return 55;
+            case 22: return 54;
+            case 21: return 53;
             case 20: return 51;
             case 19: return 50;
             case 18: return 49;
@@ -4134,23 +4187,23 @@ class rqlParser implements mTokens {
             case 13: return 44;
             case 4: return 2;
             case 0: return 2;
-            default: return 63;
+            default: return 64;
         }
     }
 
-    private int yyr59() { // ExpressionList : Expression ',' ExpressionList
+    private int yyr60() { // ExpressionList : Expression ',' ExpressionList
         {yyrv = new ExpressionList(((Expression)yysv[yysp-3]), ((ExpressionList)yysv[yysp-1]));}
         yysv[yysp-=3] = yyrv;
         return yypExpressionList();
     }
 
-    private int yyr60() { // ExpressionList : Expression
+    private int yyr61() { // ExpressionList : Expression
         {yyrv = new ExpressionList(((Expression)yysv[yysp-1]));}
         yysv[yysp-=1] = yyrv;
         return yypExpressionList();
     }
 
-    private int yyr61() { // ExpressionList : /* empty */
+    private int yyr62() { // ExpressionList : /* empty */
         {yyrv = new ExpressionList();}
         yysv[yysp-=0] = yyrv;
         return yypExpressionList();
@@ -4158,8 +4211,8 @@ class rqlParser implements mTokens {
 
     private int yypExpressionList() {
         switch (yyst[yysp-1]) {
-            case 35: return 64;
-            default: return 80;
+            case 35: return 65;
+            default: return 81;
         }
     }
 
@@ -4177,22 +4230,22 @@ class rqlParser implements mTokens {
 
     private int yypIdentifierList() {
         switch (yyst[yysp-1]) {
-            case 85: return 93;
-            case 68: return 76;
-            default: return 107;
+            case 86: return 94;
+            case 69: return 77;
+            default: return 108;
         }
     }
 
     private int yyr17() { // OnTime : ON TIME Expression AtTimeExtended
         {yyrv = new OnTime(((Expression)yysv[yysp-2]), ((Expression)yysv[yysp-1]));}
         yysv[yysp-=4] = yyrv;
-        return 101;
+        return 102;
     }
 
     private int yyr18() { // OnTime : /* empty */
         {yyrv = null;}
         yysv[yysp-=0] = yyrv;
-        return 101;
+        return 102;
     }
 
     private int yyr23() { // Param : IDENTIFIER
@@ -4234,7 +4287,7 @@ class rqlParser implements mTokens {
     private int yypParamList() {
         switch (yyst[yysp-1]) {
             case 10: return 39;
-            default: return 75;
+            default: return 76;
         }
     }
 
@@ -4250,7 +4303,7 @@ class rqlParser implements mTokens {
     private int yyr7() { // QueryEnd : When TimeSearch AtNodes OnTime
         {yyrv = new QueryEnd(((When)yysv[yysp-4]), ((AtNodes)yysv[yysp-2]), ((OnTime)yysv[yysp-1]));}
         yysv[yysp-=4] = yyrv;
-        return 82;
+        return 83;
     }
 
     private int yyr3() { // Statement : Query ';'
@@ -4286,35 +4339,35 @@ class rqlParser implements mTokens {
     private int yyr8() { // TimeSearch : BETWEEN '(' Expression ',' Expression ')' LINK Expression
         {}
         yysv[yysp-=8] = yyrv;
-        return 88;
+        return 89;
     }
 
     private int yyr9() { // TimeSearch : BEFORE Expression
         {}
         yysv[yysp-=2] = yyrv;
-        return 88;
+        return 89;
     }
 
     private int yyr10() { // TimeSearch : AFTER Expression
         {}
         yysv[yysp-=2] = yyrv;
-        return 88;
+        return 89;
     }
 
     private int yyr11() { // TimeSearch : /* empty */
-        return 88;
+        return 89;
     }
 
     private int yyr12() { // When : WHEN Expression
         {yyrv = new When(((Expression)yysv[yysp-1]));}
         yysv[yysp-=2] = yyrv;
-        return 83;
+        return 84;
     }
 
     private int yyr13() { // When : /* empty */
         {yyrv = null;}
         yysv[yysp-=0] = yyrv;
-        return 83;
+        return 84;
     }
 
     protected String[] yyerrmsgs = {

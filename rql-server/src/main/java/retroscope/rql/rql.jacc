@@ -20,7 +20,7 @@ import java.util.HashMap;
 %token <String> BETWEEN AFTER BEFORE
 %token <String> COUNT SUM
 %token <String> FROM WHEN AT ON TO
-%token <String> NODES ALL_NODES TIME
+%token <String> NODES ALL_NODES TIME SAME_NODE
 %token <String> TRUE FALSE AND OR NEQ EQ GEQ LEQ
 
 /* Precedence and associativity of operators */
@@ -65,12 +65,12 @@ Statement           :   Query ';'                                               
 Query               :   SELECT ParamList FROM IdentifierList QueryEnd                   {$$ = new Query($2, $4, $5, currentEnv);}
                     ;
 
-QueryEnd            :   When TimeSearch AtNodes OnTime                                  {$$ = new QueryEnd($1, $3, $4);}
+QueryEnd            :   When TimeSearch AtNodes OnTime                                  {$$ = new QueryEnd($1, $2 $3, $4);}
                     ;
 
-TimeSearch          :   BETWEEN '(' Expression ',' Expression ')' LINK Expression       {}
-                    |   BEFORE Expression                                               {}
-                    |   AFTER Expression                                                {}
+TimeSearch          :   BETWEEN '(' Expression ',' Expression ')' LINK Expression       {$$ = new TimeSearch(TimeSearch.BETWEEN, $3, $5, $8);}
+                    |   BEFORE Expression                                               {$$ = new TimeSearch(TimeSearch.BEFORE, $2);}
+                    |   AFTER Expression                                                {$$ = new TimeSearch(TimeSearch.AFTERN, $2);}
                     |
                     ;
 
@@ -128,6 +128,7 @@ Expression			:	'-' Expression											        {$$ = new Minus(currentEnv, $2);
 					|	Expression AND Expression										{$$ = new And(currentEnv, $1, $3);}
 					|	Expression OR Expression										{$$ = new Or(currentEnv, $1, $3);}
 					|   Expression LINK Expression                                      {$$ = new LinkConditionalExpression(currentEnv, $1, $3);}
+					|   Expression LINK SAME_NODE                                       {$$ = new LinkConditionalExpression(currentEnv, $1);}
 					|   IDENTIFIER '(' ExpressionList ')'                               {$$ = new FuncCall(currentEnv, $1, $3);}
 					|	IDENTIFIER											            {$$ = new Variable($1, currentEnv, true);}
 					|	IDENTIFIER '.' IDENTIFIER							            {$$ = new Variable($1, $3, currentEnv, true);}

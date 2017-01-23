@@ -1,5 +1,6 @@
-// Output created by jacc on Wed Jan 18 17:23:37 EST 2017
 package retroscope.rql;
+// Output created by jacc on Sun Jan 22 23:26:56 EST 2017
+
 
 interface mTokens {
     int ENDINPUT = 0;
@@ -24,14 +25,15 @@ interface mTokens {
     int NODES = 19;
     int ON = 20;
     int OR = 21;
-    int SELECT = 22;
-    int STRING_LITERAL = 23;
-    int SUM = 24;
-    int TIME = 25;
-    int TO = 26;
-    int TRUE = 27;
-    int WHEN = 28;
-    int error = 29;
+    int SAME_NODE = 22;
+    int SELECT = 23;
+    int STRING_LITERAL = 24;
+    int SUM = 25;
+    int TIME = 26;
+    int TO = 27;
+    int TRUE = 28;
+    int WHEN = 29;
+    int error = 30;
     // '!' (code=33)
     // '%' (code=37)
     // '(' (code=40)
