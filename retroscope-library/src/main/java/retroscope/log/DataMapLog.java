@@ -4,20 +4,17 @@ import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
-import retroscope.util.ByteArray;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.List;
 
 /**
  * Created by aleksey on 10/19/16.
  * DataMapLog is a log with associated hashmap for current values.
  * It allows Retroscope to keep the rolling log of data
  */
-public class DataMapLog<K extends Serializable, V extends Serializable> extends Log<K, V> {
+public class DataMapLog<K extends Serializable, V extends Serializable> extends Log<K, V> implements Snapshotable<K, V>{
 
     /* we are using lock instead of synchronized keyword because:
      * - some evidence suggests it scales better under high contention
@@ -26,6 +23,17 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
     protected RetroMap<K, V> dataMap;
     protected HashMap<Integer, RetroMap<K, V>> snapshots;
     protected HashMap<Long, HashMap<K, LogEntry<K, V>>> bidirectionalDataMapDiffs;
+
+    public DataMapLog(Log<K, V> log) {
+        this(log.maxLengthMillis, log.name, log.logCheckpointIntervalMs);
+
+        this.head = log.head;
+        this.tail = log.tail;
+        this.length = log.length;
+        this.timeToCheckpointId = log.timeToCheckpointId;
+        this.knownCheckpointLogEntries = log.knownCheckpointLogEntries;
+        this.originalMaxLengthSeconds = log.originalMaxLengthSeconds;
+    }
 
     public DataMapLog(long maxLengthMillis, String name) {
         this(maxLengthMillis, name, 100);
@@ -236,6 +244,36 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
         }
 
         return diffMap;
+    }
+
+
+
+    public Log<K, V> logSlice(long sliceStart, long sliceEnd)
+            throws LogOutTimeBoundsException {
+        return logSlice(new Timestamp(sliceStart), new Timestamp(sliceEnd));
+    }
+
+    public Log<K, V> logSlice(List<K> keys, long sliceStart, long sliceEnd)
+            throws LogOutTimeBoundsException {
+        return logSlice(keys, new Timestamp(sliceStart), new Timestamp(sliceEnd));
+    }
+
+    public Log<K, V> logSlice(Timestamp sliceStart, Timestamp sliceEnd)
+            throws LogOutTimeBoundsException {
+        RetroMap<K, V> sliceData = getAllData(sliceEnd);
+        Log<K, V> l = super.logSlice(sliceStart, sliceEnd);
+        DataMapLog<K,V> dmlog = new DataMapLog<K, V>(l);
+        dmlog.dataMap = sliceData;
+        return dmlog;
+    }
+
+    public Log<K, V> logSlice(List<K> keys, Timestamp sliceStart, Timestamp sliceEnd)
+            throws LogOutTimeBoundsException {
+        RetroMap<K, V> sliceData = getAllData(sliceEnd);
+        Log<K, V> l = super.logSlice(keys, sliceStart, sliceEnd);
+        DataMapLog<K,V> dmlog = new DataMapLog<K, V>(l);
+        dmlog.dataMap = sliceData;
+        return dmlog;
     }
 
 

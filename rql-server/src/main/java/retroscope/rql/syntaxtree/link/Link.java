@@ -1,30 +1,54 @@
 package retroscope.rql.syntaxtree.link;
 
+import retroscope.rql.syntaxtree.IdentifierList;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * Created by Aleksey on 1/22/2017.
  *
  */
 public class Link {
 
-    private String symbolName;
-    private int nodeId;
+    private int[] placeholders;
+    private boolean forAllLink;
 
-    public Link(String symbolName, int nodeId) {
-        this.symbolName = symbolName;
-        this.nodeId = nodeId;
+    private LinkLock linkedNode;
+
+    public Link(IdentifierList placeholders, boolean forAllLink) {
+        this.placeholders = new int[placeholders.getIdentifiers().length];
+        for (int i = 0; i < placeholders.getIdentifiers().length; i++) {
+            this.placeholders[i] = Integer.parseInt(placeholders.getIdentifiers()[i].replace("$", ""));
+        }
+        this.forAllLink = forAllLink;
+        linkedNode = new LinkLock();
     }
 
-    public String getSymbolName() {
-        return symbolName;
+    public int[] getPlaceholders() {
+        return placeholders;
     }
 
-    public int getNodeId() {
-        return nodeId;
+    public boolean isForAllLink() {
+        return forAllLink;
     }
 
-    public boolean equals(Object link) {
-        if (link instanceof Link) {
-            if (this.nodeId ==((Link) link).nodeId && this.symbolName.equals(((Link) link).getSymbolName())) {
+    public LinkLock getLinkedNode() {
+        return linkedNode;
+    }
+
+    public void resetLink() {
+        linkedNode.setLockedNode(-1);
+    }
+
+    public void lockLink(int nodeId) {
+        linkedNode.setLockedNode(nodeId);
+    }
+
+    public boolean isInLink(int nodeId) {
+        for (int i = 0; i < placeholders.length; i++) {
+            if (placeholders[i] == nodeId) {
                 return true;
             }
         }

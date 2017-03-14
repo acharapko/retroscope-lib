@@ -12,6 +12,7 @@ import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
 
 import java.io.*;
+import java.util.Arrays;
 
 /**
  * Created by Aleksey on 8/13/2016.
@@ -141,12 +142,31 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
         Protocol.RetroNodeMsg.Builder logMsgBuilder = Protocol.RetroNodeMsg.newBuilder();
         logMsgBuilder.setRID(rid); // return rid back
         logMsgBuilder.setNodeId(client.getId());
+
+        K[] keyArray = null;
+        if (msg.getParameterNamesCount() > 0) {
+            ByteString keys[] = new ByteString[msg.getParameterNamesCount()];
+            keys = msg.getParameterNamesList().toArray(keys);
+            keyArray = (K[]) new Serializable[msg.getParameterNamesCount()];
+            for (int i = 0; i < msg.getParameterNamesCount(); i++) {
+                keyArray[i] = ProtocolHelpers.byteStringToSerializable(keys[i]);
+            }
+        }
+
         try {
             Log<K, V> slice = null;
             if (msg.hasHLCendTime() && msg.hasHLCstartTime()) {
-                slice = retroscope.getLogSlice(msg.getLogName(), msg.getHLCstartTime(), msg.getHLCendTime());
+                if (keyArray != null) {
+                    slice = retroscope.getLogSlice(msg.getLogName(), Arrays.asList(keyArray), msg.getHLCstartTime(), msg.getHLCendTime());
+                } else {
+                    slice = retroscope.getLogSlice(msg.getLogName(), msg.getHLCstartTime(), msg.getHLCendTime());
+                }
             } else {
-                slice = retroscope.getLog(msg.getLogName());
+                if (keyArray != null) {
+                    slice = retroscope.getLogSlice(msg.getLogName(), Arrays.asList(keyArray));
+                } else {
+                    slice = retroscope.getLog(msg.getLogName());
+                }
             }
             logMsgBuilder.setLog(slice.toProtocol());
         } catch (RetroscopeException re) {

@@ -9,6 +9,7 @@ import retroscope.util.netHLCSerializer;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by aleksey on 10/15/16.
@@ -526,7 +527,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @throws RetroscopeException
      * @throws LogOutTimeBoundsException
      */
-    public RetroMap<K, V>  getItemsMap(
+    public RetroMap<K, V> getItemsMap(
             String logName,
             K keys[],
             Timestamp timestamp
@@ -548,7 +549,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @throws RetroscopeException
      * @throws LogOutTimeBoundsException
      */
-    public RetroMap<K, V>  getItemsMap(
+    public RetroMap<K, V> getItemsMap(
             String logName,
             K keys[],
             long timestamp
@@ -614,7 +615,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public Log<K, V> getLogSlice(String logName, Timestamp sliceStart, Timestamp sliceEnd)
             throws RetroscopeException, LogOutTimeBoundsException {
-        DataMapLog<K, V> workingLog = getDataMapLog(logName);
+        Log<K, V> workingLog = getLog(logName);
         return workingLog.logSlice(sliceStart, sliceEnd);
     }
 
@@ -629,8 +630,36 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public Log<K, V> getLogSlice(String logName, long sliceStart, long sliceEnd)
             throws RetroscopeException, LogOutTimeBoundsException {
-        DataMapLog<K, V> workingLog = getDataMapLog(logName);
+        Log<K, V> workingLog = getLog(logName);
         return workingLog.logSlice(sliceStart, sliceEnd);
+    }
+
+    /**
+     * Gets a slice of the log bounded by two timestamps
+     * @param logName String log name
+     * @param sliceStart long HLC time for the beginning of the log slice
+     * @param sliceEnd long HLC time for the end of the log slice
+     * @return Log represting the slice of the parent log between start and end times
+     * @throws RetroscopeException
+     * @throws LogOutTimeBoundsException
+     */
+    public Log<K, V> getLogSlice(String logName, List<K> keys, long sliceStart, long sliceEnd)
+            throws RetroscopeException, LogOutTimeBoundsException {
+        Log<K, V> workingLog = getLog(logName);
+        return workingLog.logSlice(keys, sliceStart, sliceEnd);
+    }
+
+    /**
+     * Gets a slice of the log bounded by two timestamps
+     * @param logName String log name
+     * @return Log represting the slice of the parent log between start and end times
+     * @throws RetroscopeException
+     * @throws LogOutTimeBoundsException
+     */
+    public Log<K, V> getLogSlice(String logName, List<K> keys)
+            throws RetroscopeException, LogOutTimeBoundsException {
+        Log<K, V> workingLog = getLog(logName);
+        return workingLog.logSlice(keys);
     }
 
 

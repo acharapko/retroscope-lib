@@ -35,7 +35,7 @@ message GetLog {
     required string logName = 1;
     optional int64 HLCstartTime = 2;
     optional int64 HLCendTime = 3;
-    repeated string parameterNames = 4;
+    repeated bytes parameterNames = 4;
 }
 
 message TakeSnapshot {

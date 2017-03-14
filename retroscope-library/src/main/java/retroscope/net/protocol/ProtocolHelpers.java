@@ -5,9 +5,7 @@ import retroscope.hlc.Timestamp;
 import retroscope.log.*;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -79,7 +77,7 @@ public class ProtocolHelpers {
     public static<K extends Serializable, V extends Serializable> RetroMap<K, V> protocolToRetroMap(
             Protocol.DataMap protocolDataMap
     ) {
-        RetroMap<K, V>  dataMap = new RetroMap<K, V>(protocolDataMap.getItemsCount());
+        RetroMap<K, V> dataMap = new RetroMap<K, V>(protocolDataMap.getItemsCount());
         for (int i = 0; i < protocolDataMap.getItemsCount(); i++) {
             V val = null;
             if (protocolDataMap.getItems(i).hasValue()) {

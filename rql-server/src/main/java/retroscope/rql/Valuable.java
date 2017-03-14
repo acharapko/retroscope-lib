@@ -1,14 +1,14 @@
 package retroscope.rql;
 
-import retroscope.rql.syntaxtree.IllegalExpressionException;
-import retroscope.rql.syntaxtree.RQLInterpreterValue;
+import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
+import retroscope.rql.syntaxtree.expression.RQLInterpreterValue;
 
 /**
  * Created by Aleksey on 1/21/2017.
  */
 public interface Valuable {
 
-    public abstract RQLInterpreterValue[] getValues();
+    RQLInterpreterValue getValue();
 
-    public abstract void evaluate() throws IllegalExpressionException;
+    void evaluate() throws IllegalExpressionException;
 }

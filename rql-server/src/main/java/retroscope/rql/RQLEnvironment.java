@@ -1,11 +1,19 @@
 package retroscope.rql;
 
 import java.util.*;
+
 import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.log.*;
-import retroscope.rql.syntaxtree.*;
+import retroscope.rql.errors.RQLRunTimeException;
+import retroscope.rql.errors.RQLRunTimeWarning;
+import retroscope.rql.memory.Placeholder;
+import retroscope.rql.memory.SimpleSymbol;
+import retroscope.rql.syntaxtree.expression.Expression;
+import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
 import retroscope.rql.syntaxtree.link.Link;
+import retroscope.rql.syntaxtree.link.LinkLock;
+import retroscope.rql.syntaxtree.link.Links;
 
 /**
  * Created by Aleksey on 12/23/2016.
@@ -15,31 +23,46 @@ import retroscope.rql.syntaxtree.link.Link;
  */
 public abstract class RQLEnvironment {
 
-    protected HashMap<String, Valuable> symbolTable;
-    protected ArrayList<RQLDataMapLog> logs; // RQL only works with String Retroscopes
-    protected ArrayList<GlobalCut> globalCuts;
-    private ArrayList<RQLRunTimeException> exceptions;
-    private ArrayList<RQLRunTimeWarning> warnings;
+    //memory stuff
+    protected HashMap<String, SimpleSymbol> symbolTable;
+
+    protected ArrayList<Placeholder> placeholders;
+    private ArrayList<Link> linkedNodes;
+    private HashMap<Integer, LinkLock> placeholdersToLinkLocks;
+
+    private int numPlaceholders = 0;
+
+
+    //log stuff
+    protected ArrayList<RQLLog> logs; // RQL only works with String Retroscopes
     private String defaultLog = "";
 
+    //error stuff
+    private ArrayList<RQLRunTimeException> exceptions;
+    private ArrayList<RQLRunTimeWarning> warnings;
+
+    //cut stuff
+    protected ArrayList<GlobalCut> tempGlobalCuts;
+    protected ArrayList<GlobalCut> emittedGlobalCuts;
+    protected ArrayList<String> emittedOut;
+
     public RQLEnvironment() {
-        symbolTable = new HashMap<String, Valuable>();
-        logs = new ArrayList<RQLDataMapLog>();
-        globalCuts = new ArrayList<GlobalCut>();
+        symbolTable = new HashMap<String, SimpleSymbol>();
+        logs = new ArrayList<RQLLog>();
         exceptions = new ArrayList<RQLRunTimeException>();
         warnings = new ArrayList<RQLRunTimeWarning>();
-
+        placeholders = new ArrayList<Placeholder>();
+        linkedNodes = new ArrayList<Link>();
+        placeholdersToLinkLocks = new HashMap<Integer, LinkLock>();
     }
 
-    public HashMap<String, Valuable> getSymbolTable() {
+    public HashMap<String, SimpleSymbol> getSymbolTable() {
         return symbolTable;
     }
 
-    /*
-    public void setSymbolTable(HashMap<String, RQLInterpreterValue> symbolTable) {
-        this.symbolTable = symbolTable;
+    public Placeholder getPlaceholder(int id) {
+        return placeholders.get(id);
     }
-    */
 
     public ArrayList<RQLRunTimeException> getExceptions() {
         return exceptions;
@@ -69,43 +92,61 @@ public abstract class RQLEnvironment {
         }
     }
 
+    public int addPlaceholder(String name) {
+        int id = numPlaceholders++;
+        Placeholder p = new Placeholder(id, name);
+        placeholders.add(p);
+        //placeholders.add(variable.getName());
+        //symbolTable.put(name, new HashMap<Integer, Set<DataEntry<RQLItem>>>());
+        return id;
+    }
+
     public boolean hasRunTimeWarnings() {
         return warnings.size() >= 1;
     }
 
-    /**
-     * This function retrieves the log slices with given names bounded by the start and end times
-     * @param logs String[] array of log names to retrieve
-     */
-    public abstract void retrieveRemoteLogs(String logs[]);
+    public void  setLinkedNodes(Links linkedNodes) {
+        if (linkedNodes != null) {
+            ArrayList<Link> links = linkedNodes.getLinks();
+            for (Link link : links) {
+                link.getLinkedNode().setCardinality(0);
+                for (int i = 0; i < link.getPlaceholders().length; i++) {
+                    placeholdersToLinkLocks.put(link.getPlaceholders()[i], link.getLinkedNode());
+                    link.getLinkedNode().oneUp();
+                }
+            }
+        }
+    }
+
+    public void addLinkedNodes(ArrayList<Link> linkedNodes) {
+        this.linkedNodes.addAll(linkedNodes);
+    }
+
+    public void addLinkedNodes(Link linkedNodes) {
+        this.linkedNodes.add(linkedNodes);
+    }
+
+    public void resetLinkedNodes() {
+        linkedNodes = new ArrayList<Link>();
+    }
 
     /**
      * This function retrieves the log slices with given names bounded by the start and end times
-     * @param logs String[] array of log names to retrieve
-     * @param startTime Timestamp HLC timestamp for log slice start
-     * @param endTime Timestamp HLC timestamp for log slice end
+     * @param retrieveParam RQLRetrieveParam of log names to retrieve
      */
-    public abstract void retrieveRemoteLogs(String logs[], Timestamp startTime, Timestamp endTime);
+    public abstract void retrieveRemoteLogs(RQLRetrieveParam retrieveParam);
 
-    /**
-     * This function retrieves the log slices with given names bounded by the start and end times
-     * @param logs String[] array of log names to retrieve
-     * @param startTime Timestamp HLC timestamp for log slice start
-     * @param endTime Timestamp HLC timestamp for log slice end
-     * @param nodeList int[] array of node ids to retrieve logs from
-     */
-    public abstract void retrieveRemoteLogs(String logs[], Timestamp startTime, Timestamp endTime, int nodeList[]);
+    public abstract void retrieveSingleCut(RQLRetrieveParam retrieveParam);
 
-    /**
-     * Retrieves a consistent cuts on specified logs at a given time
-     * @param logs String[] array of log names to retrieve
-     * @param cutTime Timestamp HLC timestamp for log consistent cut on the logs
-     */
-    public abstract void retrieveSingleCut(String logs[], Timestamp cutTime);
+    public void resetEmits() {
+        emittedGlobalCuts = new ArrayList<GlobalCut>();
+        tempGlobalCuts = new ArrayList<GlobalCut>();
+        emittedOut = new ArrayList<String>();
+    }
 
     /**
      *
-     * @param condition
+     * @param condition Expression that must be satisfied to emit the cut
      */
     public void findCutsByCondition(Expression condition) {
         /*
@@ -133,7 +174,7 @@ public abstract class RQLEnvironment {
                     }
                 });
         int snapshotIDs[] = new int[logs.size()];
-        for (DataMapLog<String, RQLItem> log : logs) {
+        for (RQLLog log : logs) {
             q.add(log.getTail());
         }
         // (3)
@@ -142,6 +183,7 @@ public abstract class RQLEnvironment {
             LogEntry<String, RQLItem> current = q.poll();
             // (5)
             Timestamp currentHLC = current.getTime();
+
             // (6)
             GlobalCut tempCut = new GlobalCut(currentHLC);
             for (int i = 0; i < logs.size(); i++) {
@@ -152,14 +194,13 @@ public abstract class RQLEnvironment {
                             if (logs.get(i).getSnapshot(snapshotIDs[i]).getAssociatedLogEntry().getTime().compareTo(currentHLC) > 0) {
                                 logs.get(i).rollSnapshot(snapshotIDs[i], currentHLC);
                             }
-
-                            tempCut.addLocalSnapshot(logs.get(i).getName(), logs.get(i).getNodeId(), logs.get(i).getSnapshot(snapshotIDs[i]));
+                            tempCut.addLocalSnapshot(logs.get(i).getName(), logs.get(i).getNodeId(), logs.get(i).getSnapshotSetMap(snapshotIDs[i]));
                         } else {
                             //new snapshot for us
                             snapshotIDs[i] = logs.get(i).makeSnapshot(currentHLC);
                             if (snapshotIDs[i] > 0) {
                                 //add only valid local snapshots ot the tempCut.
-                                tempCut.addLocalSnapshot(logs.get(i).getName(), logs.get(i).getNodeId(), logs.get(i).getSnapshot(snapshotIDs[i]));
+                                tempCut.addLocalSnapshot(logs.get(i).getName(), logs.get(i).getNodeId(), logs.get(i).getSnapshotSetMap(snapshotIDs[i]));
                             }
                         }
                     }
@@ -179,117 +220,190 @@ public abstract class RQLEnvironment {
                     addRunTimeWarning(w);
                 }
             }
-            // (7) at this time we have a consistent cut at the tempCut object
-            // first we update symbol table with new values. The symbol table
-            // should be the same as the one used by the vars in the condition expression
-            Iterator<Map.Entry<String, Valuable>> it = symbolTable.entrySet().iterator();
-            while (it.hasNext()) { //iterating through the symbols in the symbol table
-                Map.Entry<String, Valuable> pair = it.next();
-                String symbolName = pair.getKey();
-                ArrayList<RQLInterpreterValue> expVals = new ArrayList<RQLInterpreterValue>();
-                //for each symbols, we try to fetch it from each local snapshot in tempCut
-                ArrayList<RetroMap<String, RQLItem>> tempSnaps = tempCut.getLocalSnapshots();
-                ArrayList<String> snapNames = tempCut.getLocalSnapshotNames();
-                ArrayList<Integer> nodeIds = tempCut.getNodeIds();
-                for (int ls = 0; ls < tempSnaps.size(); ls++) {
-                    String[] temp = symbolName.split("\\.");
-                    String lName = temp[0];
-                    temp = temp[1].split(":");
-                    String pName = temp[0];
-                    String fName = "";
-                    if (temp.length > 1) {
-                        fName = temp[1];
-                    }
-                    if (lName.equals(snapNames.get(ls))) {
-                        DataEntry<RQLItem> tempV = tempSnaps.get(ls).get(pName);
-                        if (tempV != null) {
-                            RQLItemValue val = tempV.getValue().getField(fName);
-                            if (val != null) {
-                                RQLInterpreterValue expressionValue = new RQLInterpreterValue(val).addLink(new Link(lName+"."+pName, nodeIds.get(ls)));
-                                expVals.add(expressionValue);
-                            }
-                        }
-                    }
-                }
-                //System.out.println(symbolName + " - " + expVals.get(0).getIntVal());
-                Valuable stemp = symbolTable.get(symbolName);
-                if (stemp instanceof SimpleSymbol) {
-                    ((SimpleSymbol) stemp).setAll(expVals);
-                }
-            }
 
-            // (8)
-            try {
-                condition.evaluate();
-            } catch (IllegalExpressionException e) {System.err.println(e.getMessage());}
-            for (int i = 0; i < condition.getValues().length; i++) {
-                //if any of the results is true, we emit the cut
-                if (condition.getValues()[i].getIntVal() != 0) {
-                    // (9)
-                    //clone tempCut, since has rolling snapshot data which will be mutated as the snapshot rolls
-                    addToEmitList(tempCut);
-                    break; //done with for loop
-                }
-            }
+            // (7), (8) and (9) are here
+            evalCutOnCondition(tempCut, condition);
             // (10)
             if (current.getPrev() != null) {
                 q.add(current.getPrev());
             }
         }
+    }
 
+    public void checkTempCutsOnCondition(Expression condition) {
+        for(GlobalCut cut : tempGlobalCuts) {
+            evalCutOnCondition(cut, condition);
+        }
+    }
+
+    private void evalCutOnCondition(GlobalCut tempCut, Expression condition) {
+        // (7) at this time we have a consistent cut at the tempCut object
+        // first we update symbol table with new values. The symbol table
+        // should be the same as the one used by the vars in the condition expression
+        boolean shortCircuit = false;
+        setSymbolTableAtCut(tempCut);
+        //now iterate
+        while (!shortCircuit) {
+            if (setNextPlaceholders()) {
+                shortCircuit = true;
+            }
+            try {
+                condition.evaluate();
+            } catch (IllegalExpressionException e) {
+                addRunTimeException(e);
+            }
+
+            // (8)
+            //if any of the results is true, we emit the cut
+            if (condition.getValue().getIntVal() != 0) {
+                // (9)
+                //clone tempCut, since has rolling snapshot data which will be mutated as the snapshot rolls
+                addToEmitList(tempCut);
+                shortCircuit = true;
+            }
+        }
+    }
+
+    public boolean setNextPlaceholders() {
+        boolean reset = false;
+        for (int i = 0; i < placeholders.size(); i++) {
+            Placeholder p = placeholders.get(i);
+            SimpleSymbol symbolVal = symbolTable.get(p.getSymbolName());
+            if (symbolVal != null) {
+
+                if (p.getItem() == null && p.getVersion() == 0) {
+                    findItemForPlaceholder(p, symbolVal);
+                } else {
+
+                //if (p.getVersion() < symbolVal.size()) {
+                    //p.setItem(symbolVal.get(p.getVersion()));
+                    if (p.isReset()) {
+                        boolean reachedEnd = findItemForPlaceholder(p, symbolVal);
+                        if (reachedEnd) {
+                            if (i > 0) {
+                                placeholders.get(i - 1).setReset(true);
+                            } else {
+                                reset = true;
+                            }
+                            p.resetVersion();
+                        } else {
+                            if (i < placeholders.size() - 1) {
+                                p.setReset(false);
+                            }
+                        }
+                    }
+                }
+            } else {
+                //by this time we already threw a warning out in the Variable object trying to get the memory
+                if (i > 0) {
+                    placeholders.get(i - 1).setReset(true);
+                } else {
+                    reset = true;
+                }
+                p.resetVersion();
+            }
+        }
+        return reset;
+    }
+
+    /**
+     *
+     * @param p Placeholder placeholder to populate
+     * @param symbolVal SimpleSymbol containing set of values a placeholder can take
+     * @return returns true if reached the end of values this placeholder can take at this cut and need to reset to the beginning
+     */
+    private boolean findItemForPlaceholder(Placeholder p, SimpleSymbol symbolVal) {
+        LinkLock ll = placeholdersToLinkLocks.get(p.getId());
+        if (ll == null) {
+            ll = new LinkLock();
+        }
+        while (p.getVersion() < symbolVal.size()) {
+            if (ll.getCardinality() == 1 || ll.getLockedNode() == -1 || symbolVal.get(p.getVersion()).getNodeId() == ll.getLockedNode()) {
+                p.setItem(symbolVal.get(p.getVersion()));
+                //p.setReset(false);
+                if (ll.getCardinality() > 1) {
+                    ll.setLockedNode(symbolVal.get(p.getVersion()).getNodeId());
+                }
+                p.incrementVersion();
+                return false;
+            }
+            p.incrementVersion();
+        }
+        ll.reset();
+        p.setItem(null);
+        return true;
+    }
+
+    public void setSymbolTableAtCut(GlobalCut tempCut) {
+        // (7) at this time we have a consistent cut at the tempCut object
+        // first we update symbol table with new values. The symbol table
+        // should be the same as the one used by the vars in the condition expression
+
+        ArrayList<RQLSetMap> tempSnaps = tempCut.getLocalSnapshots();
+        ArrayList<String> snapNames = tempCut.getLocalSnapshotNames();
+        ArrayList<Integer> nodeIds = tempCut.getNodeIds();
+
+        symbolTable.clear();
+
+        for (int ls = 0; ls < tempSnaps.size(); ls++) {
+            Iterator<Map.Entry<String, Set<DataEntry<RQLItem>>>> it = tempSnaps.get(ls).entrySet().iterator();
+            while (it.hasNext()) { //iterating key in the log
+                Map.Entry<String, Set<DataEntry<RQLItem>>> pair = it.next();
+                String varName = snapNames.get(ls) + "." + pair.getKey();
+                SimpleSymbol vals = symbolTable.get(varName);
+                if (vals == null) {
+                    vals = new SimpleSymbol();
+                    symbolTable.put(varName, vals);
+                }
+                if (pair.getValue().size() > 0) {
+                    vals.set(nodeIds.get(ls), pair.getValue());
+                }
+            }
+        }
+
+        //reset the placeholders from previous cut
+        for (Placeholder p : placeholders) {
+            p.clearAll();
+        }
+        placeholders.get(placeholders.size() - 1).setReset(true);
+
+        for (Link l : linkedNodes) {
+            l.resetLink();
+        }
     }
 
     public void updateSymbolTableWithLogName(String[] logIds) throws RQLRunTimeException {
 
         defaultLog = logIds[0];
-        HashMap<String, Valuable> mutatedIds = new HashMap<String, Valuable>();
-        Iterator<Map.Entry<String, Valuable>> it = getSymbolTable().entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, Valuable> pair = it.next();
-            if (!pair.getKey().contains(".")) {
+        for (Placeholder p : placeholders) {
+            if (!p.getSymbolName().contains(".")) {
                 //we have no log identifier
-                if (logIds.length == 1) {
-                    mutatedIds.put(defaultLog + "." + pair.getKey(), pair.getValue());
-                    //getSymbolTable().remove(pair.getKey());
-
-                    it.remove();
-                } else {
-                    throw new RQLRunTimeException("Parameter " + pair.getKey() + " is ambiguous: it may exist in more than one log");
+                if (logIds.length > 1) {
+                    throw new RQLRunTimeException("Parameter '" + p.getSymbolName() + "' is ambiguous: it may exist in more than one log");
                 }
-            } else {
-                boolean specified = false;
-                String logName = pair.getKey().split("\\.")[0];
-                for (String logId : logIds) {
-                    if (logId.equals(logName)) {
-                        specified = true;
-                        break;
-                    }
-                }
-                if (!specified) {
-                    throw new RQLRunTimeException("log " + logName + "in parameter " + pair.getKey() + " is missing from the log list");
-                }
+                p.setSymbolName(defaultLog + "." + p.getSymbolName());
             }
         }
-        getSymbolTable().putAll(mutatedIds);
     }
 
     private void addToEmitList(GlobalCut gc) {
-        if (globalCuts.size() == 0
-                || globalCuts.get(globalCuts.size() - 1).getCutTime().compareTo(gc.getCutTime()) > 0) {
-            globalCuts.add(gc.clone());
+        if (emittedGlobalCuts.size() == 0
+                || emittedGlobalCuts.get(emittedGlobalCuts.size() - 1).getCutTime().compareTo(gc.getCutTime()) > 0) {
+            emittedGlobalCuts.add(gc.clone());
         }
     }
 
 
-    public ArrayList<GlobalCut> getGlobalCuts() {
-        return globalCuts;
+    public ArrayList<GlobalCut> getEmittedGlobalCuts() {
+        return emittedGlobalCuts;
     }
 
     public String getDefaultLogName() {
         return defaultLog;
     }
 
-    public ArrayList<RQLDataMapLog> getLogs() {
+    public ArrayList<RQLLog> getLogs() {
         return logs;
     }
+
 }

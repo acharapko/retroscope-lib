@@ -16,36 +16,36 @@ public class RQLItemValueTest {
         RQLItemValue valint0 = new RQLItemValue("", 98132);
         byte [] val0b = valint0.toBytes();
 
-        assertTrue(val0b.length == 5);
+        assertTrue(val0b.length == 9);
         assertTrue(val0b[0] == 0);
 
         RQLItemValue valint1 = new RQLItemValue("test", 25);
         byte [] val1b = valint1.toBytes();
 
-        assertTrue(val1b.length == 9);
+        assertTrue(val1b.length == 13);
         assertTrue(val1b[0] == 4);
         assertTrue(ByteHelper.arrayToHexSring(val1b, 1, 5)
                 .equals(ByteHelper.arrayToHexSring("test".getBytes())));
-        assertTrue(ByteHelper.bytesToInt(val1b, 5) == 25);
+        assertTrue(ByteHelper.bytesToLong(val1b, 5) == 25);
 
         RQLItemValue valint2 = new RQLItemValue("another test", 4578);
         byte [] val2b = valint2.toBytes();
 
-        assertTrue(val2b.length == 17);
+        assertTrue(val2b.length == 21);
         assertTrue(val2b[0] == 12);
         assertTrue(ByteHelper.arrayToHexSring(val2b, 1, 13)
                 .equals(ByteHelper.arrayToHexSring("another test".getBytes())));
-        assertTrue(ByteHelper.bytesToInt(val2b, 13) == 4578);
+        assertTrue(ByteHelper.bytesToLong(val2b, 13) == 4578);
 
         String longName = "this is a long name that exceeds 63 characters allowed for the name";
-        RQLItemValue valint3 = new RQLItemValue(longName, Integer.MAX_VALUE);
+        RQLItemValue valint3 = new RQLItemValue(longName, Long.MAX_VALUE);
         byte [] val3b = valint3.toBytes();
 
-        assertTrue(val3b.length == 68);
+        assertTrue(val3b.length == 72);
         assertTrue(val3b[0] == 63);
         assertTrue(ByteHelper.arrayToHexSring(val3b, 1, 64)
                 .equals(ByteHelper.arrayToHexSring(longName.substring(0, 63).getBytes())));
-        assertTrue(ByteHelper.bytesToInt(val3b, 64) == Integer.MAX_VALUE);
+        assertTrue(ByteHelper.bytesToLong(val3b, 64) == Long.MAX_VALUE);
 
 
         RQLItemValue valdouble1 = new RQLItemValue("test", 25.51);

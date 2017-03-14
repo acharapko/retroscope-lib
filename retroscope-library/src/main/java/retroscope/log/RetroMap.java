@@ -8,9 +8,9 @@ import java.util.Map;
  * Created by ALEKS on 10/23/2016.
  *
  */
-public class RetroMap<K, V> extends HashMap<K, DataEntry<V>> implements Cloneable {
+public class RetroMap<K, V> extends RHashMap<K, DataEntry<V>, V> implements Cloneable {
 
-    protected LogEntry<K, V> associatedLogEntry;
+
 
     public RetroMap(int initialCapacity, float loadFactor) {
         super(initialCapacity, loadFactor);
@@ -32,13 +32,6 @@ public class RetroMap<K, V> extends HashMap<K, DataEntry<V>> implements Cloneabl
         this.setAssociatedLogEntry(m.getAssociatedLogEntry());
     }
 
-    public LogEntry<K, V> getAssociatedLogEntry() {
-        return associatedLogEntry;
-    }
-
-    public void setAssociatedLogEntry(LogEntry<K, V> associatedLogEntry) {
-        this.associatedLogEntry = associatedLogEntry;
-    }
 
     public void putAllLogEntriesForward(HashMap<K, LogEntry<K, V>> entriesMap) {
         Iterator<Entry<K, LogEntry<K,V>>> it = entriesMap.entrySet().iterator();

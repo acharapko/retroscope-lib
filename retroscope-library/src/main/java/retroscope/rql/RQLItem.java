@@ -13,8 +13,7 @@ import java.util.*;
 /**
  * Created by Aleksey on 12/27/2016.
  * This represents the value part of the key value pair for Retroscope
- * operating under Retroscope Query Language (RQL). This gets compiled into a
- * DataEntry<ByteArray> objects for regular inclusion into the Retroscope logs.
+ * operating under Retroscope Query Language (RQL).
  * value is a composite field that can consist of multiple named sub-fields of
  * different type: int64, double, string. Currently, String is limited to
  * 255 bytes. Name is string and cannot exceed 63 bytes (63 ASCII characters)
@@ -23,7 +22,6 @@ import java.util.*;
 public class RQLItem implements Serializable {
 
     private HashMap<String, RQLItemValue> vals = new HashMap<String, RQLItemValue>(15, 0.7f);
-
     public RQLItem() {
 
     }
@@ -98,9 +96,17 @@ public class RQLItem implements Serializable {
         return this;
     }
 
+    public List<RQLItemValue> getItemsList() {
+        return new ArrayList<RQLItemValue>(vals.values());
+    }
+
+    public HashMap<String, RQLItemValue> getVals() {
+        return vals;
+    }
+
     private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         Iterator<Map.Entry<String, RQLItemValue>> it = vals.entrySet().iterator();
-        while (it.hasNext()) { //iterating through the symbols in the symbol table
+        while (it.hasNext()) {
             Map.Entry<String, RQLItemValue> pair = it.next();
             out.write(pair.getValue().toBytes());
         }
@@ -121,10 +127,6 @@ public class RQLItem implements Serializable {
                 }
             }
         }
-    }
-
-    public List<RQLItemValue> getItemsList() {
-        return new ArrayList<RQLItemValue>(vals.values());
     }
 
     public String toString() {
@@ -149,6 +151,40 @@ public class RQLItem implements Serializable {
             sb.append(System.getProperty("line.separator"));
         }
         return sb.toString();
+    }
+
+    public String toFriendlyString(String itemName) {
+        StringBuilder sb = new StringBuilder();
+        Formatter formatter = new Formatter(sb, Locale.US);
+        RQLItemValue mainv = vals.get("");
+        if (mainv != null) {
+            appendV(formatter, itemName, mainv, 15, 80);
+            sb.append(System.getProperty("line.separator"));
+        } else {
+            sb.append(itemName);
+            sb.append(": ");
+        }
+        for (RQLItemValue v : vals.values()) {
+            if (!v.getName().equals("")) {
+                appendV(formatter, v.getName(), v, 18, 80);
+                sb.append(System.getProperty("line.separator"));
+            }
+        }
+        return sb.toString();
+    }
+
+    private void appendV(Formatter formatter, String itemName, RQLItemValue v, int pad, int line) {
+        int padV = line - (pad + 10);
+        formatter.format("%"+pad+"s = ", itemName);
+        if (v.getType() == Types.INT) {
+            formatter.format("%-"+padV+"d (I64)", v.getIntVal());
+        }
+        if (v.getType() == Types.DOUBLE) {
+            formatter.format("%-"+padV+" (DBL)", v.getDoubleVal());
+        }
+        if (v.getType() == Types.STRING) {
+            formatter.format("%-"+padV+"s (STR)", v.getStringVal());
+        }
     }
 
 }

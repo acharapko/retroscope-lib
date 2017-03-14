@@ -3244,23 +3244,17 @@ public final class Protocol {
     long getHLCendTime();
 
     /**
-     * <code>repeated string parameterNames = 4;</code>
+     * <code>repeated bytes parameterNames = 4;</code>
      */
-    com.google.protobuf.ProtocolStringList
-        getParameterNamesList();
+    java.util.List<com.google.protobuf.ByteString> getParameterNamesList();
     /**
-     * <code>repeated string parameterNames = 4;</code>
+     * <code>repeated bytes parameterNames = 4;</code>
      */
     int getParameterNamesCount();
     /**
-     * <code>repeated string parameterNames = 4;</code>
+     * <code>repeated bytes parameterNames = 4;</code>
      */
-    java.lang.String getParameterNames(int index);
-    /**
-     * <code>repeated string parameterNames = 4;</code>
-     */
-    com.google.protobuf.ByteString
-        getParameterNamesBytes(int index);
+    com.google.protobuf.ByteString getParameterNames(int index);
   }
   /**
    * Protobuf type {@code GetLog}
@@ -3331,12 +3325,11 @@ public final class Protocol {
               break;
             }
             case 34: {
-              com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-                parameterNames_ = new com.google.protobuf.LazyStringArrayList();
+                parameterNames_ = new java.util.ArrayList<com.google.protobuf.ByteString>();
                 mutable_bitField0_ |= 0x00000008;
               }
-              parameterNames_.add(bs);
+              parameterNames_.add(input.readBytes());
               break;
             }
           }
@@ -3348,7 +3341,7 @@ public final class Protocol {
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
-          parameterNames_ = parameterNames_.getUnmodifiableView();
+          parameterNames_ = java.util.Collections.unmodifiableList(parameterNames_);
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3455,39 +3448,32 @@ public final class Protocol {
     }
 
     public static final int PARAMETERNAMES_FIELD_NUMBER = 4;
-    private com.google.protobuf.LazyStringList parameterNames_;
+    private java.util.List<com.google.protobuf.ByteString> parameterNames_;
     /**
-     * <code>repeated string parameterNames = 4;</code>
+     * <code>repeated bytes parameterNames = 4;</code>
      */
-    public com.google.protobuf.ProtocolStringList
+    public java.util.List<com.google.protobuf.ByteString>
         getParameterNamesList() {
       return parameterNames_;
     }
     /**
-     * <code>repeated string parameterNames = 4;</code>
+     * <code>repeated bytes parameterNames = 4;</code>
      */
     public int getParameterNamesCount() {
       return parameterNames_.size();
     }
     /**
-     * <code>repeated string parameterNames = 4;</code>
+     * <code>repeated bytes parameterNames = 4;</code>
      */
-    public java.lang.String getParameterNames(int index) {
+    public com.google.protobuf.ByteString getParameterNames(int index) {
       return parameterNames_.get(index);
-    }
-    /**
-     * <code>repeated string parameterNames = 4;</code>
-     */
-    public com.google.protobuf.ByteString
-        getParameterNamesBytes(int index) {
-      return parameterNames_.getByteString(index);
     }
 
     private void initFields() {
       logName_ = "";
       hLCstartTime_ = 0L;
       hLCendTime_ = 0L;
-      parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      parameterNames_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -3516,7 +3502,7 @@ public final class Protocol {
         output.writeInt64(3, hLCendTime_);
       }
       for (int i = 0; i < parameterNames_.size(); i++) {
-        output.writeBytes(4, parameterNames_.getByteString(i));
+        output.writeBytes(4, parameterNames_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -3543,7 +3529,7 @@ public final class Protocol {
         int dataSize = 0;
         for (int i = 0; i < parameterNames_.size(); i++) {
           dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(parameterNames_.getByteString(i));
+            .computeBytesSizeNoTag(parameterNames_.get(i));
         }
         size += dataSize;
         size += 1 * getParameterNamesList().size();
@@ -3671,7 +3657,7 @@ public final class Protocol {
         bitField0_ = (bitField0_ & ~0x00000002);
         hLCendTime_ = 0L;
         bitField0_ = (bitField0_ & ~0x00000004);
-        parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        parameterNames_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
         return this;
       }
@@ -3714,7 +3700,7 @@ public final class Protocol {
         }
         result.hLCendTime_ = hLCendTime_;
         if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          parameterNames_ = parameterNames_.getUnmodifiableView();
+          parameterNames_ = java.util.Collections.unmodifiableList(parameterNames_);
           bitField0_ = (bitField0_ & ~0x00000008);
         }
         result.parameterNames_ = parameterNames_;
@@ -3926,44 +3912,37 @@ public final class Protocol {
         return this;
       }
 
-      private com.google.protobuf.LazyStringList parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private java.util.List<com.google.protobuf.ByteString> parameterNames_ = java.util.Collections.emptyList();
       private void ensureParameterNamesIsMutable() {
         if (!((bitField0_ & 0x00000008) == 0x00000008)) {
-          parameterNames_ = new com.google.protobuf.LazyStringArrayList(parameterNames_);
+          parameterNames_ = new java.util.ArrayList<com.google.protobuf.ByteString>(parameterNames_);
           bitField0_ |= 0x00000008;
          }
       }
       /**
-       * <code>repeated string parameterNames = 4;</code>
+       * <code>repeated bytes parameterNames = 4;</code>
        */
-      public com.google.protobuf.ProtocolStringList
+      public java.util.List<com.google.protobuf.ByteString>
           getParameterNamesList() {
-        return parameterNames_.getUnmodifiableView();
+        return java.util.Collections.unmodifiableList(parameterNames_);
       }
       /**
-       * <code>repeated string parameterNames = 4;</code>
+       * <code>repeated bytes parameterNames = 4;</code>
        */
       public int getParameterNamesCount() {
         return parameterNames_.size();
       }
       /**
-       * <code>repeated string parameterNames = 4;</code>
+       * <code>repeated bytes parameterNames = 4;</code>
        */
-      public java.lang.String getParameterNames(int index) {
+      public com.google.protobuf.ByteString getParameterNames(int index) {
         return parameterNames_.get(index);
       }
       /**
-       * <code>repeated string parameterNames = 4;</code>
-       */
-      public com.google.protobuf.ByteString
-          getParameterNamesBytes(int index) {
-        return parameterNames_.getByteString(index);
-      }
-      /**
-       * <code>repeated string parameterNames = 4;</code>
+       * <code>repeated bytes parameterNames = 4;</code>
        */
       public Builder setParameterNames(
-          int index, java.lang.String value) {
+          int index, com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -3973,10 +3952,9 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated string parameterNames = 4;</code>
+       * <code>repeated bytes parameterNames = 4;</code>
        */
-      public Builder addParameterNames(
-          java.lang.String value) {
+      public Builder addParameterNames(com.google.protobuf.ByteString value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -3986,10 +3964,10 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated string parameterNames = 4;</code>
+       * <code>repeated bytes parameterNames = 4;</code>
        */
       public Builder addAllParameterNames(
-          java.lang.Iterable<java.lang.String> values) {
+          java.lang.Iterable<? extends com.google.protobuf.ByteString> values) {
         ensureParameterNamesIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, parameterNames_);
@@ -3997,24 +3975,11 @@ public final class Protocol {
         return this;
       }
       /**
-       * <code>repeated string parameterNames = 4;</code>
+       * <code>repeated bytes parameterNames = 4;</code>
        */
       public Builder clearParameterNames() {
-        parameterNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        parameterNames_ = java.util.Collections.emptyList();
         bitField0_ = (bitField0_ & ~0x00000008);
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>repeated string parameterNames = 4;</code>
-       */
-      public Builder addParameterNamesBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureParameterNamesIsMutable();
-        parameterNames_.add(value);
         onChanged();
         return this;
       }
@@ -11389,7 +11354,7 @@ public final class Protocol {
       "me\030\001 \002(\t\022\017\n\007hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"" +
       "[\n\006GetLog\022\017\n\007logName\030\001 \002(\t\022\024\n\014HLCstartTi" +
       "me\030\002 \001(\003\022\022\n\nHLCendTime\030\003 \001(\003\022\026\n\016paramete" +
-      "rNames\030\004 \003(\t\"\037\n\014TakeSnapshot\022\017\n\007logName\030" +
+      "rNames\030\004 \003(\014\"\037\n\014TakeSnapshot\022\017\n\007logName\030" +
       "\001 \002(\t\"0\n\014RollSnapshot\022\017\n\007logName\030\001 \002(\t\022\017" +
       "\n\007hlcTime\030\002 \002(\003\"\266\001\n\014RetroNodeMsg\022\013\n\003RID\030" +
       "\001 \001(\003\022\037\n\nconnectMsg\030\002 \001(\0132\013.ConnectMsg\022\026" +

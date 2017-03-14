@@ -30,9 +30,8 @@ public class Server<K extends Serializable, V extends Serializable> {
 
     static final boolean SSL = System.getProperty("ssl") != null;
     static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
-
-    private SyncRunner syncRunner;
     private Ensemble<K, V> masterEnsemble;
+    private ChannelFuture f;
 
     public static void main(String[] args) {
         //TODO server starts here
@@ -92,7 +91,7 @@ public class Server<K extends Serializable, V extends Serializable> {
                     });
 
             // Start the server.
-            ChannelFuture f =  b.bind(PORT).sync();
+            f =  b.bind(PORT).sync();
             // Wait until the server socket is closed.
             f.channel().closeFuture().sync();
         } finally {
@@ -108,8 +107,8 @@ public class Server<K extends Serializable, V extends Serializable> {
     }
 
     public void close() {
-        syncRunner.stop();
-        //this.channel.close();
+        f.channel().close();
+
     }
 
     public int getEnsembleSize() {

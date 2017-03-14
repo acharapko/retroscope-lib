@@ -1,12 +1,11 @@
 package retroscope.rql.functions;
 
 import retroscope.rql.RQLEnvironment;
-import retroscope.rql.syntaxtree.ExpressionList;
-import retroscope.rql.syntaxtree.IllegalExpressionException;
-import retroscope.rql.syntaxtree.RQLInterpreterValue;
-import retroscope.rql.syntaxtree.RQLRunTimeWarning;
-
-import java.util.ArrayList;
+import retroscope.rql.Types;
+import retroscope.rql.syntaxtree.expression.ExpressionList;
+import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
+import retroscope.rql.syntaxtree.expression.RQLInterpreterValue;
+import retroscope.rql.errors.RQLRunTimeWarning;
 
 /**
  * Created by Aleksey on 1/21/2017.
@@ -18,36 +17,30 @@ public class Abs extends RQLBuiltInFunction {
         super(params, rqlEnvironment);
     }
 
-    public RQLInterpreterValue[] getValues() {
-        return evaluatedVals.toArray(new RQLInterpreterValue[evaluatedVals.size()]);
-    }
-
     public void evaluate() throws IllegalExpressionException {
-        evaluatedVals = new ArrayList<RQLInterpreterValue>();
         if (params.getList().size() == 1){
             params.getList().get(0).evaluate();
-            RQLInterpreterValue[] p1Vals = params.getList().get(0).getValues();
+            RQLInterpreterValue p1Val = params.getList().get(0).getValue();
 
-            for (int i = 0; i < p1Vals.length; i++) {
-                RQLInterpreterValue expressionValue = new RQLInterpreterValue(p1Vals[i].getType());
+            RQLInterpreterValue expressionValue = new RQLInterpreterValue(p1Val.getType());
 
-                switch (p1Vals[i].getType()) {
-                    case INT:
-                        expressionValue.setValInt(Math.abs(p1Vals[i].getIntVal()));
-                        break;
-                    case DOUBLE:
-                        expressionValue.setValFloat(Math.abs(p1Vals[i].getDoubleVal()));
-                        break;
-                    default:
-                        RQLRunTimeWarning w = new RQLRunTimeWarning(
-                                RQLRunTimeWarning.WarningType.INCOMPATIBLE_TYPES,
-                                this.getClass().getName() + this.hashCode(),
-                                "Function Abs is undefined for " + p1Vals[i].getType()
-                        );
-                        rqlEnvironment.addRunTimeWarning(w);
-                }
-                evaluatedVals.add(expressionValue);
+            switch (p1Val.getType()) {
+                case INT:
+                    expressionValue.setValFloat(Math.abs(p1Val.getIntVal()));
+                    break;
+                case DOUBLE:
+                    expressionValue.setValFloat(Math.abs(p1Val.getDoubleVal()));
+                    break;
+                default:
+                    RQLRunTimeWarning w = new RQLRunTimeWarning(
+                            RQLRunTimeWarning.WarningType.INCOMPATIBLE_TYPES,
+                            this.getClass().getName() + this.hashCode(),
+                            "Function Abs is undefined for " + p1Val.getType()
+                    );
+                    rqlEnvironment.addRunTimeWarning(w);
+                    expressionValue.setValType(Types.NULL);
             }
+            value = expressionValue;
         }
     }
 }

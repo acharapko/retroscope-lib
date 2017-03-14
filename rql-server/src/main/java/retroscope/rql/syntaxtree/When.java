@@ -1,5 +1,7 @@
 package retroscope.rql.syntaxtree;
 
+import retroscope.rql.syntaxtree.expression.Expression;
+
 /**
  * Created by Aleksey on 12/20/2016.
  *

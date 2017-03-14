@@ -100,6 +100,23 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         return en;
     }
 
+    /**
+     * Retrieves a subset of this Ensemble containing all nodes with provided ids
+     * subset ensemble has no callback or aggregators registered, even if there were some
+     * in the parent Ensemble
+     * @param ids Integer list of node ids to be in subset ensemble
+     * @return Ensemble<K, V> subset ensemble
+     */
+    public Ensemble<K, V> getSubset(List<Integer> ids) {
+        Ensemble<K, V> en = new Ensemble<K, V>();
+        for (int i : ids) {
+            if (remoteNodes.containsKey(i)) {
+                en.remoteNodes.put(i, remoteNodes.get(i));
+            }
+        }
+        return en;
+    }
+
     private void writeAndFlush(
             Protocol.RetroServerMsg msg,
             long rid,
@@ -146,9 +163,12 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 .setRID(rid)
                 .setDataRequest(Protocol.GetData.newBuilder().setLogName(logName).setHlcTime(time))
                 .build();
-
         writeAndFlush(msg, rid, callback);
         return rid;
+    }
+
+    public long pullData(String logName, Timestamp time, Callbacks.PullDataCallback<K, V> callback) {
+        return pullData(logName, time.toLong(), callback);
     }
 
     public long pullData(String logName, String key, Callbacks.PullDataCallback<K, V> callback) {
@@ -169,6 +189,26 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 .setRID(rid)
                 .setDataRequest(Protocol.GetData.newBuilder().setLogName(logName).setHlcTime(time)
                         .addKeys(ProtocolHelpers.serializableToByteString(key)))
+                .build();
+
+        writeAndFlush(msg, rid, callback);
+        return rid;
+    }
+
+    public long pullData(String logName, List<K> keys, Timestamp time, Callbacks.PullDataCallback<K, V> callback) {
+        return pullData(logName, keys, time.toLong(), callback);
+    }
+
+    public long pullData(String logName, List<K> keys, long time, Callbacks.PullDataCallback<K, V> callback) {
+        long rid = getNextRID();
+        Protocol.GetData.Builder gdb = Protocol.GetData.newBuilder();
+        gdb.setLogName(logName).setHlcTime(time);
+        for (K key : keys) {
+            gdb.addKeys(ProtocolHelpers.serializableToByteString(key));
+        }
+        Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
+                .setRID(rid)
+                .setDataRequest(gdb)
                 .build();
 
         writeAndFlush(msg, rid, callback);
@@ -218,14 +258,60 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         return rid;
     }
 
-    public long pullLog(String logName, List<String> keys, Callbacks.PullLogSliceCallback<K, V> callback) {
+    public long pullLog(String logName, List<K> keys, Callbacks.PullLogSliceCallback<K, V> callback) {
         long rid = getNextRID();
+        Protocol.GetLog.Builder glb = Protocol.GetLog.newBuilder();
+        glb.setLogName(logName);
+        for (K key : keys) {
+            glb.addParameterNames(ProtocolHelpers.serializableToByteString(key));
+        }
         Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
                 .setRID(rid)
-                .setLogSliceRequest(Protocol.GetLog.newBuilder()
-                        .setLogName(logName)
-                        .addAllParameterNames(keys)
-                ).build();
+                .setLogSliceRequest(glb)
+                .build();
+        writeAndFlush(msg, rid, callback);
+        return rid;
+    }
+
+    public long pullLog(
+            String logName,
+            List<K> keys,
+            Timestamp start,
+            Timestamp end,
+            Callbacks.PullLogSliceCallback<K, V> callback
+    ) {
+        long rid = getNextRID();
+        Protocol.GetLog.Builder glb = Protocol.GetLog.newBuilder();
+        glb
+                .setLogName(logName)
+                .setHLCstartTime(start.toLong())
+                .setHLCendTime(end.toLong());
+
+        for (K key : keys) {
+            glb.addParameterNames(ProtocolHelpers.serializableToByteString(key));
+        }
+        Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
+                .setRID(rid)
+                .setLogSliceRequest(glb).build();
+        writeAndFlush(msg, rid, callback);
+        return rid;
+    }
+
+    public long pullLog(
+            String logName,
+            Timestamp start,
+            Timestamp end,
+            Callbacks.PullLogSliceCallback<K, V> callback
+    ) {
+        long rid = getNextRID();
+        Protocol.GetLog.Builder glb = Protocol.GetLog.newBuilder();
+        glb
+                .setLogName(logName)
+                .setHLCstartTime(start.toLong())
+                .setHLCendTime(end.toLong());
+        Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
+                .setRID(rid)
+                .setLogSliceRequest(glb).build();
         writeAndFlush(msg, rid, callback);
         return rid;
     }

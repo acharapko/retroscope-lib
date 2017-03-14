@@ -2,9 +2,7 @@ package retroscope.nodeensemble;
 
 import io.netty.channel.ChannelHandlerContext;
 import retroscope.hlc.Timestamp;
-import retroscope.log.DataMapLog;
 import retroscope.log.RetroMap;
-import retroscope.util.ByteArray;
 
 import java.io.Serializable;
 import java.util.HashMap;

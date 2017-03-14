@@ -217,6 +217,66 @@ public class DataMapLogTest {
     }
 
     @Test
+    public void getAllDataNonEmptyLogical() throws Exception {
+        length = 100;
+        log = new DataMapLog<String, String>(length * 10, "test123", 50);
+        //log = populateTheLog(log, 10);
+        Timestamp t = new Timestamp();
+        Random rand = new Random(System.nanoTime());
+
+        RetroMap<String, String> maps[] = new RetroMap[length];
+        Timestamp[] times = new Timestamp[length];
+        for (int i = 0; i < length; i++) {
+
+            t = t.add(0, (short)(2 + rand.nextInt(7)));
+            DataEntry<String> d1
+                    = new DataEntry<String>(("val"+i), t);
+
+            int k = rand.nextInt(10);
+            String key = ("test" + k);
+            //System.out.println(key + " = " + log.getItem(key) + " => " + d1);
+            LogEntry<String, String> le
+                    = new LogEntry<String, String>(key, log.getItem(key), d1);
+            if (i == 0) {
+                head = le;
+            }
+            if (i == length - 1) {
+                tail = le;
+            }
+            log.append(le);
+            maps[i] = getRetroMapWithKeys(10, "test");
+            maps[i].putAll(log.getAllData());
+            times[i] = t.clone();
+        }
+
+        //now test snapshots
+        for (int i = length-1; i >= 0; i--) {
+            RetroMap<String, String> testMap = log.getAllData(times[i]);
+            assertTrue(testMap.equals(maps[i]));
+        }
+        log.setLogCheckpointIntervalMs(0);
+        //now test snapshots without checkpoints
+        for (int i = length-1; i >= 0; i--) {
+            RetroMap<String, String> testMap = log.getAllData(times[i]);
+            assertTrue(testMap.equals(maps[i]));
+        }
+
+        //now checkpoint again but with times not in any log entries
+        log.setLogCheckpointIntervalMs(50);
+        for (int i = length-2; i >= 0; i--) {
+            RetroMap<String, String> testMap = log.getAllData(times[i].add(0, (short)1));
+            assertTrue(testMap.equals(maps[i]));
+        }
+
+        //now test snapshots without checkpoints and with times not in any log entries
+        log.setLogCheckpointIntervalMs(0);
+        for (int i = length-2; i >= 0; i--) {
+            RetroMap<String, String> testMap = log.getAllData(times[i].add(0, (short)1));
+            assertTrue(testMap.equals(maps[i]));
+        }
+    }
+
+    @Test
     public void getItems() throws Exception {
         length = 100;
         int keys = 10;

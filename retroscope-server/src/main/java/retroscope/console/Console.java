@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 /**
  * Created by Aleksey on 11/2/2016.
+ *
  */
 public class Console implements Runnable {
 

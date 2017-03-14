@@ -2,12 +2,10 @@ package retroscope.rql.functions;
 
 import retroscope.rql.RQLEnvironment;
 import retroscope.rql.Types;
-import retroscope.rql.syntaxtree.ExpressionList;
-import retroscope.rql.syntaxtree.IllegalExpressionException;
-import retroscope.rql.syntaxtree.RQLInterpreterValue;
-import retroscope.rql.syntaxtree.RQLRunTimeWarning;
-
-import java.util.ArrayList;
+import retroscope.rql.syntaxtree.expression.ExpressionList;
+import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
+import retroscope.rql.syntaxtree.expression.RQLInterpreterValue;
+import retroscope.rql.errors.RQLRunTimeWarning;
 
 /**
  * Created by Aleksey on 1/21/2017.
@@ -19,52 +17,56 @@ public class Min extends RQLBuiltInFunction {
         super(params, rqlEnvironment);
     }
 
-    public RQLInterpreterValue[] getValues() {
-        return evaluatedVals.toArray(new RQLInterpreterValue[evaluatedVals.size()]);
-    }
-
-    public void evaluate() throws IllegalExpressionException {
-        evaluatedVals = new ArrayList<RQLInterpreterValue>();
+    public void evaluate() throws IllegalExpressionException {       
         if (params.getList().size() >= 1){
-            RQLInterpreterValue max = new RQLInterpreterValue(Types.INT).setValInt(Integer.MAX_VALUE);
+            RQLInterpreterValue min = new RQLInterpreterValue(Types.INT).setValInt(Long.MAX_VALUE);
             for (int i = 0; i < params.getList().size(); i++) {
                 params.getList().get(i).evaluate();
-                RQLInterpreterValue[] p1Vals = params.getList().get(i).getValues();
-                for (int j = 0; j < p1Vals.length; j++) {
-                    switch (p1Vals[j].getType()) {
-                        case INT:
-                            if (max.getType() == Types.INT) {
-                                if (p1Vals[j].getIntVal() < max.getIntVal()) {
-                                    max.setValInt(p1Vals[j].getIntVal());
-                                }
-                            } else if (max.getType() == Types.DOUBLE) {
-                                if (p1Vals[j].getIntVal() < max.getDoubleVal()) {
-                                    max.setValInt(p1Vals[j].getIntVal());
-                                }
+                RQLInterpreterValue p1Val = params.getList().get(i).getValue();
+
+                switch (p1Val.getType()) {
+                    case INT:
+                        if (min.getType() == Types.INT) {
+                            if (p1Val.getIntVal() < min.getIntVal()) {
+                                min.setValInt(p1Val.getIntVal());
                             }
-                            break;
-                        case DOUBLE:
-                            if (max.getType() == Types.INT) {
-                                if (p1Vals[j].getDoubleVal() < max.getIntVal()) {
-                                    max.setValFloat(p1Vals[j].getDoubleVal());
-                                }
-                            } else if (max.getType() == Types.DOUBLE) {
-                                if (p1Vals[j].getDoubleVal() < max.getDoubleVal()) {
-                                    max.setValFloat(p1Vals[j].getDoubleVal());
-                                }
+                        } else if (min.getType() == Types.DOUBLE) {
+                            if (p1Val.getIntVal() < min.getDoubleVal()) {
+                                min.setValInt(p1Val.getIntVal());
                             }
-                            break;
-                        default:
-                            RQLRunTimeWarning w = new RQLRunTimeWarning(
-                                    RQLRunTimeWarning.WarningType.INCOMPATIBLE_TYPES,
-                                    this.getClass().getName() + this.hashCode(),
-                                    "Function Max is undefined for " + p1Vals[i].getType()
-                            );
-                            rqlEnvironment.addRunTimeWarning(w);
-                    }
+                        }
+                        break;
+                    case DOUBLE:
+                        if (min.getType() == Types.INT) {
+                            if (p1Val.getDoubleVal() < min.getIntVal()) {
+                                min.setValFloat(p1Val.getDoubleVal());
+                            }
+                        } else if (min.getType() == Types.DOUBLE) {
+                            if (p1Val.getDoubleVal() < min.getDoubleVal()) {
+                                min.setValFloat(p1Val.getDoubleVal());
+                            }
+                        }
+                        break;
+                    default:
+                        RQLRunTimeWarning w = new RQLRunTimeWarning(
+                                RQLRunTimeWarning.WarningType.INCOMPATIBLE_TYPES,
+                                this.getClass().getName() + this.hashCode(),
+                                "Function Max is undefined for " + p1Val.getType()
+                        );
+                        rqlEnvironment.addRunTimeWarning(w);
+                        min.setValType(Types.NULL);
                 }
+
             }
-            evaluatedVals.add(max);
+            value = min;
+        } else {
+            RQLRunTimeWarning w = new RQLRunTimeWarning(
+                    RQLRunTimeWarning.WarningType.INCOMPATIBLE_TYPES,
+                    this.getClass().getName() + this.hashCode(),
+                    "Function Min must receives some arguments"
+            );
+            rqlEnvironment.addRunTimeWarning(w);
+            value = new RQLInterpreterValue(Types.NULL);
         }
     }
 }

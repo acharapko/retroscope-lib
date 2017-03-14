@@ -1,14 +1,16 @@
 package retroscope.rql.syntaxtree;
 
+import retroscope.rql.syntaxtree.expression.Expression;
+
 /**
  * Created by Aleksey on 1/23/2017.
  *
  */
 public class TimeSearch {
 
-    public final int BETWEEN = 1;
-    public final int BEFORE = 2;
-    public final int AFTER = 3;
+    public static final int BETWEEN = 1;
+    public static final int BEFORE = 2;
+    public static final int AFTER = 3;
 
     private Expression ex1, ex2, link;
     private int type;
@@ -25,4 +27,19 @@ public class TimeSearch {
         this.link = link;
     }
 
+    public Expression getEx1() {
+        return ex1;
+    }
+
+    public Expression getEx2() {
+        return ex2;
+    }
+
+    public Expression getLink() {
+        return link;
+    }
+
+    public int getType() {
+        return type;
+    }
 }

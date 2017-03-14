@@ -1,9 +1,11 @@
 package retroscope.rql.syntaxtree;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Aleksey on 12/20/2016.
+ *
  */
 public class ParamList {
 
@@ -22,6 +24,14 @@ public class ParamList {
 
     public Param[] getParams() {
         return params;
+    }
+
+    public List<String> getParamIds() {
+        ArrayList<String> paramList = new ArrayList<String>();
+        for (Param param : params) {
+            paramList.add(param.toString());
+        }
+        return paramList;
     }
 
     public String toString()

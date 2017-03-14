@@ -4,7 +4,8 @@ import retroscope.hlc.Timestamp;
 import retroscope.rql.RQLItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Aleksey on 12/24/2016.
@@ -12,27 +13,47 @@ import java.util.HashMap;
  */
 public class GlobalCut implements Cloneable {
 
-    private ArrayList<RetroMap<String, RQLItem>> localSnapshots;
+    private ArrayList<RQLSetMap> localSnapshots;
     private ArrayList<String> localSnapshotNames;
     private ArrayList<Integer> nodeIds;
+
+    private Set<Integer> knownNodes;
+
     private Timestamp cutTime;
     private int count = 0;
 
     public GlobalCut(Timestamp cutTime) {
-        localSnapshots = new ArrayList<RetroMap<String, RQLItem>>();
+        localSnapshots = new ArrayList<RQLSetMap>();
         localSnapshotNames = new ArrayList<String>();
         nodeIds = new ArrayList<Integer>();
         this.cutTime = cutTime;
+        knownNodes = new HashSet<Integer>();
     }
 
     /*public void addLocalSnapshot(String logName, RetroMap<String, RQLItem> localSnapshot) {
         addLocalSnapshot(logName, -1, localSnapshot);
     }*/
 
-    public void addLocalSnapshot(String logName, int nodeId, RetroMap<String, RQLItem> localSnapshot) {
+    /*public void addLocalSnapshot(String logName, int nodeId, RHashMap<String, ?, RQLItem> localSnapshot) {
         localSnapshots.add(count, localSnapshot);
         localSnapshotNames.add(count, logName);
         nodeIds.add(count, nodeId);
+        count++;
+    }*/
+
+    public void addLocalSnapshot(String logName, int nodeId, RQLSetMap localSnapshot) {
+        localSnapshots.add(count, localSnapshot);
+        localSnapshotNames.add(count, logName);
+        nodeIds.add(count, nodeId);
+        knownNodes.add(nodeId);
+        count++;
+    }
+
+    public void addLocalSnapshot(String logName, int nodeId, RetroMap<String, RQLItem> localSnapshot) {
+        localSnapshots.add(count, new RQLSetMap(localSnapshot));
+        localSnapshotNames.add(count, logName);
+        nodeIds.add(count, nodeId);
+        knownNodes.add(nodeId);
         count++;
     }
 
@@ -40,7 +61,7 @@ public class GlobalCut implements Cloneable {
         return cutTime;
     }
 
-    public RetroMap<String, RQLItem> getLocalSnapshot(String logName) {
+    public RQLSetMap getLocalSnapshot(String logName) {
         //find it first
         for (int i = 0; i < count; i++) {
             if (localSnapshotNames.get(i).equals(logName)) {
@@ -50,7 +71,17 @@ public class GlobalCut implements Cloneable {
         return null;
     }
 
-    public ArrayList<RetroMap<String, RQLItem>> getLocalSnapshots() {
+    public RQLSetMap getLocalSnapshot(String logName, int nodeId) {
+        //find it first
+        for (int i = 0; i < count; i++) {
+            if (localSnapshotNames.get(i).equals(logName) && nodeIds.get(i) == nodeId) {
+                return localSnapshots.get(i);
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<RQLSetMap> getLocalSnapshots() {
         return localSnapshots;
     }
 
@@ -62,6 +93,10 @@ public class GlobalCut implements Cloneable {
         return nodeIds;
     }
 
+    public Set<Integer> getKnownNodes() {
+        return knownNodes;
+    }
+
     public GlobalCut clone() {
         GlobalCut gc = new GlobalCut(cutTime);
         gc.count = count;
@@ -69,9 +104,9 @@ public class GlobalCut implements Cloneable {
         gc.localSnapshotNames.addAll(localSnapshotNames);
         gc.nodeIds = new ArrayList<Integer>(nodeIds.size());
         gc.nodeIds.addAll(nodeIds);
-        gc.localSnapshots = new ArrayList<RetroMap<String, RQLItem>>(localSnapshots.size());
-        for(RetroMap<String, RQLItem> ls : localSnapshots) {
-            RetroMap<String, RQLItem> clone = new RetroMap<String, RQLItem>();
+        gc.localSnapshots = new ArrayList<RQLSetMap>(localSnapshots.size());
+        for(RQLSetMap ls : localSnapshots) {
+            RQLSetMap clone = new RQLSetMap();
             clone.putAll(ls);
             gc.localSnapshots.add(clone);
         }

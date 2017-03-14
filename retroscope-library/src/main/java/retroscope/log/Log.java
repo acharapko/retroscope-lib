@@ -4,11 +4,7 @@ import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
-import retroscope.util.ByteArray;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * maxLengthMillis determines how far back the retroscope.log keeps the information
  */
 
-public class Log<K extends Serializable, V extends Serializable> {
+public class Log<K extends Serializable, V extends Serializable> implements BasicLog<K, V> {
 
     public int known_snapshot_log_id = 0;
 
@@ -223,7 +219,7 @@ public class Log<K extends Serializable, V extends Serializable> {
         ArrayList<LogEntry<K, V>> entries = new ArrayList<LogEntry<K, V>>();
 
         LogEntry<K, V> logEntry = head;
-        while (logEntry != null) {
+        while (logEntry != tail.getNext()) {
             if (key.equals(logEntry.getKey()) && comparator.compare(logEntry.getToV().getValue(), val) == acceptedVal) {
                 entries.add(logEntry);
             }
@@ -426,16 +422,40 @@ public class Log<K extends Serializable, V extends Serializable> {
         return logSlice(new Timestamp(sliceStart), new Timestamp(sliceEnd));
     }
 
-    public Log<K, V> logSlice(Timestamp sliceStart, Timestamp sliceEnd)
+    public Log<K, V> logSlice(List<K> keys, long sliceStart, long sliceEnd)
             throws LogOutTimeBoundsException {
-        LogEntry<K, V> head = this.findEntry(sliceStart);
-        LogEntry<K, V> tail = this.findEntry(sliceEnd);
-
-        return new Log<K, V>(this.maxLengthMillis, this.name, this.logCheckpointIntervalMs)
-                .setHeadAndTail(head, tail);
+        return logSlice(keys, new Timestamp(sliceStart), new Timestamp(sliceEnd));
     }
 
-    public Log<K, V> logSlice(List keys, Timestamp sliceStart, Timestamp sliceEnd)
+    public Log<K, V> logSlice(Timestamp sliceStart, Timestamp sliceEnd)
+            throws LogOutTimeBoundsException {
+        LogEntry<K, V> currentOriginalLogItem = this.findEntry(sliceStart);
+        LogEntry<K, V> head = null;
+        LogEntry<K, V> currentLogItem = null;
+        LogEntry<K, V> tempLogItem = null;
+        int length = 0;
+        while (currentOriginalLogItem != null && currentOriginalLogItem.getTime().compareTo(sliceEnd) <= 0) {
+            //add to log slice
+            length++;
+            tempLogItem = currentLogItem;
+            currentLogItem = currentOriginalLogItem.clone();
+            if (tempLogItem == null) {
+                head = currentLogItem;
+            } else {
+                tempLogItem.setNext(currentLogItem);
+            }
+            currentLogItem.setPrev(tempLogItem);
+            currentOriginalLogItem = currentOriginalLogItem.getNext();
+        }
+
+        Log<K, V> l = new Log<K, V>(this.maxLengthMillis, this.name, this.logCheckpointIntervalMs)
+                .setHeadAndTail(head, tempLogItem);
+        l.length = length;
+        return l;
+    }
+
+
+    public Log<K, V> logSlice(List<K> keys, Timestamp sliceStart, Timestamp sliceEnd)
             throws LogOutTimeBoundsException {
         LogEntry<K, V> currentOriginalLogItem = this.findEntry(sliceStart);
 
@@ -458,9 +478,18 @@ public class Log<K extends Serializable, V extends Serializable> {
             }
             currentOriginalLogItem = currentOriginalLogItem.getNext();
         }
+
         Log<K, V> l = new Log<K, V>(this.maxLengthMillis, this.name, this.logCheckpointIntervalMs)
                 .setHeadAndTail(head, tempLogItem);
         l.length = length;
+        return l;
+    }
+
+    public Log<K, V> logSlice(List<K> keys)
+            throws LogOutTimeBoundsException {
+        lock.lock();
+        Log<K, V> l = logSlice(keys, head.getTime(), tail.getTime());
+        lock.unlock();
         return l;
     }
 
@@ -572,6 +601,7 @@ public class Log<K extends Serializable, V extends Serializable> {
         }
         return protocolMsgBuilder.build();
     }
+
 
     /*public ByteArray toByteArray() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

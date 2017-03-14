@@ -3,9 +3,6 @@ package retroscope;
 import org.junit.Before;
 import org.junit.Test;
 import retroscope.hlc.Timestamp;
-import retroscope.log.DataEntry;
-import retroscope.log.DataMapLog;
-import retroscope.log.LogEntry;
 import retroscope.log.RetroMap;
 
 import java.util.Random;

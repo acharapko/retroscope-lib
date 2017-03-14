@@ -8,7 +8,7 @@ import retroscope.rql.RQLItem;
  * This class adds nodeID to the log, so that we can distinguish logs with the
  * same name retrieved from multiple remote machines.
  */
-public class RQLDataMapLog extends DataMapLog<String, RQLItem> {
+public class RQLDataMapLog extends DataMapLog<String, RQLItem> implements RQLLog {
 
     private int nodeId = 0;
 
@@ -57,7 +57,7 @@ public class RQLDataMapLog extends DataMapLog<String, RQLItem> {
         Iterator<Map.Entry<String, DataEntry<ByteArray>>> it = snap.entrySet().iterator();
         while (it.hasNext()) { //iterating through the symbols in the symbol table
             Map.Entry<String, DataEntry<ByteArray>> pair = it.next();
-            RQLItem rqlItem = new RQLItem(pair.getValue().getValue());
+            RQLItem rqlItem = new RQLItem(pair.getValues().getValues());
             rqlSnap.put(pair.getKey(), new DataEntry<RQLItem>())
         }
 
@@ -65,5 +65,9 @@ public class RQLDataMapLog extends DataMapLog<String, RQLItem> {
 
     public int getNodeId() {
         return nodeId;
+    }
+
+    public RQLSetMap getSnapshotSetMap(int snapshotID) {
+        return new RQLSetMap(snapshots.get(snapshotID));
     }
 }

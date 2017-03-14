@@ -10,7 +10,7 @@ public interface TypedValue {
 
     double getDoubleVal();
 
-    int getIntVal();
+    long getIntVal();
 
     String getStringVal();
 

@@ -21,9 +21,13 @@ public class RQLItemValue implements TypedValue {
 
     private Types type;
     private double doubleVal;
-    private int intVal;
+    private long intVal;
     private String stringVal;
     private String name;
+
+    public RQLItemValue(Types type) {
+        this.type = type;
+    }
 
     public RQLItemValue(ByteArray bytes) throws RQLItemException {
         this(bytes.get());
@@ -61,12 +65,12 @@ public class RQLItemValue implements TypedValue {
         byte[] valueBytes;
         switch (type) {
             case INT:
-                if (ByteHelper.INT_SIZE > buf.remaining()) {
+                if (ByteHelper.LONG_SIZE > buf.remaining()) {
                     throw new RQLItemException("Corrupted byte stream");
                 }
-                valueBytes = new byte[ByteHelper.INT_SIZE];
-                buf.get(valueBytes, 0, ByteHelper.INT_SIZE);
-                intVal = ByteHelper.bytesToInt(valueBytes);
+                valueBytes = new byte[ByteHelper.LONG_SIZE];
+                buf.get(valueBytes, 0, ByteHelper.LONG_SIZE);
+                intVal = ByteHelper.bytesToLong(valueBytes);
                 break;
             case DOUBLE:
                 if (ByteHelper.DOUBLE_SZIE > buf.remaining()) {
@@ -94,7 +98,7 @@ public class RQLItemValue implements TypedValue {
         setName(name);
     }
 
-    public RQLItemValue(String name, int val) {
+    public RQLItemValue(String name, long val) {
         type = Types.INT;
         intVal = val;
         setName(name);
@@ -124,12 +128,35 @@ public class RQLItemValue implements TypedValue {
         return doubleVal;
     }
 
-    public int getIntVal() {
+    public long getIntVal() {
         return intVal;
     }
 
     public String getStringVal() {
         return new String(stringVal);
+    }
+
+    public RQLItemValue setValInt(long valInt) {
+        this.intVal = valInt;
+        type = Types.INT;
+        return this;
+    }
+
+    public RQLItemValue setValFloat(double valFloat) {
+        this.doubleVal = valFloat;
+        this.type = Types.DOUBLE;
+        return this;
+    }
+
+    public RQLItemValue setValStr(String valStr) {
+        this.stringVal = valStr;
+        type = Types.STRING;
+        return this;
+    }
+
+    public RQLItemValue setValType(Types valType) {
+        this.type = valType;
+        return this;
     }
 
     public String getName() {
@@ -160,7 +187,7 @@ public class RQLItemValue implements TypedValue {
             default:
             case INT:
                 typeAndName = 0x00;
-                valBytes = ByteHelper.intToBytes(intVal);
+                valBytes = ByteHelper.longToBytes(intVal);
                 break;
         }
         typeAndName = (byte) (typeAndName << 6);
