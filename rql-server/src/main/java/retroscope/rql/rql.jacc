@@ -1,7 +1,8 @@
 %{
 package retroscope.rql;
 import retroscope.rql.syntaxtree.*;
-import java.util.HashMap;
+import retroscope.rql.syntaxtree.link.*;
+import retroscope.rql.syntaxtree.expression.*;
 
 %}
 // D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql-server\src\main\java\retroscope\rql\rql.jacc -t
@@ -20,6 +21,7 @@ import java.util.HashMap;
 %token <String> BETWEEN AFTER BEFORE
 %token <String> COUNT SUM
 %token <String> FROM WHEN AT ON TO
+%token <String> LINK FA_LINK
 %token <String> NODES ALL_NODES TIME SAME_NODE
 %token <String> TRUE FALSE AND OR NEQ EQ GEQ LEQ
 
@@ -28,16 +30,16 @@ import java.util.HashMap;
 %left '!'
 %left AND
 %left OR
-%left LINK
 %left '=' EQ NEQ
 %left '<' '>' LEQ GEQ
 %left '+' '-'
 %left '*' '/' '%'
 
 
-%type <Expression>  		Expression AtTimeExtended
+%type <Expression>  		Expression AtTimeExtended CmpExpression
 %type <IdentifierList>  	IdentifierList
 %type <When>              	When
+%type <Links>              	Link
 %type <AtNodes>             AtNodes
 %type <OnTime>             	OnTime
 %type <Param>             	Param
@@ -46,6 +48,7 @@ import java.util.HashMap;
 %type <Query>               Query
 %type <QueryEnd>            QueryEnd
 %type <ExpressionList>      ExpressionList
+%type <TimeSearch>          TimeSearch
 
 
 /* start symbol */
@@ -65,16 +68,23 @@ Statement           :   Query ';'                                               
 Query               :   SELECT ParamList FROM IdentifierList QueryEnd                   {$$ = new Query($2, $4, $5, currentEnv);}
                     ;
 
-QueryEnd            :   When TimeSearch AtNodes OnTime                                  {$$ = new QueryEnd($1, $2 $3, $4);}
+QueryEnd            :   When Link TimeSearch AtNodes OnTime                             {$$ = new QueryEnd($1, $2, $3, $4, $5);}
                     ;
 
-TimeSearch          :   BETWEEN '(' Expression ',' Expression ')' LINK Expression       {$$ = new TimeSearch(TimeSearch.BETWEEN, $3, $5, $8);}
+TimeSearch          :   BETWEEN '(' Expression ',' Expression ')' LINK CmpExpression    {$$ = new TimeSearch(TimeSearch.BETWEEN, $3, $5, $8);}
                     |   BEFORE Expression                                               {$$ = new TimeSearch(TimeSearch.BEFORE, $2);}
-                    |   AFTER Expression                                                {$$ = new TimeSearch(TimeSearch.AFTERN, $2);}
-                    |
+                    |   AFTER Expression                                                {$$ = new TimeSearch(TimeSearch.AFTER, $2);}
+                    |                                                                   {$$ = null;}
                     ;
 
 When                :   WHEN Expression                                                 {$$ = new When($2);}
+                    |                                                                   {$$ = null;}
+                    ;
+
+Link                :   LINK '(' IdentifierList ')' ',' Link                            {$$ = new Links($6, new Link($3, true));}
+                    |   FA_LINK '(' IdentifierList ')' ',' Link                         {$$ = new Links($6, new Link($3, false));}
+                    |   LINK '(' IdentifierList ')'                                     {$$ = new Links(new Link($3, false));}
+                    |   FA_LINK '(' IdentifierList ')'                                  {$$ = new Links(new Link($3, true));}
                     |                                                                   {$$ = null;}
                     ;
 
@@ -117,18 +127,10 @@ Expression			:	'-' Expression											        {$$ = new Minus(currentEnv, $2);
 					| 	Expression '*' Expression										{$$ = new Multiply(currentEnv, $1, $3);}
 					| 	Expression '%' Expression										{$$ = new Mod(currentEnv, $1, $3);}
 					|	'(' Expression ')'											    {$$ = $2;}
-					| 	Expression '=' Expression										{$$ = new EQExpression(currentEnv, $1, $3);}
-					|	Expression EQ Expression										{$$ = new EQExpression(currentEnv, $1, $3);}
-					|	Expression NEQ Expression										{$$ = new NEQExpression(currentEnv, $1, $3);}
-					|	Expression LEQ Expression										{$$ = new LEQExpression(currentEnv, $1, $3);}
-					|	Expression GEQ Expression										{$$ = new GEQExpression(currentEnv, $1, $3);}
-					|	Expression '<' Expression										{$$ = new LessThanExpression(currentEnv, $1, $3);}
-					|	Expression '>' Expression										{$$ = new GreaterThanExpression(currentEnv, $1, $3);}
+					| 	CmpExpression           										{$$ = $1;}
 					| 	'!' Expression											        {$$ = new NotExpression(currentEnv, $2);}
 					|	Expression AND Expression										{$$ = new And(currentEnv, $1, $3);}
 					|	Expression OR Expression										{$$ = new Or(currentEnv, $1, $3);}
-					|   Expression LINK Expression                                      {$$ = new LinkConditionalExpression(currentEnv, $1, $3);}
-					|   Expression LINK SAME_NODE                                       {$$ = new LinkConditionalExpression(currentEnv, $1);}
 					|   IDENTIFIER '(' ExpressionList ')'                               {$$ = new FuncCall(currentEnv, $1, $3);}
 					|	IDENTIFIER											            {$$ = new Variable($1, currentEnv, true);}
 					|	IDENTIFIER '.' IDENTIFIER							            {$$ = new Variable($1, $3, currentEnv, true);}
@@ -140,6 +142,15 @@ Expression			:	'-' Expression											        {$$ = new Minus(currentEnv, $2);
 					|	TRUE											                {$$ = new IntegerLiteral(currentEnv, 1);}
 					|	FALSE											                {$$ = new IntegerLiteral(currentEnv, 0);}
 					;
+
+CmpExpression       :   Expression '=' Expression										{$$ = new EQExpression(currentEnv, $1, $3);}
+                    |	Expression EQ Expression										{$$ = new EQExpression(currentEnv, $1, $3);}
+                    |	Expression NEQ Expression										{$$ = new NEQExpression(currentEnv, $1, $3);}
+                    |	Expression LEQ Expression										{$$ = new LEQExpression(currentEnv, $1, $3);}
+                    |	Expression GEQ Expression										{$$ = new GEQExpression(currentEnv, $1, $3);}
+                    |	Expression '<' Expression										{$$ = new LessThanExpression(currentEnv, $1, $3);}
+                    |	Expression '>' Expression										{$$ = new GreaterThanExpression(currentEnv, $1, $3);}
+                    ;
 
 ExpressionList      :   Expression ',' ExpressionList                                   {$$ = new ExpressionList($1, $3);}
                     |   Expression                                                      {$$ = new ExpressionList($1);}
@@ -159,9 +170,16 @@ public rqlParser(Scanner lexer){
     this.lexer=lexer;
 }
 
+public rqlParser(){
+}
+
 /* implementation of the nextToken() using lexer.yylex() that throws an
 exception 
 */
+
+public void setScanner(Scanner lexer) {
+    this.lexer = lexer;
+}
 
 private int nextToken(){
       try{ 

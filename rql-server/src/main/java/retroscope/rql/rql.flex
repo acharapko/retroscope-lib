@@ -40,6 +40,7 @@ IntegerLiteral=0|[1-9][0-9]*
 "TO"                {return token=TO;}
 "ON"                {return token=ON;}
 "LINK"              {return token=LINK;}
+"FA_LINK"           {return token=FA_LINK;}
 "BETWEEN"           {return token=BETWEEN;}
 "AFTER"             {return token=AFTER;}
 "BEFORE"            {return token=BEFORE;}
