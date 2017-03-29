@@ -11,6 +11,7 @@ import retroscope.rql.memory.Placeholder;
 import retroscope.rql.memory.SimpleSymbol;
 import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
+import retroscope.rql.syntaxtree.link.ForAllLink;
 import retroscope.rql.syntaxtree.link.Link;
 import retroscope.rql.syntaxtree.link.LinkLock;
 import retroscope.rql.syntaxtree.link.Links;
@@ -29,12 +30,13 @@ public abstract class RQLEnvironment {
     protected ArrayList<Placeholder> placeholders;
     private ArrayList<Link> linkedNodes;
     private HashMap<Integer, LinkLock> placeholdersToLinkLocks;
+    private int forAllLinksCount = 0;
 
     private int numPlaceholders = 0;
 
 
     //log stuff
-    protected ArrayList<RQLLog> logs; // RQL only works with String Retroscopes
+    protected ArrayList<RQLLog> logs;
     private String defaultLog = "";
 
     //error stuff
@@ -114,20 +116,30 @@ public abstract class RQLEnvironment {
                     placeholdersToLinkLocks.put(link.getPlaceholders()[i], link.getLinkedNode());
                     link.getLinkedNode().oneUp();
                 }
+                addLinkedNodes(link);
             }
         }
     }
 
     public void addLinkedNodes(ArrayList<Link> linkedNodes) {
         this.linkedNodes.addAll(linkedNodes);
+        for (Link l : linkedNodes) {
+            if (l instanceof ForAllLink) {
+                forAllLinksCount++;
+            }
+        }
     }
 
     public void addLinkedNodes(Link linkedNodes) {
         this.linkedNodes.add(linkedNodes);
+        if (linkedNodes instanceof ForAllLink) {
+            forAllLinksCount++;
+        }
     }
 
     public void resetLinkedNodes() {
         linkedNodes = new ArrayList<Link>();
+        forAllLinksCount = 0;
     }
 
     /**
@@ -222,7 +234,11 @@ public abstract class RQLEnvironment {
             }
 
             // (7), (8) and (9) are here
-            evalCutOnCondition(tempCut, condition);
+            if (forAllLinksCount == 0) {
+                evalCutOnCondition(tempCut, condition);
+            } else {
+                evalCutOnConditionForAllNodes(tempCut, condition);
+            }
             // (10)
             if (current.getPrev() != null) {
                 q.add(current.getPrev());
@@ -232,7 +248,11 @@ public abstract class RQLEnvironment {
 
     public void checkTempCutsOnCondition(Expression condition) {
         for(GlobalCut cut : tempGlobalCuts) {
-            evalCutOnCondition(cut, condition);
+            if (forAllLinksCount == 0) {
+                evalCutOnCondition(cut, condition);
+            } else {
+                evalCutOnConditionForAllNodes(cut, condition);
+            }
         }
     }
 
@@ -260,6 +280,50 @@ public abstract class RQLEnvironment {
                 //clone tempCut, since has rolling snapshot data which will be mutated as the snapshot rolls
                 addToEmitList(tempCut);
                 shortCircuit = true;
+            }
+        }
+    }
+
+    private void evalCutOnConditionForAllNodes(GlobalCut tempCut, Expression condition) {
+        // (7) at this time we have a consistent cut at the tempCut object
+        // first we update symbol table with new values. The symbol table
+        // should be the same as the one used by the vars in the condition expression
+        Set<Integer> nodeIds = tempCut.getKnownNodes();
+        for (Link l : linkedNodes) {
+            if (l instanceof ForAllLink) {
+                ((ForAllLink) l).resetSatisfied();
+            }
+        }
+        boolean shortCircuit = false;
+        setSymbolTableAtCut(tempCut);
+        //now iterate
+        while (!shortCircuit) {
+            if (setNextPlaceholders()) {
+                shortCircuit = true;
+            }
+            try {
+                condition.evaluate();
+            } catch (IllegalExpressionException e) {
+                addRunTimeException(e);
+            }
+
+            // (8)
+            //if any of the results is true, we mark them as satisfied for current node in out FALinks
+            if (condition.getValue().getIntVal() != 0) {
+                int satisfiedCount = 0;
+                for (Link l : linkedNodes) {
+                    if (l instanceof ForAllLink) {
+                        ((ForAllLink) l).markSatisfied();
+                        satisfiedCount = ((ForAllLink) l).satisfiedAll(nodeIds) ?  satisfiedCount + 1 : satisfiedCount;
+                    }
+                }
+
+                // (9)
+                //clone tempCut, since has rolling snapshot data which will be mutated as the snapshot rolls
+                if (satisfiedCount == forAllLinksCount) {
+                    addToEmitList(tempCut);
+                    shortCircuit = true;
+                }
             }
         }
     }
@@ -392,7 +456,6 @@ public abstract class RQLEnvironment {
             emittedGlobalCuts.add(gc.clone());
         }
     }
-
 
     public ArrayList<GlobalCut> getEmittedGlobalCuts() {
         return emittedGlobalCuts;

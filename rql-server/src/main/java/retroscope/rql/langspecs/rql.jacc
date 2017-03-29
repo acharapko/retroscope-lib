@@ -81,10 +81,10 @@ When                :   WHEN Expression                                         
                     |                                                                   {$$ = null;}
                     ;
 
-Link                :   LINK '(' IdentifierList ')' ',' Link                            {$$ = new Links($6, new Link($3, true));}
-                    |   FA_LINK '(' IdentifierList ')' ',' Link                         {$$ = new Links($6, new Link($3, false));}
-                    |   LINK '(' IdentifierList ')'                                     {$$ = new Links(new Link($3, false));}
-                    |   FA_LINK '(' IdentifierList ')'                                  {$$ = new Links(new Link($3, true));}
+Link                :   LINK '(' IdentifierList ')' ',' Link                            {$$ = new Links($6, new Link($3));}
+                    |   FA_LINK '(' IdentifierList ')' ',' Link                         {$$ = new Links($6, new ForAllLink($3));}
+                    |   LINK '(' IdentifierList ')'                                     {$$ = new Links(new Link($3));}
+                    |   FA_LINK '(' IdentifierList ')'                                  {$$ = new Links(new ForAllLink($3));}
                     |                                                                   {$$ = null;}
                     ;
 

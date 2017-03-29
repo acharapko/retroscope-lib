@@ -14,8 +14,8 @@ import java.util.Set;
 public class GlobalCut implements Cloneable {
 
     private ArrayList<RQLSetMap> localSnapshots;
-    private ArrayList<String> localSnapshotNames;
-    private ArrayList<Integer> nodeIds;
+    private ArrayList<String> localSnapshotNames; //log name
+    private ArrayList<Integer> nodeIds; 
 
     private Set<Integer> knownNodes;
 
@@ -29,18 +29,7 @@ public class GlobalCut implements Cloneable {
         this.cutTime = cutTime;
         knownNodes = new HashSet<Integer>();
     }
-
-    /*public void addLocalSnapshot(String logName, RetroMap<String, RQLItem> localSnapshot) {
-        addLocalSnapshot(logName, -1, localSnapshot);
-    }*/
-
-    /*public void addLocalSnapshot(String logName, int nodeId, RHashMap<String, ?, RQLItem> localSnapshot) {
-        localSnapshots.add(count, localSnapshot);
-        localSnapshotNames.add(count, logName);
-        nodeIds.add(count, nodeId);
-        count++;
-    }*/
-
+    
     public void addLocalSnapshot(String logName, int nodeId, RQLSetMap localSnapshot) {
         localSnapshots.add(count, localSnapshot);
         localSnapshotNames.add(count, logName);
@@ -103,6 +92,8 @@ public class GlobalCut implements Cloneable {
         gc.localSnapshotNames = new ArrayList<String>(localSnapshotNames.size());
         gc.localSnapshotNames.addAll(localSnapshotNames);
         gc.nodeIds = new ArrayList<Integer>(nodeIds.size());
+        gc.knownNodes = new HashSet<Integer>();
+        gc.knownNodes.addAll(knownNodes);
         gc.nodeIds.addAll(nodeIds);
         gc.localSnapshots = new ArrayList<RQLSetMap>(localSnapshots.size());
         for(RQLSetMap ls : localSnapshots) {

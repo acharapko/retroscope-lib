@@ -12,26 +12,20 @@ import java.util.List;
  */
 public class Link {
 
-    private int[] placeholders;
-    private boolean forAllLink;
+    protected int[] placeholders;
 
-    private LinkLock linkedNode;
+    protected LinkLock linkedNode;
 
-    public Link(IdentifierList placeholders, boolean forAllLink) {
+    public Link(IdentifierList placeholders) {
         this.placeholders = new int[placeholders.getIdentifiers().length];
         for (int i = 0; i < placeholders.getIdentifiers().length; i++) {
             this.placeholders[i] = Integer.parseInt(placeholders.getIdentifiers()[i].replace("$", ""));
         }
-        this.forAllLink = forAllLink;
         linkedNode = new LinkLock();
     }
 
     public int[] getPlaceholders() {
         return placeholders;
-    }
-
-    public boolean isForAllLink() {
-        return forAllLink;
     }
 
     public LinkLock getLinkedNode() {

@@ -4473,25 +4473,25 @@ public class rqlParser implements mTokens {
     }
 
     private int yyr14() { // Link : LINK '(' IdentifierList ')' ',' Link
-        {yyrv = new Links(((Links)yysv[yysp-1]), new Link(((IdentifierList)yysv[yysp-4]), true));}
+        {yyrv = new Links(((Links)yysv[yysp-1]), new Link(((IdentifierList)yysv[yysp-4])));}
         yysv[yysp-=6] = yyrv;
         return yypLink();
     }
 
     private int yyr15() { // Link : FA_LINK '(' IdentifierList ')' ',' Link
-        {yyrv = new Links(((Links)yysv[yysp-1]), new Link(((IdentifierList)yysv[yysp-4]), false));}
+        {yyrv = new Links(((Links)yysv[yysp-1]), new ForAllLink(((IdentifierList)yysv[yysp-4])));}
         yysv[yysp-=6] = yyrv;
         return yypLink();
     }
 
     private int yyr16() { // Link : LINK '(' IdentifierList ')'
-        {yyrv = new Links(new Link(((IdentifierList)yysv[yysp-2]), false));}
+        {yyrv = new Links(new Link(((IdentifierList)yysv[yysp-2])));}
         yysv[yysp-=4] = yyrv;
         return yypLink();
     }
 
     private int yyr17() { // Link : FA_LINK '(' IdentifierList ')'
-        {yyrv = new Links(new Link(((IdentifierList)yysv[yysp-2]), true));}
+        {yyrv = new Links(new ForAllLink(((IdentifierList)yysv[yysp-2])));}
         yysv[yysp-=4] = yyrv;
         return yypLink();
     }
@@ -4649,53 +4649,50 @@ public class rqlParser implements mTokens {
     protected String[] yyerrmsgs = {
     };
 
+    /* code in the parser class*/
+
+    private Scanner lexer;
+    private RQLEnvironment currentEnv;
+
+    /* constructor registering a lexer for lang */
+    public rqlParser(Scanner lexer){
+        this.lexer=lexer;
+    }
+
+    public rqlParser(){
+    }
+
+    /* implementation of the nextToken() using lexer.yylex() that throws an
+    exception
+    */
+
+    public void setScanner(Scanner lexer) {
+        this.lexer = lexer;
+    }
+
+    private int nextToken(){
+          try{
+              return lexer.yylex();
+           }catch(java.io.IOException e){System.out.println("IO exception from lexer!");e.printStackTrace();}
+           return 0;
+    }
 
 
-/* code in the parser class*/
-
-private Scanner lexer;
-private RQLEnvironment currentEnv;
-
-/* constructor registering a lexer for lang */
-public rqlParser(Scanner lexer){
-    this.lexer=lexer;
-}
-
-public rqlParser(){
-}
-
-/* implementation of the nextToken() using lexer.yylex() that throws an
-exception 
-*/
-
-public void setScanner(Scanner lexer) {
-    this.lexer = lexer;
-}
-
-private int nextToken(){
-      try{ 
-          return lexer.yylex();
-       }catch(java.io.IOException e){System.out.println("IO exception from lexer!");e.printStackTrace();}
-       return 0;
-}       
+    private void yyerror(String msg) {
+        System.out.println(
+          "ERROR "+ msg + "\n" +
+          " at line   " +(lexer.line() + 1) + "\n" +
+          " at column " +(lexer.column() + 1) + "\n" +
+          " with token <<" + lexer.semanticValue + ">>"); }
 
 
-private void yyerror(String msg) { 
-    System.out.println(
-      "ERROR "+ msg + "\n" +
-      " at line   " +(lexer.line() + 1) + "\n" + 
-      " at column " +(lexer.column() + 1) + "\n" + 
-      " with token <<" + lexer.semanticValue + ">>"); }
+    public RQLEnvironment getEnvironment() {
+        return currentEnv;
+    }
 
-
-public RQLEnvironment getEnvironment() {
-    return currentEnv;
-}
-
-public rqlParser setEnvironment(RQLEnvironment currentEnv) {
-    this.currentEnv = currentEnv;
-    return this;
-}
-
+    public rqlParser setEnvironment(RQLEnvironment currentEnv) {
+        this.currentEnv = currentEnv;
+        return this;
+    }
 
 }

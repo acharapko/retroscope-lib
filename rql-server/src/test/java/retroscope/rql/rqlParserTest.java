@@ -418,9 +418,6 @@ public class rqlParserTest {
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
 
                 for (int i = 0; i < LOG_LENGTH; i++) {
-
-
-                    //System.out.println(item.getField("").getIntVal());
                     String key;
                     LogEntry<String, RQLItem> le;
                     int ii = i - 50;
@@ -482,6 +479,163 @@ public class rqlParserTest {
         System.out.println("# of cuts: " + cuts.size());
         assertTrue(cuts.size() == 29);
 
+    }
+
+    @Test
+    public void simpleTwoNodeLogSearchQueryWithForAllLinkDifferentNodes() throws Exception {
+
+        StringReader q1 = new StringReader("SELECT test.a, test.b FROM test WHEN a + b > 40 FA_LINK($0, $1);");
+        Scanner scanner = new Scanner(q1);
+        scanner.yylex();
+
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
+                // on this log we append directly to RQLDatamap
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
+                Timestamp t = new Timestamp();
+                Random rand = new Random(System.nanoTime());
+                int logTime = 7;
+                for (int i = 0; i < LOG_LENGTH; i++) {
+                    t = t.add(2 + rand.nextInt(logTime), (short)0);
+                    RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
+                    DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, t);
+                    String key = ("a");
+                    LogEntry<String, RQLItem> le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    try {
+                        testrqlmap.append(le);
+                    } catch (RetroscopeException re) {re.printStackTrace();}
+                }
+                this.logs.add(testrqlmap);
+
+                // on this one we create DataMap and then put it to the RQLDataMap
+                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                t = new Timestamp();
+                rand = new Random(System.nanoTime());
+                for (int i = 0; i < LOG_LENGTH; i++) {
+
+                    t = t.add(2 + rand.nextInt(logTime), (short)0);
+                    RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
+                    DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, t);
+                    String key = ("b");
+                    LogEntry<String, RQLItem> le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    try {
+                        testLog.append(le);
+                    } catch (RetroscopeException re) {re.printStackTrace();}
+                }
+                testrqlmap = new RQLDataMapLog(2, testLog);
+                this.logs.add(testrqlmap);
+            }
+            @Override
+            public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
+            }
+        });
+
+        rql.parse();
+        ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
+        assertTrue(cuts.size() == 0); //a and b are on different nodes in this one.
+    }
+
+    @Test
+    public void simpleTwoNodeLogSearchQueryWithForAllLink() throws Exception {
+
+        for (int i = 0; i < RUNS; i++) {
+            int condition = i * 5;
+
+            StringReader q1 = new StringReader("SELECT test.a, test.b FROM test WHEN a + b > " + condition + " FA_LINK($0, $1);");
+            Scanner scanner = new Scanner(q1);
+            scanner.yylex();
+
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+                public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
+                    Timestamp ts[] = new Timestamp[LOG_LENGTH];
+                    ts[0] = new Timestamp();
+                    Random rand = new Random(System.nanoTime());
+                    int logTime = 7;
+                    for (int i = 1; i < LOG_LENGTH; i++) {
+                        ts[i] = ts[i - 1].add(2 + rand.nextInt(logTime), (short) 0);
+                    }
+                    // on this log we append directly to RQLDatamap
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
+
+                    for (int i = 0; i < LOG_LENGTH; i++) {
+                        String key;
+                        LogEntry<String, RQLItem> le;
+                        int ii = i - 50;
+                        if (ii % 3 == 0) {
+                            RQLItem item = new RQLItem().addField("", 2 * ii);
+                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            key = ("b");
+                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        } else {
+                            RQLItem item = new RQLItem().addField("", ii);
+                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            key = ("a");
+                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        }
+                        try {
+                            testrqlmap.append(le);
+                        } catch (RetroscopeException re) {
+                            re.printStackTrace();
+                        }
+                    }
+                    this.logs.add(testrqlmap);
+
+                    // on this one we create DataMap and then put it to the RQLDataMap
+                    testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    for (int i = 0; i < LOG_LENGTH; i++) {
+                        String key;
+                        LogEntry<String, RQLItem> le;
+                        if (i % 4 == 0) {
+                            RQLItem item = new RQLItem().addField("", 3 * i);
+                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            key = ("b");
+                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        } else {
+                            RQLItem item = new RQLItem().addField("", i);
+                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            key = ("a");
+                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        }
+                        try {
+                            testLog.append(le);
+                        } catch (RetroscopeException re) {
+                            re.printStackTrace();
+                        }
+                    }
+                    testrqlmap = new RQLDataMapLog(2, testLog);
+                    this.logs.add(testrqlmap);
+                }
+
+                @Override
+                public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
+                }
+            });
+
+            rql.parse();
+            ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
+            for (int c = 0; c < cuts.size(); c++) {
+                Set<Integer> nodeids = cuts.get(c).getKnownNodes();
+                for (Integer n : nodeids) {
+                    long a = 0;
+                    long b = 0;
+                    Set<DataEntry<RQLItem>> aset = cuts.get(c).getLocalSnapshot("test", n).get("a");
+                    Set<DataEntry<RQLItem>> bset = cuts.get(c).getLocalSnapshot("test", n).get("b");
+                    if (aset.size() == 1) { //we expect only one element
+                        for (DataEntry<RQLItem> r : aset) {
+                            a = r.getValue().getField("").getIntVal();
+                        }
+                    }
+                    if (bset.size() == 1) { //we expect only one element
+                        for (DataEntry<RQLItem> r : bset) {
+                            b = r.getValue().getField("").getIntVal();
+                        }
+                    }
+                    assertTrue(a + b > condition);
+                }
+            }
+        }
     }
 
     @Test
