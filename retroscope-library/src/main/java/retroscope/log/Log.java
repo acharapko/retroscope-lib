@@ -116,10 +116,10 @@ public class Log<K extends Serializable, V extends Serializable> implements Basi
     }
 
 
-    public int append(LogEntry<K, V> entry) throws RetroscopeException {
+    public int append(LogEntry<K, V> entry) throws LogOutTimeBoundsException {
         lock();
         if (tail != null && entry.getTime().compareTo(tail.getTime()) <= 0) {
-            throw new RetroscopeException("Cannot append entry with timestamp same as or older then the timestamp of a tail");
+            throw new LogOutTimeBoundsException("Cannot append entry with timestamp same as or older then the timestamp of a tail");
         }
         int lengthOriginal = length;
         length++;

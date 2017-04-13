@@ -222,7 +222,7 @@ public class RQLAppendLog extends Log<String, RQLItem> implements RQLLog {
     public void rollSnapshot(int snapshotID, Timestamp newTime) throws RetroscopeException, LogOutTimeBoundsException {
         RQLSetMap snap = getSnapshot(snapshotID);
         if (snap == null) {
-            throw new RetroscopeException("snapshot does not exist");
+            throw new RetroscopeSnapshotException("snapshot does not exist");
         }
         RQLSetMap diff = computeListDiff(newTime, this.getKnownEntry(snapshotID));
         //need to update the known logEntry for this snapshot

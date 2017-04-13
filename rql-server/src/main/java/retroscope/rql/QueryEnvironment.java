@@ -2,6 +2,7 @@ package retroscope.rql;
 
 import java.util.*;
 
+import retroscope.log.LogOutTimeBoundsException;
 import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.log.*;

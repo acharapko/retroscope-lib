@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by Aleksey on 11/7/2016.
+ *
  */
 public class RetroscopeTest {
 

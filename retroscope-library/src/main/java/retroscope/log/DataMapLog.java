@@ -53,7 +53,7 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
     }
 
     @Override
-    public int append(LogEntry<K, V> entry) throws RetroscopeException {
+    public int append(LogEntry<K, V> entry) throws LogOutTimeBoundsException {
         lock();
         dataMap.put(entry.getKey(), entry.getToV());
         int append = super.append(entry);
@@ -61,7 +61,7 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
         return append;
     }
 
-    public int append(K key, DataEntry<V> newV) throws RetroscopeException {
+    public int append(K key, DataEntry<V> newV) throws LogOutTimeBoundsException  {
         DataEntry<V> oldV = getItem(key);
         LogEntry<K, V> le = new LogEntry<K, V>(key, oldV, newV);
         return append(le); //locking is here
@@ -380,11 +380,12 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
         return entryId;
     }
 
-    public void rollSnapshot(int snapshotID, Timestamp newTime) throws RetroscopeException, LogOutTimeBoundsException {
+    public void rollSnapshot(int snapshotID, Timestamp newTime)
+            throws RetroscopeSnapshotException, LogOutTimeBoundsException {
         //do we need to lock here? nothing should change to log when rolling past snapshots and past log entries
         RetroMap<K, V> snap = getSnapshot(snapshotID);
         if (snap == null) {
-            throw new RetroscopeException("snapshot does not exist");
+            throw new RetroscopeSnapshotException("snapshot does not exist");
         }
         RetroMap<K, V> diff = computeDiff(newTime, this.getKnownEntry(snapshotID));
         snap.putAll(diff); //we have modified the snapshot and overwritten it.

@@ -2,9 +2,6 @@ package retroscope.log;
 
 import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
-import retroscope.rql.RQLItem;
-
-import java.util.HashMap;
 
 /**
  * Created by Aleksey on 1/29/2017.

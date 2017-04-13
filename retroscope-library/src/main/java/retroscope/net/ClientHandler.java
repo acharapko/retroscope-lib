@@ -6,7 +6,6 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import retroscope.Retroscope;
 import retroscope.RetroscopeException;
 import retroscope.log.Log;
-import retroscope.log.LogOutTimeBoundsException;
 import retroscope.log.RetroMap;
 import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
@@ -96,9 +95,7 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
                     );
                     dataMsgBuilder.setData(ProtocolHelpers.retroMapToProtocol(data, msg.getLogName(), 0));
                 } catch (RetroscopeException re) {
-                    dataMsgBuilder.setErrorCode(1);
-                } catch (LogOutTimeBoundsException lotbe) {
-                    dataMsgBuilder.setErrorCode(2);
+                    dataMsgBuilder.setErrorCode(re.getType());
                 }
 
             }
@@ -109,9 +106,7 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
                             = retroscope.getAllData(msg.getLogName(), msg.getHlcTime());
                     dataMsgBuilder.setData(ProtocolHelpers.retroMapToProtocol(data, msg.getLogName(), msg.getHlcTime() ));
                 } catch (RetroscopeException re) {
-                    dataMsgBuilder.setErrorCode(1);
-                } catch (LogOutTimeBoundsException re) {
-                    dataMsgBuilder.setErrorCode(2);
+                    dataMsgBuilder.setErrorCode(re.getType());
                 }
             } else {
                 try {
@@ -128,9 +123,7 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
                     );
                     dataMsgBuilder.setData(ProtocolHelpers.retroMapToProtocol(data, msg.getLogName(), msg.getHlcTime()));
                 } catch (RetroscopeException re) {
-                    dataMsgBuilder.setErrorCode(1);
-                } catch (LogOutTimeBoundsException lotbe) {
-                    dataMsgBuilder.setErrorCode(2);
+                    dataMsgBuilder.setErrorCode(re.getType());
                 }
             }
         }
@@ -170,9 +163,7 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
             }
             logMsgBuilder.setLog(slice.toProtocol());
         } catch (RetroscopeException re) {
-            logMsgBuilder.setErrorCode(1);
-        } catch (LogOutTimeBoundsException lotbe) {
-            logMsgBuilder.setErrorCode(2);
+            logMsgBuilder.setErrorCode(re.getType());
         }
         ctx.writeAndFlush(logMsgBuilder.build());
     }

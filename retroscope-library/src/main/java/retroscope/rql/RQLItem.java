@@ -1,11 +1,7 @@
 package retroscope.rql;
 
-import retroscope.RetroscopeException;
-import retroscope.util.ByteArray;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.*;
 import java.util.*;
