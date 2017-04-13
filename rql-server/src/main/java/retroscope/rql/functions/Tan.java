@@ -1,6 +1,6 @@
 package retroscope.rql.functions;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
@@ -13,8 +13,8 @@ import retroscope.rql.errors.RQLRunTimeWarning;
  */
 public class Tan extends RQLBuiltInFunction {
 
-    public Tan(ExpressionList params, RQLEnvironment rqlEnvironment) {
-        super(params, rqlEnvironment);
+    public Tan(ExpressionList params, QueryEnvironment queryEnvironment) {
+        super(params, queryEnvironment);
     }
 
   
@@ -38,7 +38,7 @@ public class Tan extends RQLBuiltInFunction {
                             this.getClass().getName() + this.hashCode(),
                             "Function Tan is undefined for " + p1Val.getType()
                     );
-                    rqlEnvironment.addRunTimeWarning(w);
+                    queryEnvironment.addRunTimeWarning(w);
                     expressionValue.setValType(Types.NULL);
             }
             value = expressionValue;
@@ -48,7 +48,7 @@ public class Tan extends RQLBuiltInFunction {
                     this.getClass().getName() + this.hashCode(),
                     "Function Tan must receive exactly one argument"
             );
-            rqlEnvironment.addRunTimeWarning(w);
+            queryEnvironment.addRunTimeWarning(w);
             value = new RQLInterpreterValue(Types.NULL);
         }
     }

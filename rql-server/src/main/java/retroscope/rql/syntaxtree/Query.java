@@ -1,7 +1,7 @@
 package retroscope.rql.syntaxtree;
 
 import retroscope.hlc.Timestamp;
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.RQLRetrieveParam;
 import retroscope.rql.Types;
 import retroscope.rql.errors.RQLRunTimeException;
@@ -21,10 +21,10 @@ public class Query {
     private ParamList params;
     private IdentifierList logs;
     private QueryEnd qe;
-    private RQLEnvironment rqlScope;
+    private QueryEnvironment rqlScope;
 
 
-    public Query(ParamList pl, IdentifierList logs, QueryEnd qe, RQLEnvironment rqlScope) {
+    public Query(ParamList pl, IdentifierList logs, QueryEnd qe, QueryEnvironment rqlScope) {
         params = pl;
         this.logs = logs;
         this.qe = qe;

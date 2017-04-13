@@ -1,16 +1,16 @@
 package retroscope.rql.syntaxtree.expression;
 
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.errors.RQLRunTimeWarning;
 
 public abstract class TwoOperandExpression extends Expression
 {
 	protected Expression ex1, ex2;
-	public TwoOperandExpression(RQLEnvironment rqlEnvironment, Expression ex1, Expression ex2)
+	public TwoOperandExpression(QueryEnvironment queryEnvironment, Expression ex1, Expression ex2)
 	{
-		super(rqlEnvironment);
+		super(queryEnvironment);
 		this.ex1 = ex1;
 		this.ex2 = ex2;
 	}
@@ -21,7 +21,7 @@ public abstract class TwoOperandExpression extends Expression
                 this.getClass().getName() + this.hashCode(),
                 "Operation " + op +" is undefined for these data types: " + t1 + ", " + t2
         );
-        rqlEnvironment.addRunTimeWarning(w);
+        queryEnvironment.addRunTimeWarning(w);
     }
 
 	public Expression getEx1() {

@@ -25,6 +25,18 @@ public class RQLRetroscope extends Retroscope<String, RQLItem> {
         return super.appendToLog(logName, key, value);
     }
 
+    public long appendToLog(String logName, String key, int value) throws RetroscopeException {
+        return super.appendToLog(logName, key, new RQLItem().addField(value));
+    }
+
+    public long appendToLog(String logName, String key, double value) throws RetroscopeException {
+        return super.appendToLog(logName, key, new RQLItem().addField(value));
+    }
+
+    public long appendToLog(String logName, String key, String value) throws RetroscopeException {
+        return super.appendToLog(logName, key, new RQLItem().addField(value));
+    }
+
     public long appendToLog(String logName, String key, RQLItem oldValue, RQLItem newValue) throws RetroscopeException {
         return super.appendToLog(logName, key, oldValue, newValue);
     }

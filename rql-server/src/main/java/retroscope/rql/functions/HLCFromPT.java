@@ -1,7 +1,7 @@
 package retroscope.rql.functions;
 
 import retroscope.hlc.Timestamp;
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
@@ -14,8 +14,8 @@ import retroscope.rql.errors.RQLRunTimeWarning;
  */
 public class HLCFromPT extends RQLBuiltInFunction {
 
-    public HLCFromPT(ExpressionList params, RQLEnvironment rqlEnvironment) {
-        super(params, rqlEnvironment);
+    public HLCFromPT(ExpressionList params, QueryEnvironment queryEnvironment) {
+        super(params, queryEnvironment);
     }
 
     public void evaluate() throws IllegalExpressionException {
@@ -24,7 +24,7 @@ public class HLCFromPT extends RQLBuiltInFunction {
             params.getList().get(0).evaluate();
             RQLInterpreterValue p1Val = params.getList().get(0).getValue();
             if (p1Val.getType() != Types.INT) {
-                rqlEnvironment.addRunTimeWarning(
+                queryEnvironment.addRunTimeWarning(
                         new RQLRunTimeWarning(
                                 RQLRunTimeWarning.WarningType.INCOMPATIBLE_TYPES,
                                 this.hashCode()+"",
@@ -41,7 +41,7 @@ public class HLCFromPT extends RQLBuiltInFunction {
                     this.getClass().getName() + this.hashCode(),
                     "Function HLCFromPT must receive exactly one argument"
             );
-            rqlEnvironment.addRunTimeWarning(w);
+            queryEnvironment.addRunTimeWarning(w);
             value = new RQLInterpreterValue(Types.NULL);
         }
     }

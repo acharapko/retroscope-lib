@@ -1,13 +1,13 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.errors.RQLRunTimeWarning;
 
 public class And extends TwoOperandExpression {
 
-    public And(RQLEnvironment rqlEnvironment, Expression ex1, Expression ex2) {
-        super(rqlEnvironment, ex1, ex2);
+    public And(QueryEnvironment queryEnvironment, Expression ex1, Expression ex2) {
+        super(queryEnvironment, ex1, ex2);
     }
 
     public void evaluate() throws IllegalExpressionException {
@@ -38,7 +38,7 @@ public class And extends TwoOperandExpression {
                         this.getClass().getName() + this.hashCode(),
                         "Expected int types in logical AND, float or string given"
                 );
-                rqlEnvironment.addRunTimeWarning(w);
+                queryEnvironment.addRunTimeWarning(w);
                 expressionValue.setValType(Types.NULL);
             }
         }

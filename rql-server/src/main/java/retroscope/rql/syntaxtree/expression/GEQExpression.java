@@ -1,13 +1,13 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 
 public class GEQExpression extends TwoOperandExpression
 {
-	public GEQExpression(RQLEnvironment rqlEnvironment, Expression ex1, Expression ex2)
+	public GEQExpression(QueryEnvironment queryEnvironment, Expression ex1, Expression ex2)
 	{ 
-		super(rqlEnvironment, ex1, ex2);
+		super(queryEnvironment, ex1, ex2);
 	}
 
 	public void evaluate() throws IllegalExpressionException {

@@ -1,14 +1,14 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 
 public class NotExpression extends Expression
 {
 	private Expression ex1;
-	public NotExpression(RQLEnvironment rqlEnvironment, Expression ex1)
+	public NotExpression(QueryEnvironment queryEnvironment, Expression ex1)
 	{
-		super(rqlEnvironment);
+		super(queryEnvironment);
 		this.ex1 = ex1;
 	}
 	

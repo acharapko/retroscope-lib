@@ -1,6 +1,6 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.functions.*;
 
 /**
@@ -13,9 +13,9 @@ public class FuncCall extends Expression {
     private String name;
     private RQLBuiltInFunction thisFunc;
 
-    public FuncCall(RQLEnvironment rqlEnvironment, String name,  ExpressionList params)
+    public FuncCall(QueryEnvironment queryEnvironment, String name, ExpressionList params)
     {
-        super(rqlEnvironment);
+        super(queryEnvironment);
         this.params = params;
         this.name = name;
         findFunc();
@@ -23,23 +23,23 @@ public class FuncCall extends Expression {
 
     private void findFunc() {
         if (name.equals("Empty")) {
-            thisFunc = new Empty(params, rqlEnvironment);
+            thisFunc = new Empty(params, queryEnvironment);
         } else if (name.equals("Node")) {
-            thisFunc = new Node(params, rqlEnvironment);
+            thisFunc = new Node(params, queryEnvironment);
         } else if (name.equals("Sin")) {
-            thisFunc = new Sin(params, rqlEnvironment);
+            thisFunc = new Sin(params, queryEnvironment);
         } else if (name.equals("Cos")) {
-            thisFunc =  new Cos(params, rqlEnvironment);
+            thisFunc =  new Cos(params, queryEnvironment);
         } else if (name.equals("Tan")) {
-            thisFunc = new Tan(params, rqlEnvironment);
+            thisFunc = new Tan(params, queryEnvironment);
         } else if (name.equals("Abs")) {
-            thisFunc = new Abs(params, rqlEnvironment);
+            thisFunc = new Abs(params, queryEnvironment);
         } else if (name.equals("Max")) {
-            thisFunc = new Max(params, rqlEnvironment);
+            thisFunc = new Max(params, queryEnvironment);
         } else if (name.equals("Now")) {
-            thisFunc = new Now(params, rqlEnvironment);
+            thisFunc = new Now(params, queryEnvironment);
         } else if (name.equals("HLCFromPT")) {
-            thisFunc = new HLCFromPT(params, rqlEnvironment);
+            thisFunc = new HLCFromPT(params, queryEnvironment);
         }
     }
 

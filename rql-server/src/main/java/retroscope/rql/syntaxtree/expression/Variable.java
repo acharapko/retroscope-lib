@@ -7,13 +7,13 @@ import retroscope.rql.errors.RQLRunTimeWarning;
 public class Variable extends Expression
 {
 	private String name;
-	private RQLEnvironment rqlEnv;
+	private QueryEnvironment rqlEnv;
     private boolean isLogParam;
     private boolean hasFullName = true;
     private String field;
     private int id;
 
-    public Variable(String superName, String name, String field, RQLEnvironment rqlEnv, boolean isLogParam)
+    public Variable(String superName, String name, String field, QueryEnvironment rqlEnv, boolean isLogParam)
     {
         super(rqlEnv);
         this.rqlEnv = rqlEnv;
@@ -32,7 +32,7 @@ public class Variable extends Expression
                             this.getClass().getName() + this.hashCode(),
                             "Variable placeholder $" + name + " is not numeric"
                     );
-                    rqlEnvironment.addRunTimeWarning(w);
+                    queryEnvironment.addRunTimeWarning(w);
                 }
             } else {
                 hasFullName = false;
@@ -41,20 +41,20 @@ public class Variable extends Expression
         }
     }
 
-    public Variable(String superName, String name, RQLEnvironment rqlEnv, boolean isLogParam)
+    public Variable(String superName, String name, QueryEnvironment rqlEnv, boolean isLogParam)
     {
         super(rqlEnv);
         cnstrct(superName + "." + name, "", rqlEnv, isLogParam);
     }
 
-	public Variable(String name, RQLEnvironment rqlEnv, boolean isLogParam)
+	public Variable(String name, QueryEnvironment rqlEnv, boolean isLogParam)
 	{
 	    super(rqlEnv);
 	    hasFullName = false;
         cnstrct(name, "", rqlEnv, isLogParam);
 	}
 
-	private void cnstrct(String name, String field, RQLEnvironment rqlEnv, boolean isLogParam)
+	private void cnstrct(String name, String field, QueryEnvironment rqlEnv, boolean isLogParam)
     {
         this.name = name;
         this.field = field;
@@ -75,7 +75,7 @@ public class Variable extends Expression
                         this.getClass().getName() + this.hashCode(),
                         "Variable " + name + " is undefined for entire or partial log duration"
                 );
-                rqlEnvironment.addRunTimeWarning(w);
+                queryEnvironment.addRunTimeWarning(w);
             } else {
                 val = new RQLInterpreterValue(v);
             }
@@ -85,7 +85,7 @@ public class Variable extends Expression
                     this.getClass().getName() + this.hashCode(),
                     "Variable " + name + " is undefined for entire or partial log duration"
             );
-            rqlEnvironment.addRunTimeWarning(w);
+            queryEnvironment.addRunTimeWarning(w);
         }
         if (val == null) {
             val = new RQLInterpreterValue(Types.NULL);

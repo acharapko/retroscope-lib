@@ -22,76 +22,31 @@ import retroscope.rql.syntaxtree.link.Links;
  * such as the symbol table currently in use, logs retrieved and
  * the consistent cuts ready to be emitted.
  */
-public abstract class RQLEnvironment {
-
-    //memory stuff
-    protected HashMap<String, SimpleSymbol> symbolTable;
+public abstract class QueryEnvironment extends Environment {
 
     protected ArrayList<Placeholder> placeholders;
     private ArrayList<Link> linkedNodes;
     private HashMap<Integer, LinkLock> placeholdersToLinkLocks;
     private int forAllLinksCount = 0;
-
     private int numPlaceholders = 0;
-
-
     //log stuff
     protected ArrayList<RQLLog> logs;
     private String defaultLog = "";
-
-    //error stuff
-    private ArrayList<RQLRunTimeException> exceptions;
-    private ArrayList<RQLRunTimeWarning> warnings;
-
     //cut stuff
     protected ArrayList<GlobalCut> tempGlobalCuts;
     protected ArrayList<GlobalCut> emittedGlobalCuts;
     protected ArrayList<String> emittedOut;
 
-    public RQLEnvironment() {
-        symbolTable = new HashMap<String, SimpleSymbol>();
+    public QueryEnvironment() {
+        super();
         logs = new ArrayList<RQLLog>();
-        exceptions = new ArrayList<RQLRunTimeException>();
-        warnings = new ArrayList<RQLRunTimeWarning>();
         placeholders = new ArrayList<Placeholder>();
         linkedNodes = new ArrayList<Link>();
         placeholdersToLinkLocks = new HashMap<Integer, LinkLock>();
     }
 
-    public HashMap<String, SimpleSymbol> getSymbolTable() {
-        return symbolTable;
-    }
-
     public Placeholder getPlaceholder(int id) {
         return placeholders.get(id);
-    }
-
-    public ArrayList<RQLRunTimeException> getExceptions() {
-        return exceptions;
-    }
-
-    public void addRunTimeException(RQLRunTimeException e) {
-        exceptions.add(e);
-    }
-
-    public boolean hasRunTimeErrors() {
-        return exceptions.size() >= 1;
-    }
-
-    public ArrayList<RQLRunTimeWarning> getWarnings() {
-        return warnings;
-    }
-
-    public void addRunTimeWarning(RQLRunTimeWarning e) {
-        boolean exists = false;
-        for (RQLRunTimeWarning w : warnings) {
-            if (w.equals(e)) {
-                exists = true;
-            }
-        }
-        if (!exists) {
-            warnings.add(e);
-        }
     }
 
     public int addPlaceholder(String name) {
@@ -332,7 +287,7 @@ public abstract class RQLEnvironment {
         boolean reset = false;
         for (int i = 0; i < placeholders.size(); i++) {
             Placeholder p = placeholders.get(i);
-            SimpleSymbol symbolVal = symbolTable.get(p.getSymbolName());
+            SimpleSymbol symbolVal = getSymbol(p.getSymbolName());
             if (symbolVal != null) {
 
                 if (p.getItem() == null && p.getVersion() == 0) {
@@ -407,17 +362,17 @@ public abstract class RQLEnvironment {
         ArrayList<String> snapNames = tempCut.getLocalSnapshotNames();
         ArrayList<Integer> nodeIds = tempCut.getNodeIds();
 
-        symbolTable.clear();
+        clearSymbolTable(this);
 
         for (int ls = 0; ls < tempSnaps.size(); ls++) {
             Iterator<Map.Entry<String, Set<DataEntry<RQLItem>>>> it = tempSnaps.get(ls).entrySet().iterator();
             while (it.hasNext()) { //iterating key in the log
                 Map.Entry<String, Set<DataEntry<RQLItem>>> pair = it.next();
                 String varName = snapNames.get(ls) + "." + pair.getKey();
-                SimpleSymbol vals = symbolTable.get(varName);
+                SimpleSymbol vals = getSymbol(varName);
                 if (vals == null) {
                     vals = new SimpleSymbol();
-                    symbolTable.put(varName, vals);
+                    putSymbol(varName, vals);
                 }
                 if (pair.getValue().size() > 0) {
                     vals.set(nodeIds.get(ls), pair.getValue());
@@ -467,6 +422,68 @@ public abstract class RQLEnvironment {
 
     public ArrayList<RQLLog> getLogs() {
         return logs;
+    }
+
+
+    /*---------------------------
+    /* Output stuff
+    /*---------------------------*/
+
+    public String cutsToString() {
+        StringBuilder sb = new StringBuilder();
+        // Send all output to the Appendable object sb
+        Formatter formatter = new Formatter(sb, Locale.US);
+
+        if (getEmittedGlobalCuts().size() > 0) {
+            for (GlobalCut cut : getEmittedGlobalCuts()) {
+                sb.append(String.format("%80s", "").replace(" ", "-"));
+                sb.append(System.getProperty("line.separator"));
+                formatter.format("%38s %-15s", "Cut @ HLC :", cut.getCutTime().toString());
+                sb.append(System.getProperty("line.separator"));
+
+                Set<String> logs = new HashSet<String>();
+                logs.addAll(cut.getLocalSnapshotNames());
+                List<Integer> nodes = cut.getNodeIds();
+
+                for (String logName : logs) {
+                    sb.append(String.format("%80s", "").replace(" ", "-"));
+                    sb.append(System.getProperty("line.separator"));
+                    formatter.format("%42s %-30s", "Log : ", logName);
+                    sb.append(System.getProperty("line.separator"));
+                    for (int id : nodes) {
+                        RHashMap<String, ?, RQLItem> tsnap = cut.getLocalSnapshot(logName, id);
+                        if (tsnap != null) {
+                            sb.append(String.format("%80s", "").replace(" ", "*"));
+                            sb.append(System.getProperty("line.separator"));
+                            formatter.format("%42s %-10d", "Node :", id);
+                            sb.append(System.getProperty("line.separator"));
+                            if (tsnap instanceof RetroMap) {
+                                RetroMap<String, RQLItem> snap = (RetroMap<String, RQLItem>) tsnap;
+                                Iterator<Map.Entry<String, DataEntry<RQLItem>>> it = snap.entrySet().iterator();
+                                while (it.hasNext()) {
+                                    Map.Entry<String, DataEntry<RQLItem>> pair = it.next();
+                                    RQLItem item = pair.getValue().getValue();
+                                    sb.append(item.toFriendlyString(pair.getKey()));
+                                    sb.append(System.getProperty("line.separator"));
+                                }
+                            } else if (tsnap instanceof RQLSetMap) {
+                                RQLSetMap snap = (RQLSetMap) tsnap;
+                                Iterator<Map.Entry<String, Set<DataEntry<RQLItem>>>> it = snap.entrySet().iterator();
+                                while (it.hasNext()) {
+                                    Map.Entry<String, Set<DataEntry<RQLItem>>> pair = it.next();
+                                    Set<DataEntry<RQLItem>> items = pair.getValue();
+                                    for (DataEntry<RQLItem> item : items) {
+                                        sb.append(item.getValue().toFriendlyString(pair.getKey()));
+                                        sb.append(System.getProperty("line.separator"));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return sb.toString();
     }
 
 }

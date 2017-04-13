@@ -1,6 +1,6 @@
 package retroscope.rql.functions;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Valuable;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.RQLInterpreterValue;
@@ -12,12 +12,12 @@ import retroscope.rql.syntaxtree.expression.RQLInterpreterValue;
 public abstract class RQLBuiltInFunction implements Valuable {
 
     protected ExpressionList params;
-    protected RQLEnvironment rqlEnvironment;
+    protected QueryEnvironment queryEnvironment;
     protected RQLInterpreterValue value;
 
-    public RQLBuiltInFunction(ExpressionList params, RQLEnvironment rqlEnvironment) {
+    public RQLBuiltInFunction(ExpressionList params, QueryEnvironment queryEnvironment) {
         this.params = params;
-        this.rqlEnvironment = rqlEnvironment;
+        this.queryEnvironment = queryEnvironment;
     }
 
     public RQLInterpreterValue getValue() {

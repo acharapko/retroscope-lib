@@ -1,13 +1,13 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 
 public class StringLiteral extends Expression
 {
-	public StringLiteral(RQLEnvironment rqlEnvironment, String value)
+	public StringLiteral(QueryEnvironment queryEnvironment, String value)
 	{
-		super(rqlEnvironment);
+		super(queryEnvironment);
 		this.value = new RQLInterpreterValue(Types.STRING).setValStr(value);
 	}
 

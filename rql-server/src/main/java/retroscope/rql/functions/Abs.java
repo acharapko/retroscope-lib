@@ -1,6 +1,6 @@
 package retroscope.rql.functions;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
@@ -13,8 +13,8 @@ import retroscope.rql.errors.RQLRunTimeWarning;
  */
 public class Abs extends RQLBuiltInFunction {
 
-    public Abs(ExpressionList params, RQLEnvironment rqlEnvironment) {
-        super(params, rqlEnvironment);
+    public Abs(ExpressionList params, QueryEnvironment queryEnvironment) {
+        super(params, queryEnvironment);
     }
 
     public void evaluate() throws IllegalExpressionException {
@@ -37,7 +37,7 @@ public class Abs extends RQLBuiltInFunction {
                             this.getClass().getName() + this.hashCode(),
                             "Function Abs is undefined for " + p1Val.getType()
                     );
-                    rqlEnvironment.addRunTimeWarning(w);
+                    queryEnvironment.addRunTimeWarning(w);
                     expressionValue.setValType(Types.NULL);
             }
             value = expressionValue;

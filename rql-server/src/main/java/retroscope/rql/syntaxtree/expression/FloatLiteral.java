@@ -1,13 +1,13 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 
 public class FloatLiteral extends Expression
 {
-	public FloatLiteral(RQLEnvironment rqlEnvironment, double value)
+	public FloatLiteral(QueryEnvironment queryEnvironment, double value)
 	{
-		super(rqlEnvironment);
+		super(queryEnvironment);
 		this.value = new RQLInterpreterValue(Types.DOUBLE).setValFloat(value);
 	}
 

@@ -1,7 +1,7 @@
 package retroscope.rql.syntaxtree.expression;
 
 import retroscope.rql.Valuable;
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 
 /**
  * Created by Aleksey on 12/20/2016.
@@ -11,11 +11,11 @@ public abstract class Expression implements Valuable{
 
     //private Variable valID = null;
     protected RQLInterpreterValue value;
-    protected RQLEnvironment rqlEnvironment;
+    protected QueryEnvironment queryEnvironment;
 
-    public Expression(RQLEnvironment rqlEnvironment)
+    public Expression(QueryEnvironment queryEnvironment)
     {
-        this.rqlEnvironment = rqlEnvironment;
+        this.queryEnvironment = queryEnvironment;
     }
 
     public RQLInterpreterValue getValue() {

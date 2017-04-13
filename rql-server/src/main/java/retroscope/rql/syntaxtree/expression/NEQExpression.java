@@ -1,14 +1,14 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 
 public class NEQExpression extends TwoOperandExpression
 {
 
-	public NEQExpression(RQLEnvironment rqlEnvironment, Expression ex1, Expression ex2)
+	public NEQExpression(QueryEnvironment queryEnvironment, Expression ex1, Expression ex2)
 	{ 
-		super(rqlEnvironment, ex1, ex2);
+		super(queryEnvironment, ex1, ex2);
 	}
 
 

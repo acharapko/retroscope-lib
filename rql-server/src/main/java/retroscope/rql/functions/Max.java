@@ -1,6 +1,6 @@
 package retroscope.rql.functions;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
@@ -13,8 +13,8 @@ import retroscope.rql.errors.RQLRunTimeWarning;
  */
 public class Max extends RQLBuiltInFunction {
 
-    public Max(ExpressionList params, RQLEnvironment rqlEnvironment) {
-        super(params, rqlEnvironment);
+    public Max(ExpressionList params, QueryEnvironment queryEnvironment) {
+        super(params, queryEnvironment);
     }
 
     public void evaluate() throws IllegalExpressionException {
@@ -53,7 +53,7 @@ public class Max extends RQLBuiltInFunction {
                                 this.getClass().getName() + this.hashCode(),
                                 "Function Max is undefined for " + p1Val.getType()
                         );
-                        rqlEnvironment.addRunTimeWarning(w);
+                        queryEnvironment.addRunTimeWarning(w);
                         max.setValType(Types.NULL);
                 }
 
@@ -65,7 +65,7 @@ public class Max extends RQLBuiltInFunction {
                     this.getClass().getName() + this.hashCode(),
                     "Function Max must receives some arguments"
             );
-            rqlEnvironment.addRunTimeWarning(w);
+            queryEnvironment.addRunTimeWarning(w);
             value = new RQLInterpreterValue(Types.NULL);
         }
     }

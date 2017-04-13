@@ -20,7 +20,9 @@ import java.util.List;
 
 public class Retroscope<K extends Serializable, V extends Serializable> {
 
-    public static final int VERSION = 1;
+    public enum LogAutocreate {NONE, LOG, DATA_MAP_LOG}
+
+    public static final int VERSION = 2;
     /*
     retroscope.Retroscope parameters
     */
@@ -89,13 +91,14 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @param port int port number for retroscope server
      * @return Retroscope this object
      */
-    public Retroscope<K, V> connectRetroServer(String host, int port) {
+    public Retroscope<K, V> connectRetroServer(String host, int port) throws RetroscopeException {
         if (retroClient == null) {
             retroClient = new Client<K, V>(host, port, this);
             try {
                 retroClient.startClient();
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new RetroscopeException("An exception has occurred trying to connect to Retroscope Server." +
+                        " Make sure Server is online and reachable");
             }
             retroClient.connect();
         }
@@ -196,7 +199,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
     public long appendToLog(String logName, K key, V oldVal, V newVal, boolean makeTick)
         throws RetroscopeException {
 
-        Log<K, V> workingLog = getLog(logName);
+        Log<K, V> workingLog = getLog(logName, LogAutocreate.LOG);
         if (workingLog instanceof DataMapLog) {
             try {
                 return this.appendToLog(logName, key, newVal);
@@ -215,14 +218,14 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
     }
 
     /**
-     * Adds a LegEntry to the list of known entries for the log.
+     * Adds a LogEntry to the list of known entries for the log.
      * In some cases we need to rememebre exact position of the snapshot
      * in the log, for this we add the LogEntry with the item at such position
      * to the list of known LogEntries that represents all the positions we know
      * @param logName String log name
      * @param knownEntry LogEntry to be remembered.
      */
-    public void addKnownEntries(String logName, LogEntry<K, V> knownEntry) {
+    public void addKnownEntries(String logName, LogEntry<K, V> knownEntry) throws RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         workingLog.addKnownEntries(knownEntry);
     }
@@ -231,7 +234,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * Suspends log truncation, even if the log is beyond the limit
      * @param logName String log name to suspend
      */
-    public void suspendTruncation(String logName) {
+    public void suspendTruncation(String logName) throws RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         workingLog.stopTruncating();
     }
@@ -240,7 +243,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * Resumes log truncation
      * @param logName String log name to suspend
      */
-    public void resumeTruncation(String logName) {
+    public void resumeTruncation(String logName) throws RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         workingLog.startTruncating();
     }
@@ -251,7 +254,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @return boolean true when log's truncation is suspended,
      * false otherwise
      */
-    public boolean isTruncationSuspended(String logName) {
+    public boolean isTruncationSuspended(String logName) throws RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         return workingLog.isTruncating();
     }
@@ -294,7 +297,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public long appendToLog(String logName, K key, V newVal, boolean makeTick) throws RetroscopeException {
 
-        DataMapLog<K, V> workingLog = getDataMapLog(logName);
+        DataMapLog<K, V> workingLog = getDataMapLog(logName, LogAutocreate.DATA_MAP_LOG);
         //HashMap<ByteArray, DataEntry<ByteArray>> map = getDataMap(logName);
         Timestamp t;
         if (makeTick) {
@@ -315,8 +318,10 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @param logName String log to lock
      */
     public void lockLog(String logName) {
-        Log<K, V> workingLog = getLog(logName);
-        workingLog.lock();
+        try {
+            Log<K, V> workingLog = getLog(logName);
+            workingLog.lock();
+        } catch (RetroscopeException re) {}
     }
 
     /**
@@ -324,8 +329,10 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @param logName String log to unlock
      */
     public void unlockLog(String logName) {
-        Log<K, V> workingLog = getLog(logName);
-        workingLog.unlock();
+        try {
+            Log<K, V> workingLog = getLog(logName);
+            workingLog.unlock();
+        } catch (RetroscopeException re) {}
     }
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -335,14 +342,14 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
     public RetroMap<K, V> computeDiff(
             String logName,
             long timeInThePast
-    ) throws LogOutTimeBoundsException {
+    ) throws LogOutTimeBoundsException, RetroscopeException {
         return this.computeDiff(logName, new Timestamp(timeInThePast));
     }
 
     public RetroMap<K, V> computeDiff(
             String logName,
             Timestamp timeInThePast
-    ) throws LogOutTimeBoundsException {
+    ) throws LogOutTimeBoundsException, RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         return workingLog.computeDiff(timeInThePast);
     }
@@ -351,7 +358,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             String logName,
             long startTime,
             long endTime
-    ) throws LogOutTimeBoundsException {
+    ) throws LogOutTimeBoundsException, RetroscopeException {
         return this.computeDiff(logName, new Timestamp(startTime), new Timestamp(endTime));
     }
 
@@ -359,7 +366,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             String logName,
             Timestamp startTime,
             Timestamp endTime
-    ) throws LogOutTimeBoundsException {
+    ) throws LogOutTimeBoundsException, RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         return workingLog.computeDiff(startTime, endTime);
     }
@@ -368,8 +375,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             String logName,
             LogEntry<K, V> startLogEntry,
             long endTime
-    ) throws LogOutTimeBoundsException {
-
+    ) throws LogOutTimeBoundsException, RetroscopeException {
         return this.computeDiff(logName, startLogEntry, new Timestamp(endTime));
     }
 
@@ -377,17 +383,17 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
             String logName,
             LogEntry<K, V> startLogEntry,
             Timestamp endTime
-    ) throws LogOutTimeBoundsException {
+    ) throws LogOutTimeBoundsException, RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         return workingLog.computeDiff(endTime, startLogEntry);
     }
 
-    public int addSnapshotPoint(String logName, LogEntry<K, V> knownLogEntry) {
+    public int addSnapshotPoint(String logName, LogEntry<K, V> knownLogEntry) throws RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         return workingLog.addKnownEntries(knownLogEntry);
     }
 
-    public LogEntry<K, V> getSnapshotPoint(String logName, int snapshotPointId) {
+    public LogEntry<K, V> getSnapshotPoint(String logName, int snapshotPointId) throws RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         return workingLog.getKnownEntry(snapshotPointId);
     }
@@ -401,7 +407,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @param isHlcTime boolean whether the long represetnation of time is HLC time
      * @return whether the test time is within the log bounds
      */
-    public boolean isTimeWithinLog(String logName, long time, boolean isHlcTime) {
+    public boolean isTimeWithinLog(String logName, long time, boolean isHlcTime) throws RetroscopeException {
         if (isHlcTime) {
             return isTimeWithinLog(logName, new Timestamp(time));
         }
@@ -416,7 +422,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @param time Timestamp HLC time for testing
      * @return whether the test time is within the log bounds
      */
-    public boolean isTimeWithinLog(String logName, Timestamp time) {
+    public boolean isTimeWithinLog(String logName, Timestamp time) throws RetroscopeException {
         Log<K, V> workingLog = getLog(logName);
         return workingLog.isTimestampWithinLog(time);
     }
@@ -756,7 +762,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      * @return byte[] byte array with ticked for send HLC timestamp
      */
     public byte[] timeTickForSend() {
-        return ByteHelper.doubleToBytes(timeTick().toLong());
+        return ByteHelper.longToBytes(timeTick().toLong());
     }
 
     /**
@@ -798,9 +804,10 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
         return timeTick(new Timestamp(ByteHelper.bytesToLong(receiveData, offset)));
     }
 
-    public Log<K, V> getLog(String logName) {
-        return getLog(logName, false);
+    public Log<K, V> getLog(String logName) throws RetroscopeException {
+        return getLog(logName, LogAutocreate.NONE);
     }
+
 
     /*----------------------------------------------------------
      *
@@ -809,25 +816,38 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      *----------------------------------------------------------*/
 
 
-    private Log<K, V> getLog(String logName, boolean dataMapLogIfEmpty) {
+    private Log<K, V> getLog(String logName, LogAutocreate createIfEmpty) throws RetroscopeException {
         Log<K, V> workingLog = null;
-        if ((workingLog = namedLogs.get(logName)) == null) {
-            if (dataMapLogIfEmpty) {
-                workingLog = new DataMapLog<K, V>(maxLengthMillis, logName, logCheckpointIntervalMs);
-            } else {
-                workingLog = new Log<K, V>(maxLengthMillis, logName, logCheckpointIntervalMs);
+        workingLog = namedLogs.get(logName);
+        if (workingLog == null) {
+            switch (createIfEmpty) {
+                case DATA_MAP_LOG:
+                    workingLog = new DataMapLog<K, V>(maxLengthMillis, logName, logCheckpointIntervalMs);
+                    namedLogs.put(logName, workingLog);
+                    break;
+                case LOG:
+                    workingLog = new Log<K, V>(maxLengthMillis, logName, logCheckpointIntervalMs);
+                    namedLogs.put(logName, workingLog);
+                    break;
+                case NONE:
+                default:
+                    throw new RetroscopeException("Requested Log does not exist");
             }
-            namedLogs.put(logName, workingLog);
         }
+
         return  workingLog;
     }
 
-    private DataMapLog<K, V> getDataMapLog(String logName) throws RetroscopeException {
-        Log<K, V> log = getLog(logName, true);
+    private DataMapLog<K, V> getDataMapLog(String logName, LogAutocreate createIfEmpty) throws RetroscopeException {
+        Log<K, V> log = getLog(logName, createIfEmpty);
         if (!(log instanceof DataMapLog)) {
             throw new RetroscopeException("Requested Log is not if type DataMapLog");
         }
         return (DataMapLog<K, V>) log;
+    }
+
+    public DataMapLog<K, V> getDataMapLog(String logName) throws RetroscopeException {
+        return getDataMapLog(logName, LogAutocreate.NONE);
     }
 
 

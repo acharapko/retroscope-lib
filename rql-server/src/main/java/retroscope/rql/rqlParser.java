@@ -4652,7 +4652,7 @@ public class rqlParser implements mTokens {
     /* code in the parser class*/
 
     private Scanner lexer;
-    private RQLEnvironment currentEnv;
+    private QueryEnvironment currentEnv;
 
     /* constructor registering a lexer for lang */
     public rqlParser(Scanner lexer){
@@ -4686,11 +4686,11 @@ public class rqlParser implements mTokens {
           " with token <<" + lexer.semanticValue + ">>"); }
 
 
-    public RQLEnvironment getEnvironment() {
+    public QueryEnvironment getEnvironment() {
         return currentEnv;
     }
 
-    public rqlParser setEnvironment(RQLEnvironment currentEnv) {
+    public rqlParser setEnvironment(QueryEnvironment currentEnv) {
         this.currentEnv = currentEnv;
         return this;
     }

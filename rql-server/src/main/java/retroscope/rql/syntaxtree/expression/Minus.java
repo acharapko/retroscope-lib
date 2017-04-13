@@ -1,19 +1,19 @@
 package retroscope.rql.syntaxtree.expression;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 
 public class Minus extends TwoOperandExpression
 {
-	public Minus(RQLEnvironment rqlEnvironment, Expression ex1, Expression ex2)
+	public Minus(QueryEnvironment queryEnvironment, Expression ex1, Expression ex2)
 	{ 
-		super(rqlEnvironment, ex1, ex2);
+		super(queryEnvironment, ex1, ex2);
 
 	}
 	
-	public Minus(RQLEnvironment rqlEnvironment, Expression ex2)
+	public Minus(QueryEnvironment queryEnvironment, Expression ex2)
 	{
-        super(rqlEnvironment, new IntegerLiteral(rqlEnvironment, 0), ex2);
+        super(queryEnvironment, new IntegerLiteral(queryEnvironment, 0), ex2);
 	}
 
 	public void evaluate() throws IllegalExpressionException {

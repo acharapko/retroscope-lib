@@ -351,7 +351,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 if (ca != null) {
                     ca.addData(nodeId, errorcode, data);
                 }
-                if (cb.getLeftToReceive() == 0) {
+                if (cb.getLeftToReceive() <= 0) {
                     //aggregate callback final call
                     ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullAllDataComplete(
                             rid,
@@ -361,7 +361,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                             ca.getErrors()
                     );
                 }
-                if (cb.getLeftToReceive() == 0) {
+                if (cb.getLeftToReceive() <= 0) {
                     callbacks.remove(rid); // clean, we do not need the callback anymore
                 }
             }
@@ -392,7 +392,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 if (ca != null) {
                     ca.addLog(nodeId, errorcode, log);
                 }
-                if (cb.getLeftToReceive() == 0) {
+                if (cb.getLeftToReceive() <= 0) {
                     //aggregate callback final call
                     ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback()).pullAllDataComplete(
                             rid,
@@ -402,7 +402,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                     );
                 }
 
-                if (cb.getLeftToReceive() == 0) {
+                if (cb.getLeftToReceive() <= 0) {
                     callbacks.remove(rid); // clean, we do not need the callback anymore
                 }
             }

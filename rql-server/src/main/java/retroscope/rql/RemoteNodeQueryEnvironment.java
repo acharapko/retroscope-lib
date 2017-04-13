@@ -15,11 +15,11 @@ import java.util.concurrent.CountDownLatch;
  * this class is for RQL environment backed by the Retroscope server.
  * It gets the logs from remote servers.
  */
-public class RemoteNodeRQLEnvironment extends RQLEnvironment {
+public class RemoteNodeQueryEnvironment extends QueryEnvironment {
 
     Server<String, RQLItem> retroServer;
 
-    public RemoteNodeRQLEnvironment(Server<String, RQLItem> server) {
+    public RemoteNodeQueryEnvironment(Server<String, RQLItem> server) {
         this.retroServer = server;
     }
 
@@ -46,16 +46,17 @@ public class RemoteNodeRQLEnvironment extends RQLEnvironment {
                 public void pullAllDataComplete(long rid, int[] nodeIds, Log<String, RQLItem>[] remoteLogs, int[] errorCode) {
                     for (int i = 0; i < nodeIds.length; i++) {
                         //here, for each node we add log to the list of logs
-                        /*System.out.println("All Logs:");
-                        System.out.println(rid + " @ " + nodeIds[i] + " log: " + remoteLogs[i].getName());
-                        System.out.println(remoteLogs[i]);*/
-                        RQLLog dmLog = null;
-                        if (remoteLogs[i] instanceof DataMapLog) {
-                            dmLog = new RQLDataMapLog(nodeIds[i], (DataMapLog<String, RQLItem>)remoteLogs[i]);
+                        if (errorCode[i] == 0) {
+                            RQLLog dmLog = null;
+                            if (remoteLogs[i] instanceof DataMapLog) {
+                                dmLog = new RQLDataMapLog(nodeIds[i], (DataMapLog<String, RQLItem>) remoteLogs[i]);
+                            } else {
+                                dmLog = new RQLAppendLog(nodeIds[i], remoteLogs[i]);
+                            }
+                            logs.add(dmLog);
                         } else {
-                            dmLog = new RQLAppendLog(nodeIds[i], remoteLogs[i]);
+                            //handle errors
                         }
-                        logs.add(dmLog);
                     }
                     latch.countDown();
                 }

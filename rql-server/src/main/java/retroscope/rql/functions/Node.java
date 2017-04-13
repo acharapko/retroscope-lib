@@ -1,14 +1,11 @@
 package retroscope.rql.functions;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
 import retroscope.rql.syntaxtree.expression.RQLInterpreterValue;
 import retroscope.rql.syntaxtree.expression.Variable;
-import retroscope.rql.syntaxtree.link.Link;
-
-import java.util.List;
 
 /**
  * Created by Aleksey on 1/21/2017.
@@ -16,8 +13,8 @@ import java.util.List;
  */
 public class Node extends RQLBuiltInFunction {
 
-    public Node(ExpressionList params, RQLEnvironment rqlEnvironment) {
-        super(params, rqlEnvironment);
+    public Node(ExpressionList params, QueryEnvironment queryEnvironment) {
+        super(params, queryEnvironment);
     }
 
     public void evaluate() throws IllegalExpressionException {

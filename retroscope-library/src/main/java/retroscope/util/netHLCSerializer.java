@@ -17,7 +17,7 @@ public class netHLCSerializer {
 
         byte[] hlcMessage = new byte[message.length + 8]; //retroscope.hlc takes 8 bytes
         ByteHelper.longToBytes(hlcMessage, hlcLong, 0);
-
+        System.arraycopy(message, 0, hlcMessage, 0, message.length);
         return hlcMessage;
     }
 
@@ -29,7 +29,7 @@ public class netHLCSerializer {
     }
 
     public static byte[] networkUnwrapHLC(byte[] message) {
-        byte[] strippedMessage = Arrays.copyOfRange(message, 0, 8);
+        byte[] strippedMessage = Arrays.copyOfRange(message, 8, message.length);
         return strippedMessage;
     }
 }

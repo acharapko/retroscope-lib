@@ -32,7 +32,7 @@ public class rqlParserTest {
             Scanner scanner = new Scanner(q1);
             scanner.yylex();
 
-            rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                     DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
                     Timestamp t = new Timestamp();
@@ -88,7 +88,7 @@ public class rqlParserTest {
             Scanner scanner = new Scanner(q1);
             scanner.yylex();
 
-            rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                     DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
                     Timestamp t = new Timestamp();
@@ -146,7 +146,7 @@ public class rqlParserTest {
             Scanner scanner = new Scanner(q1);
             scanner.yylex();
 
-            rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                     DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
                     Timestamp t = new Timestamp();
@@ -201,7 +201,7 @@ public class rqlParserTest {
             Scanner scanner = new Scanner(q1);
             scanner.yylex();
 
-            rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                     DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
                     Timestamp t = new Timestamp();
@@ -249,7 +249,7 @@ public class rqlParserTest {
             Scanner scanner = new Scanner(q1);
             scanner.yylex();
 
-            rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                     DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
                     Timestamp t = new Timestamp();
@@ -300,7 +300,7 @@ public class rqlParserTest {
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 // on this log we append directly to RQLDatamap
                 DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
@@ -404,7 +404,7 @@ public class rqlParserTest {
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 Timestamp ts[] = new Timestamp[LOG_LENGTH];
                 ts[0] = new Timestamp();
@@ -488,7 +488,7 @@ public class rqlParserTest {
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 // on this log we append directly to RQLDatamap
                 DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
@@ -546,7 +546,7 @@ public class rqlParserTest {
             Scanner scanner = new Scanner(q1);
             scanner.yylex();
 
-            rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                     Timestamp ts[] = new Timestamp[LOG_LENGTH];
                     ts[0] = new Timestamp();
@@ -644,7 +644,7 @@ public class rqlParserTest {
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 Timestamp ts[] = new Timestamp[LOG_LENGTH];
                 ts[0] = new Timestamp();
@@ -717,7 +717,7 @@ public class rqlParserTest {
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "log1");
                 Timestamp t = new Timestamp();
@@ -782,7 +782,7 @@ public class rqlParserTest {
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             @Override
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
@@ -846,7 +846,7 @@ public class rqlParserTest {
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
                 Timestamp t = new Timestamp();
@@ -941,7 +941,7 @@ public class rqlParserTest {
         StringReader q1 = new StringReader("Abs(-5*3);");
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             @Override
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
             }
@@ -957,7 +957,7 @@ public class rqlParserTest {
         StringReader q1 = new StringReader("Max(5, 3, -2, 7, 4.0, 12.1, 8, 2, 3.3);");
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             @Override
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
             }
@@ -973,7 +973,7 @@ public class rqlParserTest {
         StringReader q1 = new StringReader("HLCFromPT(Now() - 100);");
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
-        rqlParser rql = new rqlParser(scanner).setEnvironment(new RQLEnvironment() {
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             @Override
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
             }

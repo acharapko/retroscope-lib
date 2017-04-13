@@ -1,6 +1,6 @@
 package retroscope.rql.functions;
 
-import retroscope.rql.RQLEnvironment;
+import retroscope.rql.QueryEnvironment;
 import retroscope.rql.Types;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
@@ -12,8 +12,8 @@ import retroscope.rql.syntaxtree.expression.RQLInterpreterValue;
  */
 public class Empty extends RQLBuiltInFunction {
 
-    public Empty(ExpressionList params, RQLEnvironment rqlEnvironment) {
-        super(params, rqlEnvironment);
+    public Empty(ExpressionList params, QueryEnvironment queryEnvironment) {
+        super(params, queryEnvironment);
     }
 
     public void evaluate() throws IllegalExpressionException {

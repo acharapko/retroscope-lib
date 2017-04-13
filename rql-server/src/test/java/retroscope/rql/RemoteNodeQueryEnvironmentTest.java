@@ -3,12 +3,10 @@ package retroscope.rql;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.log.*;
 import retroscope.net.server.Server;
 
-import java.io.StringReader;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -16,12 +14,12 @@ import static org.junit.Assert.*;
 /**
  * Created by ALEKS on 1/16/2017.
  */
-public class RemoteNodeRQLEnvironmentTest {
+public class RemoteNodeQueryEnvironmentTest {
 
     private static final String keyPrefix = "key";
 
     private Server<String, RQLItem> server;
-    private RemoteNodeRQLEnvironment rqlEnvironment;
+    private RemoteNodeQueryEnvironment rqlEnvironment;
     private HashMap<String, Integer> counts;
     private ArrayList<Timestamp> sliceTimes;
 
@@ -68,7 +66,7 @@ public class RemoteNodeRQLEnvironmentTest {
         ct = new Thread(clientR);
         ct.start();
 
-        rqlEnvironment = new RemoteNodeRQLEnvironment(server);
+        rqlEnvironment = new RemoteNodeQueryEnvironment(server);
     }
 
     @After
@@ -131,6 +129,22 @@ public class RemoteNodeRQLEnvironmentTest {
             assertTrue(logsRetrieved.size() == 1);
             assertTrue(logsRetrieved.get(0).getName().equals("test"));
             assertTrue(logsRetrieved.get(0).getLength() == 11);
+        }
+    }
+
+    @Test
+    public void retrieveRemoteLogsTimeSlicesNoLog() throws Exception {
+        Thread.sleep(1000); //wait a bit to get the log going
+        String[] logs = {"test_no_such_log"};
+        for (int i = 0; i < sliceTimes.size() - 1; i++) {
+
+            RQLRetrieveParam retrieveParam = new RQLRetrieveParam()
+                    .setLogs(Arrays.asList(logs))
+                    .setStartTime(sliceTimes.get(i))
+                    .setEndTime(sliceTimes.get(i + 1)); //times are inclusive
+            rqlEnvironment.retrieveRemoteLogs(retrieveParam);
+            ArrayList<RQLLog> logsRetrieved = rqlEnvironment.getLogs();
+            assertTrue(logsRetrieved.size() == 0);
         }
     }
 
