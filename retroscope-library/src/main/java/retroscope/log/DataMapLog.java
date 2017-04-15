@@ -50,6 +50,7 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
         super(protocolLog);
         //also restore datamap
         this.dataMap = ProtocolHelpers.protocolToRetroMap(protocolLog.getDataMap());
+        snapshots = new HashMap<Integer, RetroMap<K, V>>(10);
     }
 
     @Override
