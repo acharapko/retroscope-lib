@@ -215,7 +215,12 @@ public abstract class QueryEnvironment extends Environment {
     private void evalCutOnCondition(GlobalCut tempCut, Expression condition) {
         // (7) at this time we have a consistent cut at the tempCut object
         // first we update symbol table with new values. The symbol table
-        // should be the same as the one used by the vars in the condition expression
+        // should be the same as the one used by the vars in the condition expressio
+        if (condition == null) { //there is no condition
+            addToEmitList(tempCut);
+            return;
+        }
+
         boolean shortCircuit = false;
         setSymbolTableAtCut(tempCut);
         //now iterate
