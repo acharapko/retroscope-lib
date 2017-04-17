@@ -427,6 +427,14 @@ public class Log<K extends Serializable, V extends Serializable> implements Basi
         return logSlice(keys, new Timestamp(sliceStart), new Timestamp(sliceEnd));
     }
 
+    /**
+     * Gets a log slice from start time (including the element at start time) and till sliceEnd,
+     * excluding the element at time sliceEnd
+     * @param sliceStart
+     * @param sliceEnd
+     * @return
+     * @throws LogOutTimeBoundsException
+     */
     public Log<K, V> logSlice(Timestamp sliceStart, Timestamp sliceEnd)
             throws LogOutTimeBoundsException {
         LogEntry<K, V> currentOriginalLogItem = this.findEntry(sliceStart);

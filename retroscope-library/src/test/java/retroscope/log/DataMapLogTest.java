@@ -3,13 +3,17 @@ package retroscope.log;
 import org.junit.Test;
 import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by aleksey on 10/19/16.
+ * DataMapLog tests
  */
 public class DataMapLogTest {
 
@@ -313,10 +317,11 @@ public class DataMapLogTest {
 
         int keyToRequest = 3;
         for (int i = length-1; i >= 0; i--) {
-            String requestKeys[] = new String[keyToRequest];
+            //String requestKeys[] = new String[keyToRequest];
+            List<String> requestKeys = new ArrayList<String>(keyToRequest);
             for (int j = 0; j < keyToRequest; j++) {
                 String key = "test"+rand.nextInt(keys);
-                requestKeys[j] = key;
+                requestKeys.add(key);
             }
             DataEntry<String> items[] = log.getItems(requestKeys, times[i]);
 
@@ -324,9 +329,9 @@ public class DataMapLogTest {
                 if (items[k] != null) {
                     //System.out.println(requestKeys[k] + " - " + items[k].getValue());
                     //System.out.println(maps[i]);
-                    assertTrue(items[k].getValue().equals(maps[i].get(requestKeys[k]).getValue()));
+                    assertTrue(items[k].getValue().equals(maps[i].get(requestKeys.get(k)).getValue()));
                 } else {
-                    assertTrue(items[k] == maps[i].get(requestKeys[k]));
+                    assertTrue(items[k] == maps[i].get(requestKeys.get(k)));
                 }
             }
         }

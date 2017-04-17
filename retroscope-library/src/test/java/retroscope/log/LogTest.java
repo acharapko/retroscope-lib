@@ -507,7 +507,7 @@ public class LogTest {
             Log<String, String> slice = log.logSlice(sliceStartTime, sliceEndTime);
 
             assertTrue(slice.getHead().equals(logEntry));
-            assertTrue(slice.getTail().equals(sliceEnd));
+            assertTrue(slice.getTail().equals(sliceEnd.getPrev()));
             assertTrue(slice.getMaxLogSize() == log.getMaxLogSize());
             assertTrue(slice.getLogCheckpointIntervalMs() == log.getLogCheckpointIntervalMs());
 

@@ -270,7 +270,7 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
 
     public Log<K, V> logSlice(List<K> keys, Timestamp sliceStart, Timestamp sliceEnd)
             throws LogOutTimeBoundsException {
-        RetroMap<K, V> sliceData = getAllData(sliceEnd);
+        RetroMap<K, V> sliceData = getItemsMap(keys, sliceEnd);
         Log<K, V> l = super.logSlice(keys, sliceStart, sliceEnd);
         DataMapLog<K,V> dmlog = new DataMapLog<K, V>(l);
         dmlog.dataMap = sliceData;
@@ -325,41 +325,41 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
         return snap.get(key);
     }
 
-    public DataEntry<V>[] getItems(K[] keys, Timestamp dataTime) throws LogOutTimeBoundsException {
+    public DataEntry<V>[] getItems(List<K> keys, Timestamp dataTime) throws LogOutTimeBoundsException {
         RetroMap<K, V> snap = getAllData(dataTime); //locking is here
-        DataEntry[] vals = new DataEntry[keys.length];
-        for (int i = 0; i < keys.length; i++) {
-            vals[i] = snap.get(keys[i]);
+        DataEntry[] vals = new DataEntry[keys.size()];
+        for (int i = 0; i < keys.size(); i++) {
+            vals[i] = snap.get(keys.get(i));
         }
         return vals;
     }
 
-    public DataEntry<V>[] getItems(K[] keys) {
-        DataEntry[] vals = new DataEntry[keys.length];
+    public DataEntry<V>[] getItems(List<K> keys) {
+        DataEntry[] vals = new DataEntry[keys.size()];
         lock();
-        for (int i = 0; i < keys.length; i++) {
-            vals[i] = this.dataMap.get(keys[i]);
+        for (int i = 0; i < keys.size(); i++) {
+            vals[i] = this.dataMap.get(keys.get(i));
         }
         unlock();
         return vals;
     }
 
-    public RetroMap<K, V> getItemsMap(K[] keys) {
-        RetroMap<K, V> vals = new RetroMap<K, V>(keys.length);
+    public RetroMap<K, V> getItemsMap(List<K> keys) {
+        RetroMap<K, V> vals = new RetroMap<K, V>(keys.size());
         lock();
-        for (int i = 0; i < keys.length; i++) {
-            vals.put(keys[i], this.dataMap.get(keys[i]));
+        for (K key : keys) {
+            vals.put(key, this.dataMap.get(key));
         }
         unlock();
         return vals;
     }
 
-    public RetroMap<K, V> getItemsMap(K[] keys, Timestamp dataTime) throws LogOutTimeBoundsException {
+    public RetroMap<K, V> getItemsMap(List<K> keys, Timestamp dataTime) throws LogOutTimeBoundsException {
         RetroMap<K, V> snap = getAllData(dataTime); //locking is here
-        RetroMap<K, V> vals = new RetroMap<K, V>(keys.length);
+        RetroMap<K, V> vals = new RetroMap<K, V>(keys.size());
         lock();
-        for (int i = 0; i < keys.length; i++) {
-            vals.put(keys[i], snap.get(keys[i]));
+        for (K key : keys) {
+            vals.put(key, snap.get(key));
         }
         unlock();
         return vals;

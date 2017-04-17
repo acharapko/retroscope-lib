@@ -5,6 +5,8 @@ import retroscope.rql.RQLItem;
 import retroscope.rql.RemoteNodeQueryEnvironment;
 import retroscope.rql.rqlParser;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.*;
@@ -16,9 +18,19 @@ import java.util.*;
 public class Console implements Runnable {
 
     private rqlParser parser;
+    private String outFileName = "";
 
     public Console(rqlParser parser) {
         this.parser = parser;
+    }
+    public Console(rqlParser parser, String outFileName) {
+        this.parser = parser;
+        this.outFileName = outFileName;
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFileName))) {
+            bw.write("New Out \n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void run() {
@@ -34,20 +46,32 @@ public class Console implements Runnable {
                 buf.append(input);
                 if (input.endsWith(";")) {
                     //run;
-                    StringReader q1 = new StringReader(buf.toString());
-                    retroscope.rql.Scanner scanner = new retroscope.rql.Scanner(q1);
                     try {
-                        scanner.yylex();
-                    } catch (IOException ioe) {
-                        System.err.println(ioe.getMessage());
-                        buf = new StringBuilder();
-                    }
-                    parser.setScanner(scanner);
-                    parser.parse();
+                        StringReader q1 = new StringReader(buf.toString());
+                        retroscope.rql.Scanner scanner = new retroscope.rql.Scanner(q1);
+                        try {
+                            scanner.yylex();
+                        } catch (IOException ioe) {
+                            System.err.println(ioe.getMessage());
+                            buf = new StringBuilder();
+                        }
+                        parser.setScanner(scanner);
+                        parser.parse();
 
-                    //now display stuff, if needed
-                    System.out.println(parser.getEnvironment().cutsToString());
-                    //displayCuts();
+                        //now display stuff, if needed
+                        System.out.println(parser.getEnvironment().cutsToString());
+                        if (!outFileName.isEmpty()) {
+                            try (BufferedWriter bw = new BufferedWriter(new FileWriter(outFileName, true))) {
+                                bw.write(parser.getEnvironment().cutsToString());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                        //displayCuts();
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
                 }
             }
         }
@@ -55,11 +79,17 @@ public class Console implements Runnable {
 
     public static void main(String[] args) {
 
+
         Server<String, RQLItem> server = new Server<String, RQLItem>();
 
         RemoteNodeQueryEnvironment rqlEnvironment = new RemoteNodeQueryEnvironment(server);
         rqlParser rql = new rqlParser().setEnvironment(rqlEnvironment);
-        Console c = new Console(rql);
+        Console c;
+        if (args.length > 0) {
+            c = new Console(rql, args[0]);
+        } else {
+            c = new Console(rql);
+        }
         Thread consoleThread = new Thread(c);
         consoleThread.start();
 

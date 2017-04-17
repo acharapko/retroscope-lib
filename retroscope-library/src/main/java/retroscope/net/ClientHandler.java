@@ -11,7 +11,9 @@ import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Aleksey on 8/13/2016.
@@ -85,13 +87,13 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
                 try {
                     ByteString keys[] = new ByteString[msg.getKeysCount()];
                     keys = msg.getKeysList().toArray(keys);
-                    K[] keyArray = (K[]) new Serializable[msg.getKeysCount()];
+                    List<K> keyList = new ArrayList<>(msg.getKeysCount());
                     for (int i = 0; i < msg.getKeysCount(); i++) {
-                        keyArray[i] = ProtocolHelpers.byteStringToSerializable(keys[i]);
+                        keyList.add(ProtocolHelpers.byteStringToSerializable(keys[i]));
                     }
                     RetroMap<K, V> data = retroscope.getItemsMap(
                             msg.getLogName(),
-                            keyArray //this is ugly und pretty much restricts K to be string types
+                            keyList //this is ugly und pretty much restricts K to be string types
                     );
                     dataMsgBuilder.setData(ProtocolHelpers.retroMapToProtocol(data, msg.getLogName(), 0));
                 } catch (RetroscopeException re) {
@@ -112,13 +114,13 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
                 try {
                     ByteString keys[] = new ByteString[msg.getKeysCount()];
                     keys = msg.getKeysList().toArray(keys);
-                    K[] keyArray = (K[]) new Serializable[msg.getKeysCount()];
+                    List<K> keyList = new ArrayList<>(msg.getKeysCount());
                     for (int i = 0; i < msg.getKeysCount(); i++) {
-                        keyArray[i] = ProtocolHelpers.byteStringToSerializable(keys[i]);
+                        keyList.add(ProtocolHelpers.byteStringToSerializable(keys[i]));
                     }
                     RetroMap<K, V> data = retroscope.getItemsMap(
                             msg.getLogName(),
-                            keyArray,
+                            keyList,
                             msg.getHlcTime()
                     );
                     dataMsgBuilder.setData(ProtocolHelpers.retroMapToProtocol(data, msg.getLogName(), msg.getHlcTime()));
@@ -135,28 +137,27 @@ class ClientHandler<K extends Serializable, V extends Serializable> extends Chan
         Protocol.RetroNodeMsg.Builder logMsgBuilder = Protocol.RetroNodeMsg.newBuilder();
         logMsgBuilder.setRID(rid); // return rid back
         logMsgBuilder.setNodeId(client.getId());
-
-        K[] keyArray = null;
+        List<K> keyList = null;
         if (msg.getParameterNamesCount() > 0) {
             ByteString keys[] = new ByteString[msg.getParameterNamesCount()];
             keys = msg.getParameterNamesList().toArray(keys);
-            keyArray = (K[]) new Serializable[msg.getParameterNamesCount()];
+            keyList = new ArrayList<>(msg.getParameterNamesCount());
             for (int i = 0; i < msg.getParameterNamesCount(); i++) {
-                keyArray[i] = ProtocolHelpers.byteStringToSerializable(keys[i]);
+                keyList.add(ProtocolHelpers.byteStringToSerializable(keys[i]));
             }
         }
 
         try {
             Log<K, V> slice = null;
             if (msg.hasHLCendTime() && msg.hasHLCstartTime()) {
-                if (keyArray != null) {
-                    slice = retroscope.getLogSlice(msg.getLogName(), Arrays.asList(keyArray), msg.getHLCstartTime(), msg.getHLCendTime());
+                if (keyList != null) {
+                    slice = retroscope.getLogSlice(msg.getLogName(), keyList, msg.getHLCstartTime(), msg.getHLCendTime());
                 } else {
                     slice = retroscope.getLogSlice(msg.getLogName(), msg.getHLCstartTime(), msg.getHLCendTime());
                 }
             } else {
-                if (keyArray != null) {
-                    slice = retroscope.getLogSlice(msg.getLogName(), Arrays.asList(keyArray));
+                if (keyList != null) {
+                    slice = retroscope.getLogSlice(msg.getLogName(), keyList);
                 } else {
                     slice = retroscope.getLog(msg.getLogName());
                 }

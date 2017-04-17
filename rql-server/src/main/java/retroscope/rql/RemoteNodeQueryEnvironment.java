@@ -34,6 +34,7 @@ public class RemoteNodeQueryEnvironment extends QueryEnvironment {
             Timestamp startTime,
             Timestamp endTime
     ) {
+        System.out.println("ensemble size = " + ensemble.getEnsembleSize());
         logs = new ArrayList<RQLLog>(remoteLogs.size() * ensemble.getEnsembleSize()); //get new logs
         final CountDownLatch latch = new CountDownLatch(remoteLogs.size());
         for (String log : remoteLogs) {

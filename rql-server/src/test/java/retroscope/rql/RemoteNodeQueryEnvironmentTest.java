@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by ALEKS on 1/16/2017.
+ * Testing log/cut retrieval routines
  */
 public class RemoteNodeQueryEnvironmentTest {
 

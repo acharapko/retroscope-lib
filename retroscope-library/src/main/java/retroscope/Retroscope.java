@@ -480,7 +480,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public DataEntry<V>[] getItems(
             String logName,
-            K keys[]
+            List<K> keys
     ) throws LogOutTimeBoundsException, LogNotFoundException, LogTypeException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);
         return workingLog.getItems(keys);
@@ -499,7 +499,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public DataEntry<V>[] getItems(
             String logName,
-            K keys[],
+            List<K> keys,
             Timestamp timestamp
     ) throws LogOutTimeBoundsException, LogNotFoundException, LogTypeException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);
@@ -518,7 +518,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public RetroMap<K, V> getItemsMap(
             String logName,
-            K keys[]
+            List<K> keys
     ) throws LogOutTimeBoundsException, LogNotFoundException, LogTypeException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);
         return workingLog.getItemsMap(keys);
@@ -539,7 +539,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public RetroMap<K, V> getItemsMap(
             String logName,
-            K keys[],
+            List<K> keys,
             Timestamp timestamp
     ) throws LogOutTimeBoundsException, LogNotFoundException, LogTypeException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);
@@ -561,7 +561,7 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public RetroMap<K, V> getItemsMap(
             String logName,
-            K keys[],
+            List<K> keys,
             long timestamp
     ) throws LogOutTimeBoundsException, LogNotFoundException, LogTypeException {
         DataMapLog<K, V> workingLog = getDataMapLog(logName);

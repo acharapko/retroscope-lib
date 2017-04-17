@@ -40,11 +40,11 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         lock = new ReentrantLock();
     }
 
-    public static int incrementId() {
+    public synchronized static int incrementId() {
         return ++maxKnownId;
     }
 
-    public static long getNextRID() {
+    public synchronized static long getNextRID() {
         maxKnownRID++;
         if (maxKnownRID == Long.MAX_VALUE) {
             maxKnownRID = 0;
@@ -67,6 +67,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         if (connectMsg.getRetroscopeVersion() == Retroscope.VERSION) {
             lock.lock();
             RemoteNode<K, V> remoteNode = new RemoteNode<K, V>(incrementId(), ctx);
+            System.out.println("Connecting client id = " + remoteNode.getId());
             remoteNodes.put(remoteNode.getId(), remoteNode);
             lock.unlock();
             Protocol.ConnectMsgResponse connectMsgResponse = Protocol.ConnectMsgResponse.newBuilder()
@@ -382,7 +383,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
             throw new RetroscopeServerEnsembleException("Node " + nodeId + " is not in the ensemble");
         }
         CallbackWrapper<K, V> cb = callbacks.get(rid);
-        //System.out.println("have callback: " + (cb != null));
+        System.out.println("receiving log from " + nodeId);
         if (cb != null) {
             cb.decrementLeftToReceive();
             if (cb.getCallback() instanceof Callbacks.PullLogSliceCallback) {
