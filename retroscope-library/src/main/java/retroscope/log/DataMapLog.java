@@ -90,8 +90,9 @@ public class DataMapLog<K extends Serializable, V extends Serializable> extends 
 
         Protocol.Log.Builder builder = super.toProtocol().toBuilder();
 
-        builder.setDataMap(ProtocolHelpers.retroMapToProtocol(dataMap, this.name, head.getTime().toLong()));
-
+        if (head != null) {
+            builder.setDataMap(ProtocolHelpers.retroMapToProtocol(dataMap, this.name, head.getTime().toLong()));
+        }
         return builder.build();
 
     }

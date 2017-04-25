@@ -3,10 +3,12 @@ package retroscope.rql;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import retroscope.RetroscopeException;
 import retroscope.hlc.Timestamp;
 import retroscope.log.*;
 import retroscope.net.server.Server;
 
+import java.io.StringReader;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -55,7 +57,11 @@ public class RemoteNodeQueryEnvironmentTest {
                     try {
                         Thread.sleep(random.nextInt(10));
                         RQLItem item = new RQLItem().addField(i);
-                        String key = keyPrefix+random.nextInt(10);
+                        int keySuffix = i;
+                        if (i >= 10) {
+                            keySuffix = random.nextInt(10);
+                        }
+                        String key = keyPrefix+keySuffix;
                         counts.put(key, counts.get(key) + 1);
                         retroscope.appendToLog("test", key, item);
                         if (i % 10 == 0) {sliceTimes.add(retroscope.getTimestamp().clone());}
@@ -74,7 +80,6 @@ public class RemoteNodeQueryEnvironmentTest {
     public void tearDown() throws Exception {
         server.close();
         ct.join();
-        System.out.println("ct join");
     }
 
     @Test
@@ -163,6 +168,25 @@ public class RemoteNodeQueryEnvironmentTest {
             assertTrue(logsRetrieved.size() == 0);
             assertTrue(rqlEnvironment.tempGlobalCuts.size() == 1);
         }
+    }
+
+    //Query test form simulated remote node
+    //we are more concern with not getting exceptions here
+    //and not so much with the correctness of query results
+    @Test
+    public void remoteNodeRQLtestSimple() throws Exception {
+        Thread.sleep(200); //wait a bit to get the log going
+        String k = keyPrefix + "4";
+        String rqlq = "SELECT test."+k+" FROM test WHEN test."+k+" >= 0;";
+        System.out.println(rqlq);
+        StringReader q1 = new StringReader(rqlq);
+        Scanner scanner = new Scanner(q1);
+        scanner.yylex();
+        rqlParser rql = new rqlParser(scanner).setEnvironment(rqlEnvironment);
+        rql.parse();
+        ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
+        System.out.println("# of cuts: " + cuts.size());
+        assertTrue(cuts.size() > 0);
     }
 
 }

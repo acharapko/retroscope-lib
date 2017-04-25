@@ -392,15 +392,16 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 CallbackLogAggregator ca = (CallbackLogAggregator) callbacksAggregators.get(rid);
                 if (ca != null) {
                     ca.addLog(nodeId, errorcode, log);
-                }
-                if (cb.getLeftToReceive() <= 0) {
-                    //aggregate callback final call
-                    ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback()).pullAllDataComplete(
-                            rid,
-                            ca.getNodeIds(),
-                            ca.getLogs(),
-                            ca.getErrors()
-                    );
+
+                    if (cb.getLeftToReceive() <= 0) {
+                        //aggregate callback final call
+                        ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback()).pullAllDataComplete(
+                                rid,
+                                ca.getNodeIds(),
+                                ca.getLogs(),
+                                ca.getErrors()
+                        );
+                    }
                 }
 
                 if (cb.getLeftToReceive() <= 0) {

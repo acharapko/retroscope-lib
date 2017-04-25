@@ -112,6 +112,13 @@ public abstract class QueryEnvironment extends Environment {
         emittedOut = new ArrayList<String>();
     }
 
+    private void checkErrors() throws RQLRunTimeException {
+        if (logs.size() == 0) {
+            throw new RQLRunTimeException("Cannot process query with 0 fetched logs");
+        }
+    }
+
+
     /**
      *
      * @param condition Expression that must be satisfied to emit the cut
@@ -135,6 +142,16 @@ public abstract class QueryEnvironment extends Environment {
         */
         // (1) we assume logs have been retrieved by this time
         // (2)
+
+        try {
+            checkErrors();
+        } catch (RQLRunTimeException re) {
+            this.addRunTimeException(re);
+            return;
+        }
+
+
+
         PriorityQueue<LogEntry<String, RQLItem>> q =
                 new PriorityQueue<LogEntry<String, RQLItem>>(logs.size(), new Comparator<LogEntry<String, RQLItem>>() {
                     public int compare(LogEntry<String, RQLItem> o1, LogEntry<String, RQLItem> o2) {
@@ -143,7 +160,9 @@ public abstract class QueryEnvironment extends Environment {
                 });
         int snapshotIDs[] = new int[logs.size()];
         for (RQLLog log : logs) {
-            q.add(log.getTail());
+            if (log.getLength() > 0) {
+                q.add(log.getTail());
+            }
         }
         // (3)
         while (q.size() > 0) {

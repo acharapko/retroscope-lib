@@ -69,6 +69,12 @@ public class RemoteNodeQueryEnvironment extends QueryEnvironment {
                     ensemble.pullLog(log, startTime, endTime, logCallback);
                 }
             } else {
+                //strip out log name prefix. it is not needed for transmission in keys or in the remote log
+                String logdot = log + ".";
+                for (int i = 0; i < keys.size(); i++) {
+                    keys.set(i, keys.get(i).replace(logdot, ""));
+                }
+
                 if (startTime == null || endTime == null) {
                     ensemble.pullLog(log, keys, logCallback);
                 } else {
