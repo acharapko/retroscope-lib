@@ -442,6 +442,102 @@ public class rqlParserTest {
     }
 
     @Test
+    public void simpleTwoNodeLogSearchQueryWithStrReplaceAndCast() throws Exception {
+
+        StringReader q1 = new StringReader("SELECT r1 FROM setd WHEN Int(StrReplace(r1, \"tst\", \"\")) - Int(StrReplace(r1, \"tst\", \"\")) > 1;");
+        Scanner scanner = new Scanner(q1);
+        scanner.yylex();
+
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
+            public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
+                // on this log we append directly to RQLDatamap
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "setd");
+                RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
+                Timestamp t = new Timestamp();
+                Random rand = new Random(System.nanoTime());
+                int logTime = 7;
+                for (int i = 0; i < LOG_LENGTH; i++) {
+
+                    t = t.add(2 + rand.nextInt(logTime), (short)0);
+                    RQLItem item = new RQLItem().addField("", "tst" + i);
+                    DataEntry<RQLItem> d1
+                            = new DataEntry<RQLItem>(item, t);
+
+                    //System.out.println(item.getField("").getIntVal());
+                    String key = ("r1");
+                    LogEntry<String, RQLItem> le
+                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+
+                    try {
+                        //System.out.println(t + " - " + key + " = " + i);
+                        testrqlmap.append(le);
+                    } catch (RetroscopeException re) {re.printStackTrace();}
+                }
+                this.logs.add(testrqlmap);
+                //System.out.println(testLog.getHead().getTime());
+
+                // on this one we create DataMap and then put it to the RQLDataMap
+                testLog = new DataMapLog<String, RQLItem>(1000000, "setd");
+                t = new Timestamp();
+                rand = new Random(System.nanoTime());
+                for (int i = 1; i < LOG_LENGTH; i++) {
+
+                    t = t.add(2 + rand.nextInt(logTime), (short)0);
+                    RQLItem item = new RQLItem().addField("", "tst" + i);
+                    DataEntry<RQLItem> d1
+                            = new DataEntry<RQLItem>(item, t);
+
+                    //System.out.println(item.getField("").getIntVal());
+                    String key = ("r1");
+                    LogEntry<String, RQLItem> le
+                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+
+                    try {
+                        //System.out.println(t + " - " + key + " = " + i);
+                        testLog.append(le);
+                    } catch (RetroscopeException re) {re.printStackTrace();}
+                }
+                testrqlmap = new RQLDataMapLog(2, testLog);
+                this.logs.add(testrqlmap);
+                //System.out.println(testrqlmap.getHead().getTime());
+            }
+            @Override
+            public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
+            }
+        });
+
+        rql.parse();
+        ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
+        /*System.out.println("\n# of cuts: " + cuts.size());
+        System.out.println("# of errors: " + rql.getEnvironment().getExceptions().size());
+        System.out.println("# of warn: " + rql.getEnvironment().getWarnings().size());
+        for (RQLRunTimeWarning w : rql.getEnvironment().getWarnings()) {
+            System.out.println(w.getMessage());
+        }*/
+        assertTrue(cuts.size() >= 0);
+        for(int c = 0; c < cuts.size(); c++) {
+            ArrayList<RQLSetMap> snaps = cuts.get(c).getLocalSnapshots();
+            ArrayList<String> snapNames = cuts.get(c).getLocalSnapshotNames();
+            int v[] = new int[2];
+            int cntr = 0;
+            assertTrue(snapNames.size() == 2);
+            for (int i = 0; i < snapNames.size(); i++) {
+                if (snapNames.get(i).equals("setd")) {
+                    if (snaps.get(i).get("r1") != null) {
+                        Set<DataEntry<RQLItem>> aset = snaps.get(i).get("r1");
+                        assertTrue(aset.size() == 1);
+                        for (DataEntry<RQLItem> r : aset) {
+                            v[cntr++] = Integer.parseInt(r.getValue().getField("").getStringVal().replace("tst", ""));
+                        }
+                    }
+                }
+            }
+            assertTrue(Math.abs(v[0] - v[1]) > 1);
+        }
+    }
+
+
+    @Test
     public void twoNodeLogLink() throws Exception {
         StringReader q1 = new StringReader("SELECT test.a, test.b FROM test WHEN a >= 20 AND b <= 80 LINK($0, $1);");
         Scanner scanner = new Scanner(q1);
@@ -683,7 +779,7 @@ public class rqlParserTest {
 
     @Test
     public void twoNodeLogPlaceholder() throws Exception {
-        StringReader q1 = new StringReader("SELECT test.a, test.b FROM test WHEN a >= 40 AND $1:v <= 99;");
+        StringReader q1 = new StringReader("SELECT test.a, test.b FROM test WHEN a >= 40 AND $0:v <= 99;");
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
 
@@ -1014,6 +1110,22 @@ public class rqlParserTest {
     @Test
     public void testHLCandNow() throws Exception {
         StringReader q1 = new StringReader("HLCFromPT(Now() - 100);");
+        Scanner scanner = new Scanner(q1);
+        scanner.yylex();
+        rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
+            @Override
+            public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
+            }
+            @Override
+            public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
+            }
+        });
+        rql.parse();
+    }
+
+    @Test
+    public void testStrReplace() throws Exception {
+        StringReader q1 = new StringReader("StrReplace(\"tst5\", \"tst\", \"\");");
         Scanner scanner = new Scanner(q1);
         scanner.yylex();
         rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {

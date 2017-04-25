@@ -40,6 +40,12 @@ public class FuncCall extends Expression {
             thisFunc = new Now(params, queryEnvironment);
         } else if (name.equals("HLCFromPT")) {
             thisFunc = new HLCFromPT(params, queryEnvironment);
+        } else if (name.equals("Int")) {
+            thisFunc = new Int(params, queryEnvironment);
+        } else if (name.equals("Flt")) {
+            thisFunc = new Flt(params, queryEnvironment);
+        } else if (name.equals("StrReplace")) {
+            thisFunc = new StrReplace(params, queryEnvironment);
         }
     }
 

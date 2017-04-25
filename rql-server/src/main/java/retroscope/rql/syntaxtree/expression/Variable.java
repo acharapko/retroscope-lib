@@ -25,7 +25,7 @@ public class Variable extends Expression
                 this.field = field;
                 this.rqlEnv = rqlEnv;
                 try {
-                    id = Integer.parseInt(name) - 1;
+                    id = Integer.parseInt(name);
                 } catch (Exception e) {
                     RQLRunTimeWarning w = new RQLRunTimeWarning(
                             RQLRunTimeWarning.WarningType.VARIABLE_UNDEFINED,
@@ -43,15 +43,12 @@ public class Variable extends Expression
 
     public Variable(String superName, String name, QueryEnvironment rqlEnv, boolean isLogParam)
     {
-        super(rqlEnv);
-        cnstrct(superName + "." + name, "", rqlEnv, isLogParam);
+        this(superName, name, "", rqlEnv, isLogParam);
     }
 
 	public Variable(String name, QueryEnvironment rqlEnv, boolean isLogParam)
 	{
-	    super(rqlEnv);
-	    hasFullName = false;
-        cnstrct(name, "", rqlEnv, isLogParam);
+        this(null, name, "", rqlEnv, isLogParam);
 	}
 
 	private void cnstrct(String name, String field, QueryEnvironment rqlEnv, boolean isLogParam)

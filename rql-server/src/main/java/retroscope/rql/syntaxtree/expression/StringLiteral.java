@@ -8,7 +8,7 @@ public class StringLiteral extends Expression
 	public StringLiteral(QueryEnvironment queryEnvironment, String value)
 	{
 		super(queryEnvironment);
-		this.value = new RQLInterpreterValue(Types.STRING).setValStr(value);
+		this.value = new RQLInterpreterValue(Types.STRING).setValStr(value.substring(1, value.length() - 1));
 	}
 
 	public void evaluate() {
