@@ -3,9 +3,7 @@ package retroscope.nodeensemble;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 import retroscope.Retroscope;
@@ -16,6 +14,8 @@ import retroscope.net.protocol.Protocol;
 import retroscope.net.protocol.ProtocolHelpers;
 import retroscope.net.server.CallbackWrapper;
 import retroscope.net.server.Callbacks;
+
+import javax.security.auth.callback.Callback;
 
 /**
  * Created by Aleksey on 11/2/2016.
@@ -112,6 +112,38 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
 
     public void removeNode(int nodeId) {
         remoteNodes.remove(nodeId);
+
+        Set<Long> rids = callbacks.keySet();
+        for (long rid : rids) {
+            CallbackWrapper cb = callbacks.get(rid);
+
+            if (cb.receivedAll(remoteNodes.keySet())) {
+                CallbackAggregator ca = callbacksAggregators.get(rid);
+
+                if (ca instanceof Ensemble.CallbackLogAggregator && cb instanceof Callbacks.PullLogSliceCallback) {
+                    Ensemble.CallbackLogAggregator cla = ( Ensemble.CallbackLogAggregator) ca;
+                    ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback()).pullAllDataComplete(
+                            rid,
+                            cla.getNodeIds(),
+                            cla.getLogs(),
+                            cla.getErrors()
+                    );
+                }
+                if (ca instanceof Ensemble.CallbackDataAggregator && cb instanceof Callbacks.PullDataCallback) {
+                    Ensemble.CallbackDataAggregator cda = (Ensemble.CallbackDataAggregator) ca;
+                    ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullAllDataComplete(
+                            rid,
+                            cda.getNodeIds(),
+                            "",
+                            cda.getDataMaps(),
+                            cda.getErrors()
+                    );
+                }
+
+                callbacks.remove(rid); // clean, we do not need the callback anymore
+                callbacksAggregators.remove(rid);
+            }
+        }
     }
 
 
@@ -382,19 +414,21 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 CallbackDataAggregator ca = (CallbackDataAggregator) callbacksAggregators.get(rid);
                 if (ca != null) {
                     ca.addData(nodeId, errorcode, data);
-                }
-                if (cb.receivedAll(remoteNodes.keySet())) {
-                    //aggregate callback final call
-                    ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullAllDataComplete(
-                            rid,
-                            ca.getNodeIds(),
-                            logName,
-                            ca.getDataMaps(),
-                            ca.getErrors()
-                    );
+
+                    if (cb.receivedAll(remoteNodes.keySet())) {
+                        //aggregate callback final call
+                        ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullAllDataComplete(
+                                rid,
+                                ca.getNodeIds(),
+                                logName,
+                                ca.getDataMaps(),
+                                ca.getErrors()
+                        );
+                    }
                 }
                 if (cb.receivedAll(remoteNodes.keySet())) {
                     callbacks.remove(rid); // clean, we do not need the callback anymore
+                    callbacksAggregators.remove(rid);
                 }
             }
         }
@@ -437,6 +471,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
 
                 if (cb.receivedAll(remoteNodes.keySet())) {
                     callbacks.remove(rid); // clean, we do not need the callback anymore
+                    callbacksAggregators.remove(rid);
                 }
             }
         }
@@ -461,7 +496,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         }
     }
 
-    class CallbackDataAggregator extends CallbackAggregator {
+    private class CallbackDataAggregator extends CallbackAggregator {
         private RetroMap<K, V> dataMaps[];
 
         public CallbackDataAggregator(int numNodes){
@@ -482,7 +517,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
 
     }
 
-    class CallbackLogAggregator extends CallbackAggregator {
+    private class CallbackLogAggregator extends CallbackAggregator {
         private Log<K, V> logs[];
 
         public CallbackLogAggregator(int numNodes){
