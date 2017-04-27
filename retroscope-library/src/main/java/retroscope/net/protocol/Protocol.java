@@ -74,6 +74,28 @@ public final class Protocol {
     retroscope.net.protocol.Protocol.GetLogOrBuilder getLogSliceRequestOrBuilder();
 
     /**
+     * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+     */
+    boolean hasDisconnectResponse();
+    /**
+     * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+     */
+    retroscope.net.protocol.Protocol.DisconnectMsgResponse getDisconnectResponse();
+    /**
+     * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+     */
+    retroscope.net.protocol.Protocol.DisconnectMsgResponseOrBuilder getDisconnectResponseOrBuilder();
+
+    /**
+     * <code>optional int32 heartbeat = 7;</code>
+     */
+    boolean hasHeartbeat();
+    /**
+     * <code>optional int32 heartbeat = 7;</code>
+     */
+    int getHeartbeat();
+
+    /**
      * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
     boolean hasSnapshotRequest();
@@ -221,9 +243,27 @@ public final class Protocol {
               bitField0_ |= 0x00000010;
               break;
             }
+            case 50: {
+              retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+                subBuilder = disconnectResponse_.toBuilder();
+              }
+              disconnectResponse_ = input.readMessage(retroscope.net.protocol.Protocol.DisconnectMsgResponse.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(disconnectResponse_);
+                disconnectResponse_ = subBuilder.buildPartial();
+              }
+              bitField0_ |= 0x00000020;
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000040;
+              heartbeat_ = input.readInt32();
+              break;
+            }
             case 106: {
               retroscope.net.protocol.Protocol.TakeSnapshot.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000020) == 0x00000020)) {
+              if (((bitField0_ & 0x00000080) == 0x00000080)) {
                 subBuilder = snapshotRequest_.toBuilder();
               }
               snapshotRequest_ = input.readMessage(retroscope.net.protocol.Protocol.TakeSnapshot.PARSER, extensionRegistry);
@@ -231,12 +271,12 @@ public final class Protocol {
                 subBuilder.mergeFrom(snapshotRequest_);
                 snapshotRequest_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000080;
               break;
             }
             case 114: {
               retroscope.net.protocol.Protocol.RollSnapshot.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000040) == 0x00000040)) {
+              if (((bitField0_ & 0x00000100) == 0x00000100)) {
                 subBuilder = rollSnapsotRequest_.toBuilder();
               }
               rollSnapsotRequest_ = input.readMessage(retroscope.net.protocol.Protocol.RollSnapshot.PARSER, extensionRegistry);
@@ -244,11 +284,11 @@ public final class Protocol {
                 subBuilder.mergeFrom(rollSnapsotRequest_);
                 rollSnapsotRequest_ = subBuilder.buildPartial();
               }
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000100;
               break;
             }
             case 120: {
-              bitField0_ |= 0x00000080;
+              bitField0_ |= 0x00000200;
               errorCode_ = input.readInt32();
               break;
             }
@@ -391,13 +431,49 @@ public final class Protocol {
       return logSliceRequest_;
     }
 
+    public static final int DISCONNECTRESPONSE_FIELD_NUMBER = 6;
+    private retroscope.net.protocol.Protocol.DisconnectMsgResponse disconnectResponse_;
+    /**
+     * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+     */
+    public boolean hasDisconnectResponse() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+     */
+    public retroscope.net.protocol.Protocol.DisconnectMsgResponse getDisconnectResponse() {
+      return disconnectResponse_;
+    }
+    /**
+     * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+     */
+    public retroscope.net.protocol.Protocol.DisconnectMsgResponseOrBuilder getDisconnectResponseOrBuilder() {
+      return disconnectResponse_;
+    }
+
+    public static final int HEARTBEAT_FIELD_NUMBER = 7;
+    private int heartbeat_;
+    /**
+     * <code>optional int32 heartbeat = 7;</code>
+     */
+    public boolean hasHeartbeat() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <code>optional int32 heartbeat = 7;</code>
+     */
+    public int getHeartbeat() {
+      return heartbeat_;
+    }
+
     public static final int SNAPSHOTREQUEST_FIELD_NUMBER = 13;
     private retroscope.net.protocol.Protocol.TakeSnapshot snapshotRequest_;
     /**
      * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
      */
     public boolean hasSnapshotRequest() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
@@ -418,7 +494,7 @@ public final class Protocol {
      * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
      */
     public boolean hasRollSnapsotRequest() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
@@ -439,7 +515,7 @@ public final class Protocol {
      * <code>optional int32 errorCode = 15;</code>
      */
     public boolean hasErrorCode() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
      * <code>optional int32 errorCode = 15;</code>
@@ -454,6 +530,8 @@ public final class Protocol {
       logNamesRequest_ = retroscope.net.protocol.Protocol.GetLogNames.getDefaultInstance();
       dataRequest_ = retroscope.net.protocol.Protocol.GetData.getDefaultInstance();
       logSliceRequest_ = retroscope.net.protocol.Protocol.GetLog.getDefaultInstance();
+      disconnectResponse_ = retroscope.net.protocol.Protocol.DisconnectMsgResponse.getDefaultInstance();
+      heartbeat_ = 0;
       snapshotRequest_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
       rollSnapsotRequest_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
       errorCode_ = 0;
@@ -478,6 +556,12 @@ public final class Protocol {
       }
       if (hasLogSliceRequest()) {
         if (!getLogSliceRequest().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasDisconnectResponse()) {
+        if (!getDisconnectResponse().isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -517,12 +601,18 @@ public final class Protocol {
         output.writeMessage(5, logSliceRequest_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeMessage(13, snapshotRequest_);
+        output.writeMessage(6, disconnectResponse_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
-        output.writeMessage(14, rollSnapsotRequest_);
+        output.writeInt32(7, heartbeat_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeMessage(13, snapshotRequest_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeMessage(14, rollSnapsotRequest_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeInt32(15, errorCode_);
       }
       getUnknownFields().writeTo(output);
@@ -556,13 +646,21 @@ public final class Protocol {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(13, snapshotRequest_);
+          .computeMessageSize(6, disconnectResponse_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(14, rollSnapsotRequest_);
+          .computeInt32Size(7, heartbeat_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(13, snapshotRequest_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(14, rollSnapsotRequest_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, errorCode_);
       }
@@ -683,6 +781,7 @@ public final class Protocol {
           getLogNamesRequestFieldBuilder();
           getDataRequestFieldBuilder();
           getLogSliceRequestFieldBuilder();
+          getDisconnectResponseFieldBuilder();
           getSnapshotRequestFieldBuilder();
           getRollSnapsotRequestFieldBuilder();
         }
@@ -719,20 +818,28 @@ public final class Protocol {
           logSliceRequestBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
+        if (disconnectResponseBuilder_ == null) {
+          disconnectResponse_ = retroscope.net.protocol.Protocol.DisconnectMsgResponse.getDefaultInstance();
+        } else {
+          disconnectResponseBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        heartbeat_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
         if (snapshotRequestBuilder_ == null) {
           snapshotRequest_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
         } else {
           snapshotRequestBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000080);
         if (rollSnapsotRequestBuilder_ == null) {
           rollSnapsotRequest_ = retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance();
         } else {
           rollSnapsotRequestBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000100);
         errorCode_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -800,21 +907,33 @@ public final class Protocol {
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
+        if (disconnectResponseBuilder_ == null) {
+          result.disconnectResponse_ = disconnectResponse_;
+        } else {
+          result.disconnectResponse_ = disconnectResponseBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.heartbeat_ = heartbeat_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
         if (snapshotRequestBuilder_ == null) {
           result.snapshotRequest_ = snapshotRequest_;
         } else {
           result.snapshotRequest_ = snapshotRequestBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
-          to_bitField0_ |= 0x00000040;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
         }
         if (rollSnapsotRequestBuilder_ == null) {
           result.rollSnapsotRequest_ = rollSnapsotRequest_;
         } else {
           result.rollSnapsotRequest_ = rollSnapsotRequestBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
-          to_bitField0_ |= 0x00000080;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000200;
         }
         result.errorCode_ = errorCode_;
         result.bitField0_ = to_bitField0_;
@@ -848,6 +967,12 @@ public final class Protocol {
         if (other.hasLogSliceRequest()) {
           mergeLogSliceRequest(other.getLogSliceRequest());
         }
+        if (other.hasDisconnectResponse()) {
+          mergeDisconnectResponse(other.getDisconnectResponse());
+        }
+        if (other.hasHeartbeat()) {
+          setHeartbeat(other.getHeartbeat());
+        }
         if (other.hasSnapshotRequest()) {
           mergeSnapshotRequest(other.getSnapshotRequest());
         }
@@ -876,6 +1001,12 @@ public final class Protocol {
         }
         if (hasLogSliceRequest()) {
           if (!getLogSliceRequest().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasDisconnectResponse()) {
+          if (!getDisconnectResponse().isInitialized()) {
             
             return false;
           }
@@ -1410,6 +1541,154 @@ public final class Protocol {
         return logSliceRequestBuilder_;
       }
 
+      private retroscope.net.protocol.Protocol.DisconnectMsgResponse disconnectResponse_ = retroscope.net.protocol.Protocol.DisconnectMsgResponse.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.DisconnectMsgResponse, retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder, retroscope.net.protocol.Protocol.DisconnectMsgResponseOrBuilder> disconnectResponseBuilder_;
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public boolean hasDisconnectResponse() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public retroscope.net.protocol.Protocol.DisconnectMsgResponse getDisconnectResponse() {
+        if (disconnectResponseBuilder_ == null) {
+          return disconnectResponse_;
+        } else {
+          return disconnectResponseBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public Builder setDisconnectResponse(retroscope.net.protocol.Protocol.DisconnectMsgResponse value) {
+        if (disconnectResponseBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          disconnectResponse_ = value;
+          onChanged();
+        } else {
+          disconnectResponseBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public Builder setDisconnectResponse(
+          retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder builderForValue) {
+        if (disconnectResponseBuilder_ == null) {
+          disconnectResponse_ = builderForValue.build();
+          onChanged();
+        } else {
+          disconnectResponseBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public Builder mergeDisconnectResponse(retroscope.net.protocol.Protocol.DisconnectMsgResponse value) {
+        if (disconnectResponseBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              disconnectResponse_ != retroscope.net.protocol.Protocol.DisconnectMsgResponse.getDefaultInstance()) {
+            disconnectResponse_ =
+              retroscope.net.protocol.Protocol.DisconnectMsgResponse.newBuilder(disconnectResponse_).mergeFrom(value).buildPartial();
+          } else {
+            disconnectResponse_ = value;
+          }
+          onChanged();
+        } else {
+          disconnectResponseBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public Builder clearDisconnectResponse() {
+        if (disconnectResponseBuilder_ == null) {
+          disconnectResponse_ = retroscope.net.protocol.Protocol.DisconnectMsgResponse.getDefaultInstance();
+          onChanged();
+        } else {
+          disconnectResponseBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder getDisconnectResponseBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getDisconnectResponseFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      public retroscope.net.protocol.Protocol.DisconnectMsgResponseOrBuilder getDisconnectResponseOrBuilder() {
+        if (disconnectResponseBuilder_ != null) {
+          return disconnectResponseBuilder_.getMessageOrBuilder();
+        } else {
+          return disconnectResponse_;
+        }
+      }
+      /**
+       * <code>optional .DisconnectMsgResponse disconnectResponse = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.DisconnectMsgResponse, retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder, retroscope.net.protocol.Protocol.DisconnectMsgResponseOrBuilder> 
+          getDisconnectResponseFieldBuilder() {
+        if (disconnectResponseBuilder_ == null) {
+          disconnectResponseBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              retroscope.net.protocol.Protocol.DisconnectMsgResponse, retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder, retroscope.net.protocol.Protocol.DisconnectMsgResponseOrBuilder>(
+                  getDisconnectResponse(),
+                  getParentForChildren(),
+                  isClean());
+          disconnectResponse_ = null;
+        }
+        return disconnectResponseBuilder_;
+      }
+
+      private int heartbeat_ ;
+      /**
+       * <code>optional int32 heartbeat = 7;</code>
+       */
+      public boolean hasHeartbeat() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 heartbeat = 7;</code>
+       */
+      public int getHeartbeat() {
+        return heartbeat_;
+      }
+      /**
+       * <code>optional int32 heartbeat = 7;</code>
+       */
+      public Builder setHeartbeat(int value) {
+        bitField0_ |= 0x00000040;
+        heartbeat_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 heartbeat = 7;</code>
+       */
+      public Builder clearHeartbeat() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        heartbeat_ = 0;
+        onChanged();
+        return this;
+      }
+
       private retroscope.net.protocol.Protocol.TakeSnapshot snapshotRequest_ = retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance();
       private com.google.protobuf.SingleFieldBuilder<
           retroscope.net.protocol.Protocol.TakeSnapshot, retroscope.net.protocol.Protocol.TakeSnapshot.Builder, retroscope.net.protocol.Protocol.TakeSnapshotOrBuilder> snapshotRequestBuilder_;
@@ -1417,7 +1696,7 @@ public final class Protocol {
        * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
       public boolean hasSnapshotRequest() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
@@ -1442,7 +1721,7 @@ public final class Protocol {
         } else {
           snapshotRequestBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
@@ -1456,7 +1735,7 @@ public final class Protocol {
         } else {
           snapshotRequestBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
@@ -1464,7 +1743,7 @@ public final class Protocol {
        */
       public Builder mergeSnapshotRequest(retroscope.net.protocol.Protocol.TakeSnapshot value) {
         if (snapshotRequestBuilder_ == null) {
-          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+          if (((bitField0_ & 0x00000080) == 0x00000080) &&
               snapshotRequest_ != retroscope.net.protocol.Protocol.TakeSnapshot.getDefaultInstance()) {
             snapshotRequest_ =
               retroscope.net.protocol.Protocol.TakeSnapshot.newBuilder(snapshotRequest_).mergeFrom(value).buildPartial();
@@ -1475,7 +1754,7 @@ public final class Protocol {
         } else {
           snapshotRequestBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
@@ -1488,14 +1767,14 @@ public final class Protocol {
         } else {
           snapshotRequestBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
       /**
        * <code>optional .TakeSnapshot snapshotRequest = 13;</code>
        */
       public retroscope.net.protocol.Protocol.TakeSnapshot.Builder getSnapshotRequestBuilder() {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         onChanged();
         return getSnapshotRequestFieldBuilder().getBuilder();
       }
@@ -1533,7 +1812,7 @@ public final class Protocol {
        * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
        */
       public boolean hasRollSnapsotRequest() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
@@ -1558,7 +1837,7 @@ public final class Protocol {
         } else {
           rollSnapsotRequestBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
@@ -1572,7 +1851,7 @@ public final class Protocol {
         } else {
           rollSnapsotRequestBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
@@ -1580,7 +1859,7 @@ public final class Protocol {
        */
       public Builder mergeRollSnapsotRequest(retroscope.net.protocol.Protocol.RollSnapshot value) {
         if (rollSnapsotRequestBuilder_ == null) {
-          if (((bitField0_ & 0x00000040) == 0x00000040) &&
+          if (((bitField0_ & 0x00000100) == 0x00000100) &&
               rollSnapsotRequest_ != retroscope.net.protocol.Protocol.RollSnapshot.getDefaultInstance()) {
             rollSnapsotRequest_ =
               retroscope.net.protocol.Protocol.RollSnapshot.newBuilder(rollSnapsotRequest_).mergeFrom(value).buildPartial();
@@ -1591,7 +1870,7 @@ public final class Protocol {
         } else {
           rollSnapsotRequestBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000100;
         return this;
       }
       /**
@@ -1604,14 +1883,14 @@ public final class Protocol {
         } else {
           rollSnapsotRequestBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
       /**
        * <code>optional .RollSnapshot rollSnapsotRequest = 14;</code>
        */
       public retroscope.net.protocol.Protocol.RollSnapshot.Builder getRollSnapsotRequestBuilder() {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000100;
         onChanged();
         return getRollSnapsotRequestFieldBuilder().getBuilder();
       }
@@ -1647,7 +1926,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public boolean hasErrorCode() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
        * <code>optional int32 errorCode = 15;</code>
@@ -1659,7 +1938,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder setErrorCode(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000200;
         errorCode_ = value;
         onChanged();
         return this;
@@ -1668,7 +1947,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder clearErrorCode() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000200);
         errorCode_ = 0;
         onChanged();
         return this;
@@ -2174,6 +2453,411 @@ public final class Protocol {
     }
 
     // @@protoc_insertion_point(class_scope:ConnectMsgResponse)
+  }
+
+  public interface DisconnectMsgResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:DisconnectMsgResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 nodeID = 1;</code>
+     */
+    boolean hasNodeID();
+    /**
+     * <code>required int32 nodeID = 1;</code>
+     */
+    int getNodeID();
+  }
+  /**
+   * Protobuf type {@code DisconnectMsgResponse}
+   */
+  public static final class DisconnectMsgResponse extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:DisconnectMsgResponse)
+      DisconnectMsgResponseOrBuilder {
+    // Use DisconnectMsgResponse.newBuilder() to construct.
+    private DisconnectMsgResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DisconnectMsgResponse(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DisconnectMsgResponse defaultInstance;
+    public static DisconnectMsgResponse getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DisconnectMsgResponse getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DisconnectMsgResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              nodeID_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return retroscope.net.protocol.Protocol.internal_static_DisconnectMsgResponse_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return retroscope.net.protocol.Protocol.internal_static_DisconnectMsgResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              retroscope.net.protocol.Protocol.DisconnectMsgResponse.class, retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DisconnectMsgResponse> PARSER =
+        new com.google.protobuf.AbstractParser<DisconnectMsgResponse>() {
+      public DisconnectMsgResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DisconnectMsgResponse(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DisconnectMsgResponse> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int NODEID_FIELD_NUMBER = 1;
+    private int nodeID_;
+    /**
+     * <code>required int32 nodeID = 1;</code>
+     */
+    public boolean hasNodeID() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 nodeID = 1;</code>
+     */
+    public int getNodeID() {
+      return nodeID_;
+    }
+
+    private void initFields() {
+      nodeID_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasNodeID()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, nodeID_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, nodeID_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsgResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(retroscope.net.protocol.Protocol.DisconnectMsgResponse prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DisconnectMsgResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:DisconnectMsgResponse)
+        retroscope.net.protocol.Protocol.DisconnectMsgResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return retroscope.net.protocol.Protocol.internal_static_DisconnectMsgResponse_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return retroscope.net.protocol.Protocol.internal_static_DisconnectMsgResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                retroscope.net.protocol.Protocol.DisconnectMsgResponse.class, retroscope.net.protocol.Protocol.DisconnectMsgResponse.Builder.class);
+      }
+
+      // Construct using retroscope.net.protocol.Protocol.DisconnectMsgResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        nodeID_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return retroscope.net.protocol.Protocol.internal_static_DisconnectMsgResponse_descriptor;
+      }
+
+      public retroscope.net.protocol.Protocol.DisconnectMsgResponse getDefaultInstanceForType() {
+        return retroscope.net.protocol.Protocol.DisconnectMsgResponse.getDefaultInstance();
+      }
+
+      public retroscope.net.protocol.Protocol.DisconnectMsgResponse build() {
+        retroscope.net.protocol.Protocol.DisconnectMsgResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public retroscope.net.protocol.Protocol.DisconnectMsgResponse buildPartial() {
+        retroscope.net.protocol.Protocol.DisconnectMsgResponse result = new retroscope.net.protocol.Protocol.DisconnectMsgResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.nodeID_ = nodeID_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof retroscope.net.protocol.Protocol.DisconnectMsgResponse) {
+          return mergeFrom((retroscope.net.protocol.Protocol.DisconnectMsgResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(retroscope.net.protocol.Protocol.DisconnectMsgResponse other) {
+        if (other == retroscope.net.protocol.Protocol.DisconnectMsgResponse.getDefaultInstance()) return this;
+        if (other.hasNodeID()) {
+          setNodeID(other.getNodeID());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasNodeID()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        retroscope.net.protocol.Protocol.DisconnectMsgResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (retroscope.net.protocol.Protocol.DisconnectMsgResponse) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int nodeID_ ;
+      /**
+       * <code>required int32 nodeID = 1;</code>
+       */
+      public boolean hasNodeID() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 nodeID = 1;</code>
+       */
+      public int getNodeID() {
+        return nodeID_;
+      }
+      /**
+       * <code>required int32 nodeID = 1;</code>
+       */
+      public Builder setNodeID(int value) {
+        bitField0_ |= 0x00000001;
+        nodeID_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nodeID = 1;</code>
+       */
+      public Builder clearNodeID() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        nodeID_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:DisconnectMsgResponse)
+    }
+
+    static {
+      defaultInstance = new DisconnectMsgResponse(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:DisconnectMsgResponse)
   }
 
   public interface GetLogNamesOrBuilder extends
@@ -5126,6 +5810,28 @@ public final class Protocol {
     retroscope.net.protocol.Protocol.LogOrBuilder getLogOrBuilder();
 
     /**
+     * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+     */
+    boolean hasDisconnectMsg();
+    /**
+     * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+     */
+    retroscope.net.protocol.Protocol.DisconnectMsg getDisconnectMsg();
+    /**
+     * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+     */
+    retroscope.net.protocol.Protocol.DisconnectMsgOrBuilder getDisconnectMsgOrBuilder();
+
+    /**
+     * <code>optional int32 hearbeatResponse = 7;</code>
+     */
+    boolean hasHearbeatResponse();
+    /**
+     * <code>optional int32 hearbeatResponse = 7;</code>
+     */
+    int getHearbeatResponse();
+
+    /**
      * <code>optional int32 snapshotId = 10;</code>
      */
     boolean hasSnapshotId();
@@ -5260,18 +5966,36 @@ public final class Protocol {
               bitField0_ |= 0x00000008;
               break;
             }
-            case 80: {
+            case 50: {
+              retroscope.net.protocol.Protocol.DisconnectMsg.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000010) == 0x00000010)) {
+                subBuilder = disconnectMsg_.toBuilder();
+              }
+              disconnectMsg_ = input.readMessage(retroscope.net.protocol.Protocol.DisconnectMsg.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(disconnectMsg_);
+                disconnectMsg_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000010;
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000020;
+              hearbeatResponse_ = input.readInt32();
+              break;
+            }
+            case 80: {
+              bitField0_ |= 0x00000040;
               snapshotId_ = input.readInt32();
               break;
             }
             case 112: {
-              bitField0_ |= 0x00000020;
+              bitField0_ |= 0x00000080;
               nodeId_ = input.readInt32();
               break;
             }
             case 120: {
-              bitField0_ |= 0x00000040;
+              bitField0_ |= 0x00000100;
               errorCode_ = input.readInt32();
               break;
             }
@@ -5431,13 +6155,49 @@ public final class Protocol {
       return log_;
     }
 
+    public static final int DISCONNECTMSG_FIELD_NUMBER = 6;
+    private retroscope.net.protocol.Protocol.DisconnectMsg disconnectMsg_;
+    /**
+     * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+     */
+    public boolean hasDisconnectMsg() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+     */
+    public retroscope.net.protocol.Protocol.DisconnectMsg getDisconnectMsg() {
+      return disconnectMsg_;
+    }
+    /**
+     * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+     */
+    public retroscope.net.protocol.Protocol.DisconnectMsgOrBuilder getDisconnectMsgOrBuilder() {
+      return disconnectMsg_;
+    }
+
+    public static final int HEARBEATRESPONSE_FIELD_NUMBER = 7;
+    private int hearbeatResponse_;
+    /**
+     * <code>optional int32 hearbeatResponse = 7;</code>
+     */
+    public boolean hasHearbeatResponse() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <code>optional int32 hearbeatResponse = 7;</code>
+     */
+    public int getHearbeatResponse() {
+      return hearbeatResponse_;
+    }
+
     public static final int SNAPSHOTID_FIELD_NUMBER = 10;
     private int snapshotId_;
     /**
      * <code>optional int32 snapshotId = 10;</code>
      */
     public boolean hasSnapshotId() {
-      return ((bitField0_ & 0x00000010) == 0x00000010);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <code>optional int32 snapshotId = 10;</code>
@@ -5452,7 +6212,7 @@ public final class Protocol {
      * <code>optional int32 nodeId = 14;</code>
      */
     public boolean hasNodeId() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000080) == 0x00000080);
     }
     /**
      * <code>optional int32 nodeId = 14;</code>
@@ -5467,7 +6227,7 @@ public final class Protocol {
      * <code>optional int32 errorCode = 15;</code>
      */
     public boolean hasErrorCode() {
-      return ((bitField0_ & 0x00000040) == 0x00000040);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <code>optional int32 errorCode = 15;</code>
@@ -5482,6 +6242,8 @@ public final class Protocol {
       data_ = retroscope.net.protocol.Protocol.DataMap.getDefaultInstance();
       logs_ = java.util.Collections.emptyList();
       log_ = retroscope.net.protocol.Protocol.Log.getDefaultInstance();
+      disconnectMsg_ = retroscope.net.protocol.Protocol.DisconnectMsg.getDefaultInstance();
+      hearbeatResponse_ = 0;
       snapshotId_ = 0;
       nodeId_ = 0;
       errorCode_ = 0;
@@ -5516,6 +6278,12 @@ public final class Protocol {
           return false;
         }
       }
+      if (hasDisconnectMsg()) {
+        if (!getDisconnectMsg().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -5539,12 +6307,18 @@ public final class Protocol {
         output.writeMessage(5, log_);
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
-        output.writeInt32(10, snapshotId_);
+        output.writeMessage(6, disconnectMsg_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeInt32(14, nodeId_);
+        output.writeInt32(7, hearbeatResponse_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(10, snapshotId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeInt32(14, nodeId_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeInt32(15, errorCode_);
       }
       getUnknownFields().writeTo(output);
@@ -5578,13 +6352,21 @@ public final class Protocol {
       }
       if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(10, snapshotId_);
+          .computeMessageSize(6, disconnectMsg_);
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(14, nodeId_);
+          .computeInt32Size(7, hearbeatResponse_);
       }
       if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(10, snapshotId_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(14, nodeId_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(15, errorCode_);
       }
@@ -5705,6 +6487,7 @@ public final class Protocol {
           getDataFieldBuilder();
           getLogsFieldBuilder();
           getLogFieldBuilder();
+          getDisconnectMsgFieldBuilder();
         }
       }
       private static Builder create() {
@@ -5739,12 +6522,20 @@ public final class Protocol {
           logBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000010);
-        snapshotId_ = 0;
+        if (disconnectMsgBuilder_ == null) {
+          disconnectMsg_ = retroscope.net.protocol.Protocol.DisconnectMsg.getDefaultInstance();
+        } else {
+          disconnectMsgBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000020);
-        nodeId_ = 0;
+        hearbeatResponse_ = 0;
         bitField0_ = (bitField0_ & ~0x00000040);
-        errorCode_ = 0;
+        snapshotId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000080);
+        nodeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000100);
+        errorCode_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000200);
         return this;
       }
 
@@ -5813,13 +6604,25 @@ public final class Protocol {
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000010;
         }
-        result.snapshotId_ = snapshotId_;
+        if (disconnectMsgBuilder_ == null) {
+          result.disconnectMsg_ = disconnectMsg_;
+        } else {
+          result.disconnectMsg_ = disconnectMsgBuilder_.build();
+        }
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.nodeId_ = nodeId_;
+        result.hearbeatResponse_ = hearbeatResponse_;
         if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
           to_bitField0_ |= 0x00000040;
+        }
+        result.snapshotId_ = snapshotId_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.nodeId_ = nodeId_;
+        if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
+          to_bitField0_ |= 0x00000100;
         }
         result.errorCode_ = errorCode_;
         result.bitField0_ = to_bitField0_;
@@ -5876,6 +6679,12 @@ public final class Protocol {
         if (other.hasLog()) {
           mergeLog(other.getLog());
         }
+        if (other.hasDisconnectMsg()) {
+          mergeDisconnectMsg(other.getDisconnectMsg());
+        }
+        if (other.hasHearbeatResponse()) {
+          setHearbeatResponse(other.getHearbeatResponse());
+        }
         if (other.hasSnapshotId()) {
           setSnapshotId(other.getSnapshotId());
         }
@@ -5910,6 +6719,12 @@ public final class Protocol {
         }
         if (hasLog()) {
           if (!getLog().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasDisconnectMsg()) {
+          if (!getDisconnectMsg().isInitialized()) {
             
             return false;
           }
@@ -6556,12 +7371,160 @@ public final class Protocol {
         return logBuilder_;
       }
 
+      private retroscope.net.protocol.Protocol.DisconnectMsg disconnectMsg_ = retroscope.net.protocol.Protocol.DisconnectMsg.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.DisconnectMsg, retroscope.net.protocol.Protocol.DisconnectMsg.Builder, retroscope.net.protocol.Protocol.DisconnectMsgOrBuilder> disconnectMsgBuilder_;
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public boolean hasDisconnectMsg() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public retroscope.net.protocol.Protocol.DisconnectMsg getDisconnectMsg() {
+        if (disconnectMsgBuilder_ == null) {
+          return disconnectMsg_;
+        } else {
+          return disconnectMsgBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public Builder setDisconnectMsg(retroscope.net.protocol.Protocol.DisconnectMsg value) {
+        if (disconnectMsgBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          disconnectMsg_ = value;
+          onChanged();
+        } else {
+          disconnectMsgBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public Builder setDisconnectMsg(
+          retroscope.net.protocol.Protocol.DisconnectMsg.Builder builderForValue) {
+        if (disconnectMsgBuilder_ == null) {
+          disconnectMsg_ = builderForValue.build();
+          onChanged();
+        } else {
+          disconnectMsgBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public Builder mergeDisconnectMsg(retroscope.net.protocol.Protocol.DisconnectMsg value) {
+        if (disconnectMsgBuilder_ == null) {
+          if (((bitField0_ & 0x00000020) == 0x00000020) &&
+              disconnectMsg_ != retroscope.net.protocol.Protocol.DisconnectMsg.getDefaultInstance()) {
+            disconnectMsg_ =
+              retroscope.net.protocol.Protocol.DisconnectMsg.newBuilder(disconnectMsg_).mergeFrom(value).buildPartial();
+          } else {
+            disconnectMsg_ = value;
+          }
+          onChanged();
+        } else {
+          disconnectMsgBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000020;
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public Builder clearDisconnectMsg() {
+        if (disconnectMsgBuilder_ == null) {
+          disconnectMsg_ = retroscope.net.protocol.Protocol.DisconnectMsg.getDefaultInstance();
+          onChanged();
+        } else {
+          disconnectMsgBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public retroscope.net.protocol.Protocol.DisconnectMsg.Builder getDisconnectMsgBuilder() {
+        bitField0_ |= 0x00000020;
+        onChanged();
+        return getDisconnectMsgFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      public retroscope.net.protocol.Protocol.DisconnectMsgOrBuilder getDisconnectMsgOrBuilder() {
+        if (disconnectMsgBuilder_ != null) {
+          return disconnectMsgBuilder_.getMessageOrBuilder();
+        } else {
+          return disconnectMsg_;
+        }
+      }
+      /**
+       * <code>optional .DisconnectMsg disconnectMsg = 6;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilder<
+          retroscope.net.protocol.Protocol.DisconnectMsg, retroscope.net.protocol.Protocol.DisconnectMsg.Builder, retroscope.net.protocol.Protocol.DisconnectMsgOrBuilder> 
+          getDisconnectMsgFieldBuilder() {
+        if (disconnectMsgBuilder_ == null) {
+          disconnectMsgBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              retroscope.net.protocol.Protocol.DisconnectMsg, retroscope.net.protocol.Protocol.DisconnectMsg.Builder, retroscope.net.protocol.Protocol.DisconnectMsgOrBuilder>(
+                  getDisconnectMsg(),
+                  getParentForChildren(),
+                  isClean());
+          disconnectMsg_ = null;
+        }
+        return disconnectMsgBuilder_;
+      }
+
+      private int hearbeatResponse_ ;
+      /**
+       * <code>optional int32 hearbeatResponse = 7;</code>
+       */
+      public boolean hasHearbeatResponse() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <code>optional int32 hearbeatResponse = 7;</code>
+       */
+      public int getHearbeatResponse() {
+        return hearbeatResponse_;
+      }
+      /**
+       * <code>optional int32 hearbeatResponse = 7;</code>
+       */
+      public Builder setHearbeatResponse(int value) {
+        bitField0_ |= 0x00000040;
+        hearbeatResponse_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 hearbeatResponse = 7;</code>
+       */
+      public Builder clearHearbeatResponse() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        hearbeatResponse_ = 0;
+        onChanged();
+        return this;
+      }
+
       private int snapshotId_ ;
       /**
        * <code>optional int32 snapshotId = 10;</code>
        */
       public boolean hasSnapshotId() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <code>optional int32 snapshotId = 10;</code>
@@ -6573,7 +7536,7 @@ public final class Protocol {
        * <code>optional int32 snapshotId = 10;</code>
        */
       public Builder setSnapshotId(int value) {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000080;
         snapshotId_ = value;
         onChanged();
         return this;
@@ -6582,7 +7545,7 @@ public final class Protocol {
        * <code>optional int32 snapshotId = 10;</code>
        */
       public Builder clearSnapshotId() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000080);
         snapshotId_ = 0;
         onChanged();
         return this;
@@ -6593,7 +7556,7 @@ public final class Protocol {
        * <code>optional int32 nodeId = 14;</code>
        */
       public boolean hasNodeId() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000100) == 0x00000100);
       }
       /**
        * <code>optional int32 nodeId = 14;</code>
@@ -6605,7 +7568,7 @@ public final class Protocol {
        * <code>optional int32 nodeId = 14;</code>
        */
       public Builder setNodeId(int value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000100;
         nodeId_ = value;
         onChanged();
         return this;
@@ -6614,7 +7577,7 @@ public final class Protocol {
        * <code>optional int32 nodeId = 14;</code>
        */
       public Builder clearNodeId() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000100);
         nodeId_ = 0;
         onChanged();
         return this;
@@ -6625,7 +7588,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public boolean hasErrorCode() {
-        return ((bitField0_ & 0x00000080) == 0x00000080);
+        return ((bitField0_ & 0x00000200) == 0x00000200);
       }
       /**
        * <code>optional int32 errorCode = 15;</code>
@@ -6637,7 +7600,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder setErrorCode(int value) {
-        bitField0_ |= 0x00000080;
+        bitField0_ |= 0x00000200;
         errorCode_ = value;
         onChanged();
         return this;
@@ -6646,7 +7609,7 @@ public final class Protocol {
        * <code>optional int32 errorCode = 15;</code>
        */
       public Builder clearErrorCode() {
-        bitField0_ = (bitField0_ & ~0x00000080);
+        bitField0_ = (bitField0_ & ~0x00000200);
         errorCode_ = 0;
         onChanged();
         return this;
@@ -6675,6 +7638,15 @@ public final class Protocol {
      * <code>required int32 retroscopeVersion = 1;</code>
      */
     int getRetroscopeVersion();
+
+    /**
+     * <code>optional int32 nodeId = 2;</code>
+     */
+    boolean hasNodeId();
+    /**
+     * <code>optional int32 nodeId = 2;</code>
+     */
+    int getNodeId();
   }
   /**
    * Protobuf type {@code ConnectMsg}
@@ -6733,6 +7705,11 @@ public final class Protocol {
               retroscopeVersion_ = input.readInt32();
               break;
             }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              nodeId_ = input.readInt32();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -6788,8 +7765,24 @@ public final class Protocol {
       return retroscopeVersion_;
     }
 
+    public static final int NODEID_FIELD_NUMBER = 2;
+    private int nodeId_;
+    /**
+     * <code>optional int32 nodeId = 2;</code>
+     */
+    public boolean hasNodeId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional int32 nodeId = 2;</code>
+     */
+    public int getNodeId() {
+      return nodeId_;
+    }
+
     private void initFields() {
       retroscopeVersion_ = 0;
+      nodeId_ = 0;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -6811,6 +7804,9 @@ public final class Protocol {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeInt32(1, retroscopeVersion_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, nodeId_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -6823,6 +7819,10 @@ public final class Protocol {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(1, retroscopeVersion_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, nodeId_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -6943,6 +7943,8 @@ public final class Protocol {
         super.clear();
         retroscopeVersion_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
+        nodeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -6975,6 +7977,10 @@ public final class Protocol {
           to_bitField0_ |= 0x00000001;
         }
         result.retroscopeVersion_ = retroscopeVersion_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.nodeId_ = nodeId_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -6993,6 +7999,9 @@ public final class Protocol {
         if (other == retroscope.net.protocol.Protocol.ConnectMsg.getDefaultInstance()) return this;
         if (other.hasRetroscopeVersion()) {
           setRetroscopeVersion(other.getRetroscopeVersion());
+        }
+        if (other.hasNodeId()) {
+          setNodeId(other.getNodeId());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -7057,6 +8066,38 @@ public final class Protocol {
         return this;
       }
 
+      private int nodeId_ ;
+      /**
+       * <code>optional int32 nodeId = 2;</code>
+       */
+      public boolean hasNodeId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional int32 nodeId = 2;</code>
+       */
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>optional int32 nodeId = 2;</code>
+       */
+      public Builder setNodeId(int value) {
+        bitField0_ |= 0x00000002;
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 nodeId = 2;</code>
+       */
+      public Builder clearNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        nodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:ConnectMsg)
     }
 
@@ -7066,6 +8107,411 @@ public final class Protocol {
     }
 
     // @@protoc_insertion_point(class_scope:ConnectMsg)
+  }
+
+  public interface DisconnectMsgOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:DisconnectMsg)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 nodeId = 1;</code>
+     */
+    boolean hasNodeId();
+    /**
+     * <code>required int32 nodeId = 1;</code>
+     */
+    int getNodeId();
+  }
+  /**
+   * Protobuf type {@code DisconnectMsg}
+   */
+  public static final class DisconnectMsg extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:DisconnectMsg)
+      DisconnectMsgOrBuilder {
+    // Use DisconnectMsg.newBuilder() to construct.
+    private DisconnectMsg(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private DisconnectMsg(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final DisconnectMsg defaultInstance;
+    public static DisconnectMsg getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public DisconnectMsg getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private DisconnectMsg(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              nodeId_ = input.readInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return retroscope.net.protocol.Protocol.internal_static_DisconnectMsg_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return retroscope.net.protocol.Protocol.internal_static_DisconnectMsg_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              retroscope.net.protocol.Protocol.DisconnectMsg.class, retroscope.net.protocol.Protocol.DisconnectMsg.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<DisconnectMsg> PARSER =
+        new com.google.protobuf.AbstractParser<DisconnectMsg>() {
+      public DisconnectMsg parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new DisconnectMsg(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<DisconnectMsg> getParserForType() {
+      return PARSER;
+    }
+
+    private int bitField0_;
+    public static final int NODEID_FIELD_NUMBER = 1;
+    private int nodeId_;
+    /**
+     * <code>required int32 nodeId = 1;</code>
+     */
+    public boolean hasNodeId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <code>required int32 nodeId = 1;</code>
+     */
+    public int getNodeId() {
+      return nodeId_;
+    }
+
+    private void initFields() {
+      nodeId_ = 0;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasNodeId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, nodeId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, nodeId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static retroscope.net.protocol.Protocol.DisconnectMsg parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(retroscope.net.protocol.Protocol.DisconnectMsg prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code DisconnectMsg}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:DisconnectMsg)
+        retroscope.net.protocol.Protocol.DisconnectMsgOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return retroscope.net.protocol.Protocol.internal_static_DisconnectMsg_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return retroscope.net.protocol.Protocol.internal_static_DisconnectMsg_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                retroscope.net.protocol.Protocol.DisconnectMsg.class, retroscope.net.protocol.Protocol.DisconnectMsg.Builder.class);
+      }
+
+      // Construct using retroscope.net.protocol.Protocol.DisconnectMsg.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        nodeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return retroscope.net.protocol.Protocol.internal_static_DisconnectMsg_descriptor;
+      }
+
+      public retroscope.net.protocol.Protocol.DisconnectMsg getDefaultInstanceForType() {
+        return retroscope.net.protocol.Protocol.DisconnectMsg.getDefaultInstance();
+      }
+
+      public retroscope.net.protocol.Protocol.DisconnectMsg build() {
+        retroscope.net.protocol.Protocol.DisconnectMsg result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public retroscope.net.protocol.Protocol.DisconnectMsg buildPartial() {
+        retroscope.net.protocol.Protocol.DisconnectMsg result = new retroscope.net.protocol.Protocol.DisconnectMsg(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.nodeId_ = nodeId_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof retroscope.net.protocol.Protocol.DisconnectMsg) {
+          return mergeFrom((retroscope.net.protocol.Protocol.DisconnectMsg)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(retroscope.net.protocol.Protocol.DisconnectMsg other) {
+        if (other == retroscope.net.protocol.Protocol.DisconnectMsg.getDefaultInstance()) return this;
+        if (other.hasNodeId()) {
+          setNodeId(other.getNodeId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        if (!hasNodeId()) {
+          
+          return false;
+        }
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        retroscope.net.protocol.Protocol.DisconnectMsg parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (retroscope.net.protocol.Protocol.DisconnectMsg) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int nodeId_ ;
+      /**
+       * <code>required int32 nodeId = 1;</code>
+       */
+      public boolean hasNodeId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required int32 nodeId = 1;</code>
+       */
+      public int getNodeId() {
+        return nodeId_;
+      }
+      /**
+       * <code>required int32 nodeId = 1;</code>
+       */
+      public Builder setNodeId(int value) {
+        bitField0_ |= 0x00000001;
+        nodeId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 nodeId = 1;</code>
+       */
+      public Builder clearNodeId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        nodeId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:DisconnectMsg)
+    }
+
+    static {
+      defaultInstance = new DisconnectMsg(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:DisconnectMsg)
   }
 
   public interface DataMapOrBuilder extends
@@ -11273,6 +12719,11 @@ public final class Protocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ConnectMsgResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_DisconnectMsgResponse_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_DisconnectMsgResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_GetLogNames_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -11308,6 +12759,11 @@ public final class Protocol {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_ConnectMsg_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_DisconnectMsg_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_DisconnectMsg_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_DataMap_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -11341,38 +12797,44 @@ public final class Protocol {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\016protocol.proto\"\231\002\n\016RetroServerMsg\022\013\n\003R" +
+      "\n\016protocol.proto\"\340\002\n\016RetroServerMsg\022\013\n\003R" +
       "ID\030\001 \001(\003\022,\n\017connectResponse\030\002 \001(\0132\023.Conn" +
       "ectMsgResponse\022%\n\017logNamesRequest\030\003 \001(\0132" +
       "\014.GetLogNames\022\035\n\013dataRequest\030\004 \001(\0132\010.Get" +
-      "Data\022 \n\017logSliceRequest\030\005 \001(\0132\007.GetLog\022&" +
-      "\n\017snapshotRequest\030\r \001(\0132\r.TakeSnapshot\022)" +
-      "\n\022rollSnapsotRequest\030\016 \001(\0132\r.RollSnapsho" +
-      "t\022\021\n\terrorCode\030\017 \001(\005\"?\n\022ConnectMsgRespon" +
-      "se\022\031\n\021retroscopeVersion\030\001 \002(\005\022\016\n\006nodeID\030" +
-      "\002 \002(\005\"\r\n\013GetLogNames\"9\n\007GetData\022\017\n\007logNa",
-      "me\030\001 \002(\t\022\017\n\007hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"" +
-      "[\n\006GetLog\022\017\n\007logName\030\001 \002(\t\022\024\n\014HLCstartTi" +
-      "me\030\002 \001(\003\022\022\n\nHLCendTime\030\003 \001(\003\022\026\n\016paramete" +
-      "rNames\030\004 \003(\014\"\037\n\014TakeSnapshot\022\017\n\007logName\030" +
-      "\001 \002(\t\"0\n\014RollSnapshot\022\017\n\007logName\030\001 \002(\t\022\017" +
-      "\n\007hlcTime\030\002 \002(\003\"\266\001\n\014RetroNodeMsg\022\013\n\003RID\030" +
-      "\001 \001(\003\022\037\n\nconnectMsg\030\002 \001(\0132\013.ConnectMsg\022\026" +
-      "\n\004data\030\003 \001(\0132\010.DataMap\022\026\n\004logs\030\004 \003(\0132\010.L" +
-      "ogMeta\022\021\n\003log\030\005 \001(\0132\004.Log\022\022\n\nsnapshotId\030" +
-      "\n \001(\005\022\016\n\006nodeId\030\016 \001(\005\022\021\n\terrorCode\030\017 \001(\005",
-      "\"\'\n\nConnectMsg\022\031\n\021retroscopeVersion\030\001 \002(" +
-      "\005\"B\n\007DataMap\022\014\n\004name\030\001 \002(\t\022\030\n\005items\030\002 \003(" +
-      "\0132\t.DataItem\022\017\n\007hlcTime\030\003 \002(\003\"7\n\010DataIte" +
-      "m\022\013\n\003key\030\001 \002(\014\022\r\n\005value\030\002 \001(\014\022\017\n\007hlcTime" +
-      "\030\003 \001(\003\"\205\001\n\003Log\022\014\n\004name\030\001 \002(\t\022\027\n\017maxLengt" +
-      "hMillis\030\002 \002(\003\022#\n\033logCheckpointIntervalMi" +
-      "llis\030\003 \002(\003\022\027\n\005items\030\004 \003(\0132\010.LogItem\022\031\n\007d" +
-      "ataMap\030\005 \001(\0132\010.DataMap\"K\n\007LogItem\022\013\n\003key" +
-      "\030\001 \002(\014\022\017\n\007hlcTime\030\002 \002(\003\022\021\n\tvalueFrom\030\003 \001" +
-      "(\014\022\017\n\007valueTo\030\004 \001(\014\"B\n\007LogMeta\022\017\n\007logNam",
-      "e\030\001 \002(\t\022\020\n\010logStart\030\002 \002(\003\022\024\n\014isDataMapLo" +
-      "g\030\003 \002(\010B\031\n\027retroscope.net.protocol"
+      "Data\022 \n\017logSliceRequest\030\005 \001(\0132\007.GetLog\0222" +
+      "\n\022disconnectResponse\030\006 \001(\0132\026.DisconnectM" +
+      "sgResponse\022\021\n\theartbeat\030\007 \001(\005\022&\n\017snapsho" +
+      "tRequest\030\r \001(\0132\r.TakeSnapshot\022)\n\022rollSna" +
+      "psotRequest\030\016 \001(\0132\r.RollSnapshot\022\021\n\terro" +
+      "rCode\030\017 \001(\005\"?\n\022ConnectMsgResponse\022\031\n\021ret",
+      "roscopeVersion\030\001 \002(\005\022\016\n\006nodeID\030\002 \002(\005\"\'\n\025" +
+      "DisconnectMsgResponse\022\016\n\006nodeID\030\001 \002(\005\"\r\n" +
+      "\013GetLogNames\"9\n\007GetData\022\017\n\007logName\030\001 \002(\t" +
+      "\022\017\n\007hlcTime\030\002 \001(\003\022\014\n\004keys\030\003 \003(\014\"[\n\006GetLo" +
+      "g\022\017\n\007logName\030\001 \002(\t\022\024\n\014HLCstartTime\030\002 \001(\003" +
+      "\022\022\n\nHLCendTime\030\003 \001(\003\022\026\n\016parameterNames\030\004" +
+      " \003(\014\"\037\n\014TakeSnapshot\022\017\n\007logName\030\001 \002(\t\"0\n" +
+      "\014RollSnapshot\022\017\n\007logName\030\001 \002(\t\022\017\n\007hlcTim" +
+      "e\030\002 \002(\003\"\367\001\n\014RetroNodeMsg\022\013\n\003RID\030\001 \001(\003\022\037\n" +
+      "\nconnectMsg\030\002 \001(\0132\013.ConnectMsg\022\026\n\004data\030\003",
+      " \001(\0132\010.DataMap\022\026\n\004logs\030\004 \003(\0132\010.LogMeta\022\021" +
+      "\n\003log\030\005 \001(\0132\004.Log\022%\n\rdisconnectMsg\030\006 \001(\013" +
+      "2\016.DisconnectMsg\022\030\n\020hearbeatResponse\030\007 \001" +
+      "(\005\022\022\n\nsnapshotId\030\n \001(\005\022\016\n\006nodeId\030\016 \001(\005\022\021" +
+      "\n\terrorCode\030\017 \001(\005\"7\n\nConnectMsg\022\031\n\021retro" +
+      "scopeVersion\030\001 \002(\005\022\016\n\006nodeId\030\002 \001(\005\"\037\n\rDi" +
+      "sconnectMsg\022\016\n\006nodeId\030\001 \002(\005\"B\n\007DataMap\022\014" +
+      "\n\004name\030\001 \002(\t\022\030\n\005items\030\002 \003(\0132\t.DataItem\022\017" +
+      "\n\007hlcTime\030\003 \002(\003\"7\n\010DataItem\022\013\n\003key\030\001 \002(\014" +
+      "\022\r\n\005value\030\002 \001(\014\022\017\n\007hlcTime\030\003 \001(\003\"\205\001\n\003Log",
+      "\022\014\n\004name\030\001 \002(\t\022\027\n\017maxLengthMillis\030\002 \002(\003\022" +
+      "#\n\033logCheckpointIntervalMillis\030\003 \002(\003\022\027\n\005" +
+      "items\030\004 \003(\0132\010.LogItem\022\031\n\007dataMap\030\005 \001(\0132\010" +
+      ".DataMap\"K\n\007LogItem\022\013\n\003key\030\001 \002(\014\022\017\n\007hlcT" +
+      "ime\030\002 \002(\003\022\021\n\tvalueFrom\030\003 \001(\014\022\017\n\007valueTo\030" +
+      "\004 \001(\014\"B\n\007LogMeta\022\017\n\007logName\030\001 \002(\t\022\020\n\010log" +
+      "Start\030\002 \002(\003\022\024\n\014isDataMapLog\030\003 \002(\010B\031\n\027ret" +
+      "roscope.net.protocol"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -11391,81 +12853,93 @@ public final class Protocol {
     internal_static_RetroServerMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RetroServerMsg_descriptor,
-        new java.lang.String[] { "RID", "ConnectResponse", "LogNamesRequest", "DataRequest", "LogSliceRequest", "SnapshotRequest", "RollSnapsotRequest", "ErrorCode", });
+        new java.lang.String[] { "RID", "ConnectResponse", "LogNamesRequest", "DataRequest", "LogSliceRequest", "DisconnectResponse", "Heartbeat", "SnapshotRequest", "RollSnapsotRequest", "ErrorCode", });
     internal_static_ConnectMsgResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_ConnectMsgResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ConnectMsgResponse_descriptor,
         new java.lang.String[] { "RetroscopeVersion", "NodeID", });
-    internal_static_GetLogNames_descriptor =
+    internal_static_DisconnectMsgResponse_descriptor =
       getDescriptor().getMessageTypes().get(2);
+    internal_static_DisconnectMsgResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_DisconnectMsgResponse_descriptor,
+        new java.lang.String[] { "NodeID", });
+    internal_static_GetLogNames_descriptor =
+      getDescriptor().getMessageTypes().get(3);
     internal_static_GetLogNames_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLogNames_descriptor,
         new java.lang.String[] { });
     internal_static_GetData_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_GetData_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetData_descriptor,
         new java.lang.String[] { "LogName", "HlcTime", "Keys", });
     internal_static_GetLog_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(5);
     internal_static_GetLog_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_GetLog_descriptor,
         new java.lang.String[] { "LogName", "HLCstartTime", "HLCendTime", "ParameterNames", });
     internal_static_TakeSnapshot_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(6);
     internal_static_TakeSnapshot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_TakeSnapshot_descriptor,
         new java.lang.String[] { "LogName", });
     internal_static_RollSnapshot_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_RollSnapshot_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RollSnapshot_descriptor,
         new java.lang.String[] { "LogName", "HlcTime", });
     internal_static_RetroNodeMsg_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_RetroNodeMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_RetroNodeMsg_descriptor,
-        new java.lang.String[] { "RID", "ConnectMsg", "Data", "Logs", "Log", "SnapshotId", "NodeId", "ErrorCode", });
+        new java.lang.String[] { "RID", "ConnectMsg", "Data", "Logs", "Log", "DisconnectMsg", "HearbeatResponse", "SnapshotId", "NodeId", "ErrorCode", });
     internal_static_ConnectMsg_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_ConnectMsg_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_ConnectMsg_descriptor,
-        new java.lang.String[] { "RetroscopeVersion", });
+        new java.lang.String[] { "RetroscopeVersion", "NodeId", });
+    internal_static_DisconnectMsg_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_DisconnectMsg_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_DisconnectMsg_descriptor,
+        new java.lang.String[] { "NodeId", });
     internal_static_DataMap_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_DataMap_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_DataMap_descriptor,
         new java.lang.String[] { "Name", "Items", "HlcTime", });
     internal_static_DataItem_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_DataItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_DataItem_descriptor,
         new java.lang.String[] { "Key", "Value", "HlcTime", });
     internal_static_Log_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_Log_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_Log_descriptor,
         new java.lang.String[] { "Name", "MaxLengthMillis", "LogCheckpointIntervalMillis", "Items", "DataMap", });
     internal_static_LogItem_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_LogItem_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_LogItem_descriptor,
         new java.lang.String[] { "Key", "HlcTime", "ValueFrom", "ValueTo", });
     internal_static_LogMeta_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_LogMeta_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_LogMeta_descriptor,
