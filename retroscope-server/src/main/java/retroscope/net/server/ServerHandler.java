@@ -27,6 +27,8 @@ public class ServerHandler<K extends Serializable, V extends Serializable> exten
     static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
     private Ensemble<K, V> ensemble;
 
+    private int nodeId = -1;
+
     public ServerHandler(Ensemble<K, V> ensemble) {
         this.ensemble = ensemble;
     }
@@ -45,7 +47,7 @@ public class ServerHandler<K extends Serializable, V extends Serializable> exten
 
         if (responseMsg.hasConnectMsg()) {
             //new node is connecting
-            ensemble.processConnect(ctx, responseMsg.getConnectMsg());
+            nodeId = ensemble.processConnect(ctx, responseMsg.getConnectMsg());
         }
 
         if (responseMsg.hasDisconnectMsg()) {
@@ -112,6 +114,7 @@ public class ServerHandler<K extends Serializable, V extends Serializable> exten
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         // Close the connection when an exception is raised.
+        ensemble.removeNode(nodeId);
         cause.printStackTrace();
         ctx.close();
     }

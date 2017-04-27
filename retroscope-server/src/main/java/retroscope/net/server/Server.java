@@ -86,7 +86,7 @@ public class Server<K extends Serializable, V extends Serializable> {
                             p.addLast("frameEncoder", new ProtobufVarint32LengthFieldPrepender());
                             p.addLast("protobufEncoder", new ProtobufEncoder());
 
-                            p.addLast(new ServerHandler<K, V>(masterEnsemble));
+                            p.addLast(new ServerHandler<>(masterEnsemble));
                         }
                     });
 

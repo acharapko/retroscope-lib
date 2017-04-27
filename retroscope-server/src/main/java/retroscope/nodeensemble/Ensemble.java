@@ -62,9 +62,9 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
      * @param ctx ChannelHandlerContext channel context
      * @param connectMsg ConnectMsg connect message from the remote node
      */
-    public void processConnect(ChannelHandlerContext ctx, Protocol.ConnectMsg connectMsg) {
+    public int processConnect(ChannelHandlerContext ctx, Protocol.ConnectMsg connectMsg) {
+        int nodeId = -1;
         if (connectMsg.getRetroscopeVersion() == Retroscope.VERSION) {
-            int nodeId = 0;
             if (connectMsg.hasNodeId()) {
                 nodeId = connectMsg.getNodeId();
                 if (nodeId > maxKnownId) {
@@ -89,6 +89,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         } else {
             System.err.println("Version mismatch");
         }
+        return nodeId;
     }
 
     /**
@@ -99,7 +100,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
      */
     public void processDisconnect(ChannelHandlerContext ctx, Protocol.DisconnectMsg disconnectMsg) {
         int nodeId = disconnectMsg.getNodeId();
-        remoteNodes.remove(nodeId);
+        removeNode(nodeId);
         Protocol.DisconnectMsgResponse disconnectMsgResponse = Protocol.DisconnectMsgResponse.newBuilder()
                 .setNodeID(nodeId)
                 .build();
@@ -107,6 +108,10 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 .setDisconnectResponse(disconnectMsgResponse)
                 .build();
         ctx.writeAndFlush(msg);
+    }
+
+    public void removeNode(int nodeId) {
+        remoteNodes.remove(nodeId);
     }
 
 
