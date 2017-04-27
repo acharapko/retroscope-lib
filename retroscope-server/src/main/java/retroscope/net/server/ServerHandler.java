@@ -48,6 +48,11 @@ public class ServerHandler<K extends Serializable, V extends Serializable> exten
             ensemble.processConnect(ctx, responseMsg.getConnectMsg());
         }
 
+        if (responseMsg.hasDisconnectMsg()) {
+            ensemble.processDisconnect(ctx, responseMsg.getDisconnectMsg());
+        }
+
+
         if ((responseMsg.hasData() || responseMsg.hasErrorCode()) && responseMsg.hasRID()) {
             //handle receiving data;
             Protocol.DataMap data = responseMsg.getData();

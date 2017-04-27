@@ -1,6 +1,10 @@
 package retroscope.net.server;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Aleksey on 11/20/2016.
@@ -10,23 +14,25 @@ import java.io.Serializable;
  * been called
  */
 public class CallbackWrapper<K extends Serializable, V extends Serializable> {
-    private int leftToReceive;
+    private Set<Integer> receiveList;
     private Callbacks.GenericCallback<K, V> callback;
 
     public CallbackWrapper(int leftToreceive, Callbacks.GenericCallback<K, V> callback) {
-        this.leftToReceive = leftToreceive;
         this.callback = callback;
+        receiveList = new HashSet<>(leftToreceive);
     }
 
-    public int getLeftToReceive() {
-        return leftToReceive;
+    public boolean receivedAll(Set<Integer> ensembleNodes) {
+        return ensembleNodes.containsAll(receiveList);
     }
 
     public Callbacks.GenericCallback<K, V> getCallback() {
         return callback;
     }
 
-    public synchronized void decrementLeftToReceive() {
-        leftToReceive--;
+    public synchronized void decrementLeftToReceive(int nodeId) {
+        receiveList.add(nodeId);
     }
+
+
 }

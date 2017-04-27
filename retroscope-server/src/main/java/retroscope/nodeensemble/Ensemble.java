@@ -34,8 +34,8 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
     private ReentrantLock lock;
 
     public Ensemble() {
-        remoteNodes = new HashMap<Integer, RemoteNode<K, V>>();
-        callbacks = new HashMap<Long, CallbackWrapper<K, V>>();
+        remoteNodes = new HashMap<>();
+        callbacks = new HashMap<>();
         callbacksAggregators = new HashMap<Long, CallbackAggregator>();
         lock = new ReentrantLock();
     }
@@ -56,7 +56,6 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         return remoteNodes.size();
     }
 
-
     /**
      * This method processes new connection to the ensemble. typically we want to do it on masterEnsemble
      * containing all nodes. When we need a subset of all nodes, we can create a smaller ensemble.
@@ -65,8 +64,17 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
      */
     public void processConnect(ChannelHandlerContext ctx, Protocol.ConnectMsg connectMsg) {
         if (connectMsg.getRetroscopeVersion() == Retroscope.VERSION) {
+            int nodeId = 0;
+            if (connectMsg.hasNodeId()) {
+                nodeId = connectMsg.getNodeId();
+                if (nodeId > maxKnownId) {
+                    maxKnownId = nodeId;
+                }
+            } else {
+                nodeId = incrementId();
+            }
             lock.lock();
-            RemoteNode<K, V> remoteNode = new RemoteNode<K, V>(incrementId(), ctx);
+            RemoteNode<K, V> remoteNode = new RemoteNode<K, V>(nodeId, ctx);
             System.out.println("Connecting client id = " + remoteNode.getId());
             remoteNodes.put(remoteNode.getId(), remoteNode);
             lock.unlock();
@@ -81,6 +89,24 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         } else {
             System.err.println("Version mismatch");
         }
+    }
+
+    /**
+     * This method processes new connection to the ensemble. typically we want to do it on masterEnsemble
+     * containing all nodes. When we need a subset of all nodes, we can create a smaller ensemble.
+     * @param ctx ChannelHandlerContext channel context
+     * @param disconnectMsg disconnect message from the remote node
+     */
+    public void processDisconnect(ChannelHandlerContext ctx, Protocol.DisconnectMsg disconnectMsg) {
+        int nodeId = disconnectMsg.getNodeId();
+        remoteNodes.remove(nodeId);
+        Protocol.DisconnectMsgResponse disconnectMsgResponse = Protocol.DisconnectMsgResponse.newBuilder()
+                .setNodeID(nodeId)
+                .build();
+        Protocol.RetroServerMsg msg = Protocol.RetroServerMsg.newBuilder()
+                .setDisconnectResponse(disconnectMsgResponse)
+                .build();
+        ctx.writeAndFlush(msg);
     }
 
 
@@ -345,14 +371,14 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         CallbackWrapper<K, V> cb = callbacks.get(rid);
         //System.out.println("have callback: " + (cb != null));
         if (cb != null) {
-            cb.decrementLeftToReceive();
+            cb.decrementLeftToReceive(nodeId);
             if (cb.getCallback() instanceof Callbacks.PullDataCallback) {
                 ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullDataComplete(rid, nodeId, logName, data, errorcode);
                 CallbackDataAggregator ca = (CallbackDataAggregator) callbacksAggregators.get(rid);
                 if (ca != null) {
                     ca.addData(nodeId, errorcode, data);
                 }
-                if (cb.getLeftToReceive() <= 0) {
+                if (cb.receivedAll(remoteNodes.keySet())) {
                     //aggregate callback final call
                     ((Callbacks.PullDataCallback<K, V>) cb.getCallback()).pullAllDataComplete(
                             rid,
@@ -362,7 +388,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                             ca.getErrors()
                     );
                 }
-                if (cb.getLeftToReceive() <= 0) {
+                if (cb.receivedAll(remoteNodes.keySet())) {
                     callbacks.remove(rid); // clean, we do not need the callback anymore
                 }
             }
@@ -385,7 +411,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
         CallbackWrapper<K, V> cb = callbacks.get(rid);
         System.out.println("receiving log from " + nodeId);
         if (cb != null) {
-            cb.decrementLeftToReceive();
+            cb.decrementLeftToReceive(nodeId);
             if (cb.getCallback() instanceof Callbacks.PullLogSliceCallback) {
                 ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback())
                         .pullDataComplete(rid, nodeId, log, errorcode);
@@ -393,7 +419,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                 if (ca != null) {
                     ca.addLog(nodeId, errorcode, log);
 
-                    if (cb.getLeftToReceive() <= 0) {
+                    if (cb.receivedAll(remoteNodes.keySet())) {
                         //aggregate callback final call
                         ((Callbacks.PullLogSliceCallback<K, V>) cb.getCallback()).pullAllDataComplete(
                                 rid,
@@ -404,7 +430,7 @@ public class Ensemble<K extends Serializable, V extends Serializable> {
                     }
                 }
 
-                if (cb.getLeftToReceive() <= 0) {
+                if (cb.receivedAll(remoteNodes.keySet())) {
                     callbacks.remove(rid); // clean, we do not need the callback anymore
                 }
             }
