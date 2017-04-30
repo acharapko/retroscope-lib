@@ -176,7 +176,7 @@ public class RQLItem implements Serializable {
             formatter.format("%-"+padV+"d (I64)", v.getIntVal());
         }
         if (v.getType() == Types.DOUBLE) {
-            formatter.format("%-"+padV+" (DBL)", v.getDoubleVal());
+            formatter.format("%-"+padV+"f (DBL)", v.getDoubleVal());
         }
         if (v.getType() == Types.STRING) {
             formatter.format("%-"+padV+"s (STR)", v.getStringVal());

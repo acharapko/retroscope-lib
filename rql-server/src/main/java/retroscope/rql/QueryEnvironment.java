@@ -315,12 +315,12 @@ public abstract class QueryEnvironment extends Environment {
             SimpleSymbol symbolVal = getSymbol(p.getSymbolName());
             if (symbolVal != null) {
 
-                if (p.getItem() == null && p.getVersion() == 0) {
+                if (p.getItemWrapper() == null && p.getVersion() == 0) {
                     findItemForPlaceholder(p, symbolVal);
                 } else {
 
                 //if (p.getVersion() < symbolVal.size()) {
-                    //p.setItem(symbolVal.get(p.getVersion()));
+                    //p.setItemWrapper(symbolVal.get(p.getVersion()));
                     if (p.isReset()) {
                         boolean reachedEnd = findItemForPlaceholder(p, symbolVal);
                         if (reachedEnd) {
@@ -363,7 +363,7 @@ public abstract class QueryEnvironment extends Environment {
         }
         while (p.getVersion() < symbolVal.size()) {
             if (ll.getCardinality() == 1 || ll.getLockedNode() == -1 || symbolVal.get(p.getVersion()).getNodeId() == ll.getLockedNode()) {
-                p.setItem(symbolVal.get(p.getVersion()));
+                p.setItemWrapper(symbolVal.get(p.getVersion()));
                 //p.setReset(false);
                 if (ll.getCardinality() > 1) {
                     ll.setLockedNode(symbolVal.get(p.getVersion()).getNodeId());
@@ -374,7 +374,7 @@ public abstract class QueryEnvironment extends Environment {
             p.incrementVersion();
         }
         ll.reset();
-        p.setItem(null);
+        p.setItemWrapper(null);
         return true;
     }
 
@@ -498,14 +498,34 @@ public abstract class QueryEnvironment extends Environment {
                                     Map.Entry<String, Set<DataEntry<RQLItem>>> pair = it.next();
                                     Set<DataEntry<RQLItem>> items = pair.getValue();
                                     for (DataEntry<RQLItem> item : items) {
-                                        sb.append(item.getValue().toFriendlyString(pair.getKey()));
-                                        sb.append(System.getProperty("line.separator"));
+                                        if (item.getValue() != null) {
+                                            sb.append(item.getValue().toFriendlyString(pair.getKey()));
+                                            sb.append(System.getProperty("line.separator"));
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+            }
+        } else {
+            sb.append("No cuts found");
+        }
+        if (getWarnings().size() > 0) {
+            sb.append("Warnings:");
+            sb.append(System.getProperty("line.separator"));
+            for (RQLRunTimeWarning w : getWarnings()) {
+                sb.append(w.getMessage());
+                sb.append(System.getProperty("line.separator"));
+            }
+        }
+        if (getExceptions().size() > 0) {
+            sb.append("Errors:");
+            sb.append(System.getProperty("line.separator"));
+            for (RQLRunTimeException e : getExceptions()) {
+                sb.append(e.getMessage());
+                sb.append(System.getProperty("line.separator"));
             }
         }
         return sb.toString();

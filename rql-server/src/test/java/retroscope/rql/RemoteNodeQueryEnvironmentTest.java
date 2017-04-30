@@ -64,6 +64,7 @@ public class RemoteNodeQueryEnvironmentTest {
                         String key = keyPrefix+keySuffix;
                         counts.put(key, counts.get(key) + 1);
                         retroscope.appendToLog("test", key, item);
+                        retroscope.appendToLog("test2", key, item);
                         if (i % 10 == 0) {sliceTimes.add(retroscope.getTimestamp().clone());}
                     } catch (Exception ex) {}
                 }
@@ -106,9 +107,29 @@ public class RemoteNodeQueryEnvironmentTest {
         Thread.sleep(1000); //wait a bit to get the log going
         String[] logs = {"test"};
         for (int i = 0; i < 8; i++) {
-            ArrayList<String> keys = new ArrayList<String>();
+            ArrayList<String> keys = new ArrayList<>();
             keys.add(keyPrefix + i);
             keys.add(keyPrefix + (i + 1));
+            RQLRetrieveParam retrieveParam = new RQLRetrieveParam().setLogs(Arrays.asList(logs)).setKeys(keys);
+            rqlEnvironment.retrieveRemoteLogs(retrieveParam);
+            ArrayList<RQLLog> logsRetrieved = rqlEnvironment.getLogs();
+            assertTrue(logsRetrieved.size() == 1);
+            assertTrue(logsRetrieved.get(0).getName().equals("test"));
+            int c = counts.get(keys.get(0))
+                    + counts.get(keys.get(1));
+            assertTrue(logsRetrieved.get(0).getLength() == c);
+        }
+    }
+
+    @Test
+    public void retrieveRemoteLogsPartialKeySetWithNonExistentKey() throws Exception {
+        Thread.sleep(1000); //wait a bit to get the log going
+        String[] logs = {"test"};
+        for (int i = 0; i < 8; i++) {
+            ArrayList<String> keys = new ArrayList<>();
+            keys.add(keyPrefix + i);
+            keys.add(keyPrefix + (i + 1));
+            keys.add(keyPrefix + (i + 100));
             RQLRetrieveParam retrieveParam = new RQLRetrieveParam().setLogs(Arrays.asList(logs)).setKeys(keys);
             rqlEnvironment.retrieveRemoteLogs(retrieveParam);
             ArrayList<RQLLog> logsRetrieved = rqlEnvironment.getLogs();
@@ -177,7 +198,7 @@ public class RemoteNodeQueryEnvironmentTest {
     public void remoteNodeRQLtestSimple() throws Exception {
         Thread.sleep(200); //wait a bit to get the log going
         String k = keyPrefix + "4";
-        String rqlq = "SELECT test."+k+" FROM test WHEN test."+k+" >= 0;";
+        String rqlq = "SELECT test."+k+", test."+k+" FROM test, test2 WHEN test2."+k+" >= 0;";
         System.out.println(rqlq);
         StringReader q1 = new StringReader(rqlq);
         Scanner scanner = new Scanner(q1);

@@ -63,8 +63,8 @@ public class Variable extends Expression
     public RQLInterpreterValue getValue() {
         RQLInterpreterValue val = null;
 
-        RQLInterpreterItemWrapper wrapper = rqlEnv.getPlaceholder(id).getItem();
-        if (wrapper != null) {
+        RQLInterpreterItemWrapper wrapper = rqlEnv.getPlaceholder(id).getItemWrapper();
+        if (wrapper != null && wrapper.getItem() != null) {
             RQLItemValue v = wrapper.getItem().getField(field);
             if (v == null) {
                 RQLRunTimeWarning w = new RQLRunTimeWarning(

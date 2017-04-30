@@ -19,7 +19,7 @@ public class EvalExpression
 				System.out.println(ex1Val.getStringVal());
 			}
 
-		} catch (IllegalExpressionException e) {System.err.println(e.getMessage());}
+		} catch (IllegalExpressionException e) {System.err.println("Illegal Expression Exception " +e.getMessage());}
 
 	}
 

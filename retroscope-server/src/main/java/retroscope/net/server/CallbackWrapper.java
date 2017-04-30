@@ -9,7 +9,7 @@ import java.util.Set;
 /**
  * Created by Aleksey on 11/20/2016.
  *
- * This class has holds the callback and information about how many times
+ * This class holds the callback and information about how many times
  * a callback needs to be invoked(receive data) and how many time it has
  * been called
  */

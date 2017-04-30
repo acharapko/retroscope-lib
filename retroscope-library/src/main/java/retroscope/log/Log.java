@@ -76,8 +76,6 @@ public class Log<K extends Serializable, V extends Serializable> implements Basi
             }
             if (item.hasValueTo()) {
                 valTo = ProtocolHelpers.byteStringToSerializable(item.getValueTo());
-            } else {
-                System.out.println("poop");
             }
             K key = ProtocolHelpers.byteStringToSerializable(item.getKey());
             logEntry = new LogEntry<K, V>(

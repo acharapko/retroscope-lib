@@ -6,14 +6,14 @@ package retroscope.rql.memory;
  */
 public class Placeholder {
 
-    private RQLInterpreterItemWrapper item;
+    private RQLInterpreterItemWrapper itemWrapper;
     private int id;
     private String symbolName;
     private int version = 0;
     private boolean reset = false;
 
     public Placeholder(RQLInterpreterItemWrapper item, int id, String symbolName) {
-        this.item = item;
+        this.itemWrapper = item;
         this.id = id;
         this.symbolName = symbolName;
     }
@@ -23,8 +23,8 @@ public class Placeholder {
         this.symbolName = symbolName;
     }
 
-    public RQLInterpreterItemWrapper getItem() {
-        return item;
+    public RQLInterpreterItemWrapper getItemWrapper() {
+        return itemWrapper;
     }
 
     public int getId() {
@@ -39,8 +39,8 @@ public class Placeholder {
         this.symbolName = symbolName;
     }
 
-    public void setItem(RQLInterpreterItemWrapper item) {
-        this.item = item;
+    public void setItemWrapper(RQLInterpreterItemWrapper itemWrapper) {
+        this.itemWrapper = itemWrapper;
     }
 
     public void incrementVersion() {
@@ -53,7 +53,7 @@ public class Placeholder {
 
     public void clearAll() {
         version = 0;
-        this.item = null;
+        this.itemWrapper = null;
         this.reset = false;
     }
 

@@ -30,7 +30,7 @@ public class RQLAppendLog extends Log<String, RQLItem> implements RQLLog {
         this.length = log.length;
 
         compileDataList();
-        snapshots = new HashMap<Integer, RQLSetMap>();
+        snapshots = new HashMap<>();
     }
 
     public int getNodeId() {
@@ -50,7 +50,7 @@ public class RQLAppendLog extends Log<String, RQLItem> implements RQLLog {
     private void putToListMap(HashMap<String, Set<DataEntry<RQLItem>>> diffListMap, String key, DataEntry<RQLItem> put) {
         Set<DataEntry<RQLItem>> list = diffListMap.get(key);
         if (list == null) {
-            list = new HashSet<DataEntry<RQLItem>>();
+            list = new HashSet<>();
             diffListMap.put(key, list);
         }
         list.add(put);
@@ -242,7 +242,7 @@ public class RQLAppendLog extends Log<String, RQLItem> implements RQLLog {
             HashMap<String, Set<DataEntry<RQLItem>>> lists1,
             HashMap<String, Set<DataEntry<RQLItem>>> lists2
     ) {
-        HashSet<String> keys = new HashSet<String>();
+        HashSet<String> keys = new HashSet<>();
         Iterator<Map.Entry<String, Set<DataEntry<RQLItem>>>> it = lists1.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, Set<DataEntry<RQLItem>>> pair = it.next();
@@ -255,7 +255,7 @@ public class RQLAppendLog extends Log<String, RQLItem> implements RQLLog {
         }
         //now we have all keys from both lists
         for (String k : keys) {
-            Set<DataEntry<RQLItem>> s1 = new HashSet<DataEntry<RQLItem>>(lists1.get(k));
+            Set<DataEntry<RQLItem>> s1 = new HashSet<>(lists1.get(k));
             Set<DataEntry<RQLItem>> s2 = lists2.get(k);
             if (s2 != null) {
                 s1.addAll(s2);
@@ -270,7 +270,7 @@ public class RQLAppendLog extends Log<String, RQLItem> implements RQLLog {
             HashMap<String, Set<DataEntry<RQLItem>>> lists2
     ) {
 
-        HashSet<String> keys = new HashSet<String>();
+        HashSet<String> keys = new HashSet<>();
         Iterator<Map.Entry<String, Set<DataEntry<RQLItem>>>> it = lists1.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, Set<DataEntry<RQLItem>>> pair = it.next();
@@ -283,7 +283,7 @@ public class RQLAppendLog extends Log<String, RQLItem> implements RQLLog {
         }
         //now we have all keys from both lists
         for (String k : keys) {
-            Set<DataEntry<RQLItem>> s1 = new HashSet<DataEntry<RQLItem>>(lists1.get(k));
+            Set<DataEntry<RQLItem>> s1 = new HashSet<>(lists1.get(k));
             Set<DataEntry<RQLItem>> s2 = lists2.get(k);
             if (s2 != null) {
                 s1.removeAll(s2);

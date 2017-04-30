@@ -26,12 +26,12 @@ public class SinglePlaceholderNodeLink implements NodeLink {
                 reset = true;
                 reset();
                 if (symbolVal.size() > 0) {
-                    p.setItem(symbolVal.get(0));
+                    p.setItemWrapper(symbolVal.get(0));
                 } else {
-                    p.setItem(null);
+                    p.setItemWrapper(null);
                 }
             } else {
-                p.setItem(symbolVal.get(p.getVersion()));
+                p.setItemWrapper(symbolVal.get(p.getVersion()));
                 version++;
                 reset = false;
             }

@@ -39,7 +39,7 @@ public class MultiPlaceholderNodeLink implements NodeLink {
                 SimpleSymbol symbolVal = symbolTable.get(p.getSymbolName());
 
                 if (wrapAround[i + 1]) {
-                    p.setItem(symbolVal.get(version[i]));
+                    p.setItemWrapper(symbolVal.get(version[i]));
                 }
 
 
@@ -74,13 +74,13 @@ public class MultiPlaceholderNodeLink implements NodeLink {
                         reset = true;
                         version[i] = 0;
                         if (symbolVal.size() > 0) {
-                            p.setItem(symbolVal.get(0));
+                            p.setItemWrapper(symbolVal.get(0));
                         } else {
-                            p.setItem(null);
+                            p.setItemWrapper(null);
                         }
                     } else {
                         if (lockNode == symbolVal.get(version[i]).getNodeId()) {
-                            p.setItem(symbolVal.get(version[i]));
+                            p.setItemWrapper(symbolVal.get(version[i]));
                         }
 
                         version[i]++;
@@ -99,7 +99,7 @@ public class MultiPlaceholderNodeLink implements NodeLink {
             Placeholder p = placeholders.get(i);
             SimpleSymbol symbolVal = symbolTable.get(p.getSymbolName());
             if (symbolVal != null && symbolTable.size() > 0) {
-                p.setItem(symbolTable.get(p.getSymbolName()).get(0));
+                p.setItemWrapper(symbolTable.get(p.getSymbolName()).get(0));
                 if (i == 0) {
                     lockNode = symbolVal.get(0).getNodeId();
                 }

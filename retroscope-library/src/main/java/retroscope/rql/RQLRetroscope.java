@@ -28,7 +28,7 @@ public class RQLRetroscope extends Retroscope<String, RQLItem> {
         return super.appendToLog(logName, key, value);
     }
 
-    public long appendToLog(String logName, String key, int value)
+    public long appendToLog(String logName, String key, long value)
             throws LogNotFoundException, LogOutTimeBoundsException, LogTypeException {
         return super.appendToLog(logName, key, new RQLItem().addField(value));
     }
