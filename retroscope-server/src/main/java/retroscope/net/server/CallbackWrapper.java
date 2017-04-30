@@ -23,7 +23,7 @@ public class CallbackWrapper<K extends Serializable, V extends Serializable> {
     }
 
     public boolean receivedAll(Set<Integer> ensembleNodes) {
-        return ensembleNodes.containsAll(receiveList);
+        return receiveList.containsAll(ensembleNodes);
     }
 
     public Callbacks.GenericCallback<K, V> getCallback() {
