@@ -23,12 +23,12 @@ public class Console implements Runnable {
     private Callbacks.PullDataCallback<String, String> callback
             = new Callbacks.PullDataCallback<String, String>() {
 
-        public void pullDataComplete(long rid, int nodeId, String logName, RetroMap data, int errorCode) {
+        public synchronized void pullDataComplete(long rid, int nodeId, String logName, RetroMap data, int errorCode) {
             System.out.println(rid + " @ " + nodeId + " for log: " + logName);
             System.out.println(data);
         }
 
-        public void pullAllDataComplete(long rid, int[] nodeIds, String logName, RetroMap<String, String>[] data, int[] errorCode) {
+        public synchronized void pullAllDataComplete(long rid, int[] nodeIds, String logName, RetroMap<String, String>[] data, int[] errorCode) {
             for (int i = 0; i < nodeIds.length; i++) {
                 System.out.println("All Data:");
                 System.out.println(rid + " @ " + nodeIds[i] + " for log: " + logName);
@@ -40,12 +40,12 @@ public class Console implements Runnable {
     private Callbacks.PullLogSliceCallback<String, String> logCallback
             = new Callbacks.PullLogSliceCallback<String, String>() {
 
-        public void pullDataComplete(long rid, int nodeId, Log<String, String> log, int errorCode) {
+        public synchronized void pullDataComplete(long rid, int nodeId, Log<String, String> log, int errorCode) {
             System.out.println(rid + " @ " + nodeId + " log: " + log.getName());
             System.out.println(log);
         }
 
-        public void pullAllDataComplete(long rid, int[] nodeIds, Log<String, String>[] logs, int[] errorCode) {
+        public synchronized void pullAllDataComplete(long rid, int[] nodeIds, Log<String, String>[] logs, int[] errorCode) {
             for (int i = 0; i < nodeIds.length; i++) {
                 System.out.println("All Logs:");
                 System.out.println(rid + " @ " + nodeIds[i] + " log: " + logs[i].getName());

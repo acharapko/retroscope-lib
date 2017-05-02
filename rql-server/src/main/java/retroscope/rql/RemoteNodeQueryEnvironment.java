@@ -41,10 +41,10 @@ public class RemoteNodeQueryEnvironment extends QueryEnvironment {
             Callbacks.PullLogSliceCallback<String, RQLItem> logCallback
                     = new Callbacks.PullLogSliceCallback<String, RQLItem>() {
 
-                public void pullDataComplete(long rid, int nodeId, Log<String, RQLItem> remoteLog, int errorCode) {
+                public synchronized void pullDataComplete(long rid, int nodeId, Log<String, RQLItem> remoteLog, int errorCode) {
                     //left blank, we do nothing when partial data comes in
                 }
-                public void pullAllDataComplete(long rid, int[] nodeIds, Log<String, RQLItem>[] remoteLogs, int[] errorCode) {
+                public synchronized void pullAllDataComplete(long rid, int[] nodeIds, Log<String, RQLItem>[] remoteLogs, int[] errorCode) {
                     for (int i = 0; i < nodeIds.length; i++) {
                         //here, for each node we add log to the list of logs
                         if (errorCode[i] == 0) {
@@ -105,11 +105,11 @@ public class RemoteNodeQueryEnvironment extends QueryEnvironment {
             Callbacks.PullDataCallback<String, RQLItem> callback
                     = new Callbacks.PullDataCallback<String, RQLItem>() {
 
-                public void pullDataComplete(long rid, int nodeId, String logName, RetroMap<String, RQLItem> data, int errorCode) {
+                public synchronized void pullDataComplete(long rid, int nodeId, String logName, RetroMap<String, RQLItem> data, int errorCode) {
                     //we do nothing on single node compelte
                 }
 
-                public void pullAllDataComplete(long rid, int[] nodeIds, String logName, RetroMap<String, RQLItem>[] data, int[] errorCode) {
+                public synchronized void pullAllDataComplete(long rid, int[] nodeIds, String logName, RetroMap<String, RQLItem>[] data, int[] errorCode) {
                     for (int i = 0; i < data.length; i++) {
                         emitCut.addLocalSnapshot(logName, nodeIds[i], data[i]);
                     }
