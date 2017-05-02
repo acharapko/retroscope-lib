@@ -32,21 +32,18 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     int logTime = 7;
                     for (int i = 0; i < LOG_LENGTH; i++) {
                         Random rand = new Random(System.nanoTime());
                         t = t.add(2 + rand.nextInt(logTime), (short) 0);
                         RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, t);
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                         //System.out.println(item.getField("").getIntVal());
                         String key = ("a");
-                        LogEntry<String, RQLItem> le
-                                = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                         try {
-                            //System.out.println(t + " - " + key);
                             testLog.append(le);
                         } catch (RetroscopeException re) {
                             re.printStackTrace();
@@ -75,21 +72,17 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     int logTime = 7;
                     for (int i = 0; i < LOG_LENGTH; i++) {
                         Random rand = new Random(System.nanoTime());
                         t = t.add(2 + rand.nextInt(logTime), (short) 0);
                         RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, t);
-                        //System.out.println(item.getField("").getIntVal());
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                         String key = ("a");
-                        LogEntry<String, RQLItem> le
-                                = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                         try {
-                            //System.out.println(t + " - " + key);
                             testLog.append(le);
                         } catch (RetroscopeException re) {
                             re.printStackTrace();
@@ -118,7 +111,7 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     int logTime = 7;
                     for (int i = 0; i < LOG_LENGTH; i++) {
@@ -127,7 +120,6 @@ public class rqlParserTest {
                         RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
                         DataEntry<RQLItem> d1
                                 = new DataEntry<RQLItem>(item, t);
-                        //System.out.println(item.getField("").getIntVal());
                         String key = ("a");
                         LogEntry<String, RQLItem> le
                                 = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
@@ -163,7 +155,7 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     int logTime = 7;
                     for (int i = 0; i < LOG_LENGTH; i++) {
@@ -219,20 +211,17 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     int logTime = 7;
                     for (int i = 0; i < LOG_LENGTH; i++) {
                         Random rand = new Random(System.nanoTime());
                         t = t.add(2 + rand.nextInt(logTime), (short) 0);
                         RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, t);
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                         String key = ("a");
-                        LogEntry<String, RQLItem> le
-                                = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                         try {
-                            //System.out.println(t + " - " + key);
                             testLog.append(le);
                         } catch (RetroscopeException re) {
                             re.printStackTrace();
@@ -277,7 +266,7 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     Random rand = new Random(System.nanoTime());
                     int logTime = 7;
@@ -285,14 +274,10 @@ public class rqlParserTest {
 
                         t = t.add(2 + rand.nextInt(logTime), (short) 0);
                         RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, t);
-                        //System.out.println(item.getField("").getIntVal());
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                         String key = ("a");
-                        LogEntry<String, RQLItem> le
-                                = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                         try {
-                            //System.out.println(t + " - " + key);
                             testLog.append(le);
                         } catch (RetroscopeException re) {
                             re.printStackTrace();
@@ -332,7 +317,7 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     Random rand = new Random(System.nanoTime());
                     int logTime = 7;
@@ -340,12 +325,9 @@ public class rqlParserTest {
 
                         t = t.add(2 + rand.nextInt(logTime), (short) 0);
                         RQLItem item = new RQLItem().addField("", i).addField("v2", i % 5);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, t);
-                        //System.out.println(item.getField("").getIntVal());
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                         String key = ("a");
-                        LogEntry<String, RQLItem> le
-                                = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                         try {
                             //System.out.println(t + " - " + key);
                             testLog.append(le);
@@ -380,7 +362,7 @@ public class rqlParserTest {
 
             rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
                 public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                     Timestamp t = new Timestamp();
                     Random rand = new Random(System.nanoTime());
                     int logTime = 7;
@@ -388,14 +370,10 @@ public class rqlParserTest {
 
                         t = t.add(2 + rand.nextInt(logTime), (short) 0);
                         RQLItem item = new RQLItem().addField("", i).addField("v2", i % 5);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, t);
-                        //System.out.println(item.getField("").getIntVal());
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                         String key = ("a");
-                        LogEntry<String, RQLItem> le
-                                = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                         try {
-                            //System.out.println(t + " - " + key);
                             testLog.append(le);
                         } catch (RetroscopeException re) {
                             re.printStackTrace();
@@ -413,7 +391,6 @@ public class rqlParserTest {
             ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
             int c1 = LOG_LENGTH - a - 1;
             int c2 = (int) Math.floor((a+1) / 5.0);
-            //System.out.println(a + " ; " + cuts.size() + " (" + c1 + " + " + c2 + ")");
             assertTrue(cuts.size() == c1 + c2);
         }
     }
@@ -432,7 +409,7 @@ public class rqlParserTest {
         rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 // on this log we append directly to RQLDatamap
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
                 Timestamp t = new Timestamp();
                 Random rand = new Random(System.nanoTime());
@@ -441,13 +418,10 @@ public class rqlParserTest {
 
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
 
-                    //System.out.println(item.getField("").getIntVal());
                     String key = ("a");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
 
                     try {
                         //System.out.println(t + " - " + key + " = " + i);
@@ -458,23 +432,18 @@ public class rqlParserTest {
                 //System.out.println(testLog.getHead().getTime());
 
                 // on this one we create DataMap and then put it to the RQLDataMap
-                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                testLog = new DataMapLog<>(1000000, "test");
                 t = new Timestamp();
                 rand = new Random(System.nanoTime());
                 for (int i = 0; i < LOG_LENGTH; i++) {
 
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
-
-                    //System.out.println(item.getField("").getIntVal());
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                     String key = ("b");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
 
                     try {
-                        //System.out.println(t + " - " + key + " = " + i);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
@@ -528,6 +497,92 @@ public class rqlParserTest {
     }
 
     @Test
+    public void simpleTwoNodeLogSearchQueryWithNodeSpecifiers() throws Exception {
+        for (int i = 1; i < RUNS; i++) {
+            Random rand = new Random(System.nanoTime());
+            int a = rand.nextInt(LOG_LENGTH / RUNS) + i * LOG_LENGTH / RUNS;
+            StringReader q1 = new StringReader("SELECT a, b FROM test WHEN test.a[1]:v2=" + (a*a) +";");
+            Scanner scanner = new Scanner(q1);
+            scanner.yylex();
+
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
+                public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
+                    // on this log we append directly to RQLDatamap
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
+                    RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
+                    Timestamp t = new Timestamp();
+                    Random rand = new Random(System.nanoTime());
+                    int logTime = 7;
+                    for (int i = 0; i < LOG_LENGTH; i++) {
+                        t = t.add(2 + rand.nextInt(logTime), (short) 0);
+                        RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
+                        String key = ("a");
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
+                        try {
+                            //System.out.println(t + " - " + key + " = " + i);
+                            testrqlmap.append(le);
+                        } catch (RetroscopeException re) {
+                            re.printStackTrace();
+                        }
+                    }
+                    this.logs.add(testrqlmap);
+
+                    // on this one we create DataMap and then put it to the RQLDataMap
+                    testLog = new DataMapLog<>(1000000, "test");
+                    t = new Timestamp();
+                    rand = new Random(System.nanoTime());
+                    for (int i = 0; i < LOG_LENGTH; i++) {
+                        t = t.add(2 + rand.nextInt(logTime), (short) 0);
+                        RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
+                        String key = ("b");
+                        LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
+
+                        try {
+                            testLog.append(le);
+                        } catch (RetroscopeException re) {
+                            re.printStackTrace();
+                        }
+                    }
+                    testrqlmap = new RQLDataMapLog(2, testLog);
+                    this.logs.add(testrqlmap);
+                }
+
+                @Override
+                public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
+                }
+            });
+
+            rql.parse();
+            ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
+            assertTrue(cuts.size() >= 1);
+            for (int c = 0; c < cuts.size(); c++) {
+                boolean a5 = false;
+                ArrayList<RQLSetMap> snaps = cuts.get(c).getLocalSnapshots();
+                ArrayList<String> snapNames = cuts.get(c).getLocalSnapshotNames();
+                ArrayList<Integer> nodesIds = cuts.get(c).getNodeIds();
+                int node = 0;
+                for (int j = 0; j < snapNames.size(); j++) {
+                    if (snapNames.get(j).equals("test")) {
+                        if (snaps.get(j).get("a") != null) {
+                            Set<DataEntry<RQLItem>> aset = snaps.get(j).get("a");
+                            if (aset.size() == 1) { //we expect only one element
+                                for (DataEntry<RQLItem> r : aset) {
+                                    a5 = r.getValue().getField("").getIntVal() == a;
+                                    node = nodesIds.get(j);
+                                }
+                            }
+                        }
+                    }
+                }
+                assertTrue(node == 1);
+                assertTrue(a5);
+            }
+        }
+    }
+
+    @Test
     public void simpleTwoNodeLogSearchQueryWithStrReplaceAndCast() throws Exception {
 
         StringReader q1 = new StringReader("SELECT r1 FROM setd WHEN Int(StrReplace(r1, \"tst\", \"\")) - Int(StrReplace(r1, \"tst\", \"\")) > 1;");
@@ -537,22 +592,18 @@ public class rqlParserTest {
         rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 // on this log we append directly to RQLDatamap
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "setd");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, rqlRetrieveParam.getLogs().get(0));
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
                 Timestamp t = new Timestamp();
                 Random rand = new Random(System.nanoTime());
                 int logTime = 7;
                 for (int i = 0; i < LOG_LENGTH; i++) {
-
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", "tst" + i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
 
-                    //System.out.println(item.getField("").getIntVal());
                     String key = ("r1");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
 
                     try {
                         //System.out.println(t + " - " + key + " = " + i);
@@ -560,32 +611,25 @@ public class rqlParserTest {
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 this.logs.add(testrqlmap);
-                //System.out.println(testLog.getHead().getTime());
-
                 // on this one we create DataMap and then put it to the RQLDataMap
-                testLog = new DataMapLog<String, RQLItem>(1000000, "setd");
+                testLog = new DataMapLog<>(1000000, "setd");
                 t = new Timestamp();
                 rand = new Random(System.nanoTime());
                 for (int i = 1; i < LOG_LENGTH; i++) {
 
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", "tst" + i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
 
-                    //System.out.println(item.getField("").getIntVal());
                     String key = ("r1");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
 
                     try {
-                        //System.out.println(t + " - " + key + " = " + i);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 testrqlmap = new RQLDataMapLog(2, testLog);
                 this.logs.add(testrqlmap);
-                //System.out.println(testrqlmap.getHead().getTime());
             }
             @Override
             public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
@@ -594,12 +638,6 @@ public class rqlParserTest {
 
         rql.parse();
         ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
-        /*System.out.println("\n# of cuts: " + cuts.size());
-        System.out.println("# of errors: " + rql.getEnvironment().getExceptions().size());
-        System.out.println("# of warn: " + rql.getEnvironment().getWarnings().size());
-        for (RQLRunTimeWarning w : rql.getEnvironment().getWarnings()) {
-            System.out.println(w.getMessage());
-        }*/
         assertTrue(cuts.size() >= 0);
         for(int c = 0; c < cuts.size(); c++) {
             ArrayList<RQLSetMap> snaps = cuts.get(c).getLocalSnapshots();
@@ -622,7 +660,6 @@ public class rqlParserTest {
         }
     }
 
-
     @Test
     public void twoNodeLogLink() throws Exception {
         StringReader q1 = new StringReader("SELECT test.a, test.b FROM test WHEN a >= 20 AND b <= 80 LINK($0, $1);");
@@ -639,7 +676,7 @@ public class rqlParserTest {
                     ts[i] = ts[i - 1].add(2 + rand.nextInt(logTime), (short)0);
                 }
                 // on this log we append directly to RQLDatamap
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, "test");
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
 
                 for (int i = 0; i < LOG_LENGTH; i++) {
@@ -648,16 +685,14 @@ public class rqlParserTest {
                     int ii = i - 50;
                     if (ii % 3 == 0) {
                         RQLItem item = new RQLItem().addField("", 2*ii);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, ts[i]);
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                         key = ("b");
-                        le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        le = new LogEntry<>(key, testLog.getItem(key), d1);
                     } else {
                         RQLItem item = new RQLItem().addField("", ii);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, ts[i]);
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                         key = ("a");
-                        le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        le = new LogEntry<>(key, testLog.getItem(key), d1);
                     }
                     try {
                         //System.out.println(ts[i] + " - " + key);
@@ -665,9 +700,8 @@ public class rqlParserTest {
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 this.logs.add(testrqlmap);
-                //System.out.println(testrqlmap.getHead().getTime());
                 // on this one we create DataMap and then put it to the RQLDataMap
-                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                testLog = new DataMapLog<>(1000000, "test");
                 for (int i = 0; i < LOG_LENGTH; i++) {
 
                     String key;
@@ -677,13 +711,12 @@ public class rqlParserTest {
                         DataEntry<RQLItem> d1
                                 = new DataEntry<RQLItem>(item, ts[i]);
                         key = ("b");
-                        le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        le = new LogEntry<>(key, testLog.getItem(key), d1);
                     } else {
                         RQLItem item = new RQLItem().addField("", i);
-                        DataEntry<RQLItem> d1
-                                = new DataEntry<RQLItem>(item, ts[i]);
+                        DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                         key = ("a");
-                        le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        le = new LogEntry<>(key, testLog.getItem(key), d1);
                     }
                     try {
                         //System.out.println(ts[i] + " - " + key);
@@ -692,7 +725,6 @@ public class rqlParserTest {
                 }
                 testrqlmap = new RQLDataMapLog(2, testLog);
                 this.logs.add(testrqlmap);
-                //System.out.println(testrqlmap.getHead().getTime());
             }
             @Override
             public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
@@ -716,7 +748,7 @@ public class rqlParserTest {
         rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
                 // on this log we append directly to RQLDatamap
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, "test");
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
                 Timestamp t = new Timestamp();
                 Random rand = new Random(System.nanoTime());
@@ -734,16 +766,16 @@ public class rqlParserTest {
                 this.logs.add(testrqlmap);
 
                 // on this one we create DataMap and then put it to the RQLDataMap
-                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                testLog = new DataMapLog<>(1000000, "test");
                 t = new Timestamp();
                 rand = new Random(System.nanoTime());
                 for (int i = 0; i < LOG_LENGTH; i++) {
 
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, t);
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                     String key = ("b");
-                    LogEntry<String, RQLItem> le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
@@ -781,7 +813,7 @@ public class rqlParserTest {
                         ts[i] = ts[i - 1].add(2 + rand.nextInt(logTime), (short) 0);
                     }
                     // on this log we append directly to RQLDatamap
-                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, "test");
                     RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
 
                     for (int i = 0; i < LOG_LENGTH; i++) {
@@ -790,14 +822,14 @@ public class rqlParserTest {
                         int ii = i - 50;
                         if (ii % 3 == 0) {
                             RQLItem item = new RQLItem().addField("", 2 * ii);
-                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                             key = ("b");
-                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                            le = new LogEntry<>(key, testLog.getItem(key), d1);
                         } else {
                             RQLItem item = new RQLItem().addField("", ii);
-                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                             key = ("a");
-                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                            le = new LogEntry<>(key, testLog.getItem(key), d1);
                         }
                         try {
                             testrqlmap.append(le);
@@ -808,20 +840,20 @@ public class rqlParserTest {
                     this.logs.add(testrqlmap);
 
                     // on this one we create DataMap and then put it to the RQLDataMap
-                    testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    testLog = new DataMapLog<>(1000000, "test");
                     for (int i = 0; i < LOG_LENGTH; i++) {
                         String key;
                         LogEntry<String, RQLItem> le;
                         if (i % 4 == 0) {
                             RQLItem item = new RQLItem().addField("", 3 * i);
-                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                             key = ("b");
-                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                            le = new LogEntry<>(key, testLog.getItem(key), d1);
                         } else {
                             RQLItem item = new RQLItem().addField("", i);
-                            DataEntry<RQLItem> d1 = new DataEntry<RQLItem>(item, ts[i]);
+                            DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                             key = ("a");
-                            le = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                            le = new LogEntry<>(key, testLog.getItem(key), d1);
                         }
                         try {
                             testLog.append(le);
@@ -879,45 +911,36 @@ public class rqlParserTest {
                     ts[i] = ts[i - 1].add(2 + rand.nextInt(logTime), (short)0);
                 }
                 // on this log we append directly to RQLDatamap
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, "test");
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
 
                 for (int i = 0; i < LOG_LENGTH; i++) {
 
                     RQLItem item = new RQLItem().addField("", i).addField("v", 2*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, ts[i]);
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
 
-                    //System.out.println(item.getField("").getIntVal());
                     String key = ("a");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
 
                     try {
-                        //System.out.println(t + " - " + key);
                         testrqlmap.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 this.logs.add(testrqlmap);
                 //System.out.println(testrqlmap.getHead().getTime());
                 // on this one we create DataMap and then put it to the RQLDataMap
-                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                testLog = new DataMapLog<>(1000000, "test");
                 for (int i = 0; i < LOG_LENGTH; i++) {
                     RQLItem item = new RQLItem().addField("", i).addField("v", 3*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, ts[i]);
-                    //System.out.println(item.getField("").getIntVal());
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, ts[i]);
                     String key = ("a");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
-                        //System.out.println(t + " - " + key);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 testrqlmap = new RQLDataMapLog(2, testLog);
                 this.logs.add(testrqlmap);
-                //System.out.println(testrqlmap.getHead().getTime());
             }
             @Override
             public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
@@ -929,8 +952,6 @@ public class rqlParserTest {
         //System.out.println("# of cuts: " + cuts.size());
         assertTrue(cuts.size() == 10);
     }
-
-
 
     /*-----------------------------
     /* Error Conditions Tests
@@ -944,7 +965,7 @@ public class rqlParserTest {
 
         rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "log1");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, "log1");
                 Timestamp t = new Timestamp();
                 Random rand = new Random(System.nanoTime());
                 int logTime = 7;
@@ -952,12 +973,9 @@ public class rqlParserTest {
 
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
-                    //System.out.println(item.getField("").getIntVal());
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                     String key = ("a");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
                         //System.out.println(t + " - " + key);
                         testLog.append(le);
@@ -966,22 +984,18 @@ public class rqlParserTest {
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
                 this.logs.add(testrqlmap);
 
-                testLog = new DataMapLog<String, RQLItem>(1000000, "log2");
+                testLog = new DataMapLog<>(1000000, "log2");
                 t = new Timestamp();
                 rand = new Random(System.nanoTime());
                 logTime = 7;
                 for (int i = 0; i < LOG_LENGTH; i++) {
-
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
-                    //System.out.println(item.getField("").getIntVal());
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
+
                     String key = ("b");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
-                        //System.out.println(t + " - " + key);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
@@ -1010,40 +1024,33 @@ public class rqlParserTest {
         rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             @Override
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, "test");
                 Timestamp t = new Timestamp();
                 Random rand = new Random(System.nanoTime());
                 int logTime = 7;
                 for (int i = 0; i < LOG_LENGTH; i++) {
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
-                    //System.out.println(item.getField("").getIntVal());
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
+
                     String key = ("a");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
-                        //System.out.println(t + " - " + key);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
                 this.logs.add(testrqlmap);
-                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                testLog = new DataMapLog<>(1000000, "test");
                 t = new Timestamp();
                 rand = new Random(System.nanoTime());
                 for (int i = 0; i < LOG_LENGTH; i++) {
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
-                    //System.out.println(item.getField("").getIntVal());
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                     String key = ("b");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
-                        //System.out.println(t + " - " + key);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
@@ -1073,7 +1080,7 @@ public class rqlParserTest {
 
         rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
             public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
-                DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                DataMapLog<String, RQLItem> testLog = new DataMapLog<>(1000000, "test");
                 Timestamp t = new Timestamp();
                 Random rand = new Random(System.nanoTime());
                 int logTime = 7;
@@ -1085,30 +1092,23 @@ public class rqlParserTest {
                             = new DataEntry<RQLItem>(item, t);
                     //System.out.println(item.getField("").getIntVal());
                     String key = ("a");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
-                        //System.out.println(t + " - " + key);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }
                 RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
                 this.logs.add(testrqlmap);
-                testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                testLog = new DataMapLog<>(1000000, "test");
                 t = new Timestamp();
                 rand = new Random(System.nanoTime());
                 for (int i = 0; i < LOG_LENGTH; i++) {
-
                     t = t.add(2 + rand.nextInt(logTime), (short)0);
                     RQLItem item = new RQLItem().addField("", i).addField("v2", i*i);
-                    DataEntry<RQLItem> d1
-                            = new DataEntry<RQLItem>(item, t);
-                    //System.out.println(item.getField("").getIntVal());
+                    DataEntry<RQLItem> d1 = new DataEntry<>(item, t);
                     String key = ("b");
-                    LogEntry<String, RQLItem> le
-                            = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                    LogEntry<String, RQLItem> le = new LogEntry<>(key, testLog.getItem(key), d1);
                     try {
-                        //System.out.println(t + " - " + key);
                         testLog.append(le);
                     } catch (RetroscopeException re) {re.printStackTrace();}
                 }

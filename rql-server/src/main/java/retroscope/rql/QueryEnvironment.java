@@ -163,7 +163,7 @@ public abstract class QueryEnvironment extends Environment {
 
 
         PriorityQueue<LogEntry<String, RQLItem>> q =
-                new PriorityQueue<LogEntry<String, RQLItem>>(logs.size(), new Comparator<LogEntry<String, RQLItem>>() {
+                new PriorityQueue<>(logs.size(), new Comparator<LogEntry<String, RQLItem>>() {
                     public int compare(LogEntry<String, RQLItem> o1, LogEntry<String, RQLItem> o2) {
                         return -o1.getTime().compareTo(o2.getTime());
                     }
@@ -180,7 +180,6 @@ public abstract class QueryEnvironment extends Environment {
             LogEntry<String, RQLItem> current = q.poll();
             // (5)
             Timestamp currentHLC = current.getTime();
-
             // (6)
             GlobalCut tempCut = new GlobalCut(currentHLC);
             for (int i = 0; i < logs.size(); i++) {

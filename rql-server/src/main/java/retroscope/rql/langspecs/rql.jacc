@@ -5,7 +5,7 @@ import retroscope.rql.syntaxtree.link.*;
 import retroscope.rql.syntaxtree.expression.*;
 
 %}
-// D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql-server\src\main\java\retroscope\rql\rql.jacc -t
+// D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\ubuntu_vms_share\retroscope-lib\rql-server\src\main\java\retroscope\rql\langspecs\rql.jacc -t
 %class rqlParser
 %interface mTokens
 %next              	nextToken()
@@ -13,7 +13,7 @@ import retroscope.rql.syntaxtree.expression.*;
 %semantic Object : 	lexer.semanticValue
 
 %token <String>  IDENTIFIER
-%token <Integer> INTEGER_LITERAL 
+%token <Integer> INTEGER_LITERAL
 %token <Double>  FLOAT_LITERAL
 %token <String>	 STRING_LITERAL
 %token <String> '{' '(' '[' ']' ')' '}' ';' ',' '='  '<' '+' '-' '*' '.' '!'
@@ -132,10 +132,13 @@ Expression			:	'-' Expression											        {$$ = new Minus(currentEnv, $2);
 					|	Expression AND Expression										{$$ = new And(currentEnv, $1, $3);}
 					|	Expression OR Expression										{$$ = new Or(currentEnv, $1, $3);}
 					|   IDENTIFIER '(' ExpressionList ')'                               {$$ = new FuncCall(currentEnv, $1, $3);}
-					|	IDENTIFIER											            {$$ = new Variable($1, currentEnv, true);}
-					|	IDENTIFIER '.' IDENTIFIER							            {$$ = new Variable($1, $3, currentEnv, true);}
-					|	IDENTIFIER '.' IDENTIFIER ':' IDENTIFIER			            {$$ = new Variable($1, $3, $5, currentEnv, true);}
-					|	IDENTIFIER ':' IDENTIFIER			                            {$$ = new Variable("", $1, $3, currentEnv, true);}
+					|   IDENTIFIER '[' Expression ']'                                   {$$ = new Variable($1, currentEnv, $3);}
+					|	IDENTIFIER											            {$$ = new Variable($1, currentEnv, null);}
+					|	IDENTIFIER '.' IDENTIFIER							            {$$ = new Variable($1, $3, currentEnv, null);}
+					|	IDENTIFIER '.' IDENTIFIER '[' Expression ']'                    {$$ = new Variable($1, $3, currentEnv, $5);}
+					|	IDENTIFIER '.' IDENTIFIER ':' IDENTIFIER			            {$$ = new Variable($1, $3, $5, currentEnv, null);}
+					|	IDENTIFIER '.' IDENTIFIER '[' Expression ']' ':' IDENTIFIER	    {$$ = new Variable($1, $3, $8, currentEnv, $5);}
+					|	IDENTIFIER ':' IDENTIFIER			                            {$$ = new Variable("", $1, $3, currentEnv, null);}
 					| 	INTEGER_LITERAL											        {$$ = new IntegerLiteral(currentEnv, $1);}
 					|	FLOAT_LITERAL											        {$$ = new FloatLiteral(currentEnv, $1);}
 					|	STRING_LITERAL											        {$$ = new StringLiteral(currentEnv, $1);}
@@ -163,7 +166,7 @@ ExpressionList      :   Expression ',' ExpressionList                           
 /* code in the parser class*/
 
 private Scanner lexer;
-private RQLEnvironment currentEnv;
+private QueryEnvironment currentEnv;
 
 /* constructor registering a lexer for lang */
 public rqlParser(Scanner lexer){
@@ -174,7 +177,7 @@ public rqlParser(){
 }
 
 /* implementation of the nextToken() using lexer.yylex() that throws an
-exception 
+exception
 */
 
 public void setScanner(Scanner lexer) {
@@ -182,26 +185,26 @@ public void setScanner(Scanner lexer) {
 }
 
 private int nextToken(){
-      try{ 
+      try{
           return lexer.yylex();
        }catch(java.io.IOException e){System.out.println("IO exception from lexer!");e.printStackTrace();}
        return 0;
-}	
+}
 
 
-private void yyerror(String msg) { 
+private void yyerror(String msg) {
     System.out.println(
       "ERROR "+ msg + "\n" +
-      " at line   " +(lexer.line() + 1) + "\n" + 
-      " at column " +(lexer.column() + 1) + "\n" + 
+      " at line   " +(lexer.line() + 1) + "\n" +
+      " at column " +(lexer.column() + 1) + "\n" +
       " with token <<" + lexer.semanticValue + ">>"); }
 
 
-public RQLEnvironment getEnvironment() {
+public QueryEnvironment getEnvironment() {
     return currentEnv;
 }
 
-public rqlParser setEnvironment(RQLEnvironment currentEnv) {
+public rqlParser setEnvironment(QueryEnvironment currentEnv) {
     this.currentEnv = currentEnv;
     return this;
 }

@@ -341,24 +341,22 @@ public class DataMapLogTest {
     @Test
     public void makeSnapshot() throws Exception {
         length = 100;
-        log = new DataMapLog<String, String>(length * 10, "test123", 50);
+        log = new DataMapLog<>(length * 10, "test123", 50);
         //log = populateTheLog(log, 10);
         Timestamp t = new Timestamp();
         Random rand = new Random(System.nanoTime());
 
         RetroMap<String, String> maps[] = new RetroMap[length];
-        Timestamp[] times = new Timestamp[length];
+        Timestamp[] times = new Timestamp[length + 1];
         for (int i = 0; i < length; i++) {
 
             t = t.add(2 + rand.nextInt(7), (short)0);
-            DataEntry<String> d1
-                    = new DataEntry<String>(("val"+i), t);
+            DataEntry<String> d1 = new DataEntry<>(("val"+i), t);
 
             int k = rand.nextInt(10);
             String key = ("test" + k);
-            //System.out.println(key + " = " + log.getItem(key) + " => " + d1);
-            LogEntry<String, String> le
-                    = new LogEntry<String, String>(key, log.getItem(key), d1);
+
+            LogEntry<String, String> le = new LogEntry<>(key, log.getItem(key), d1);
             if (i == 0) {
                 head = le;
             }
@@ -370,11 +368,16 @@ public class DataMapLogTest {
             maps[i].putAll(log.getAllData());
             times[i] = t.clone();
         }
+        times[length] = new Timestamp(times[length - 1].getWallTime() + 5, (short)0);
 
-        for (int i = length-1; i >= 0; i--) {
+        for (int i = length; i >= 0; i--) {
             int snapshotId = log.makeSnapshot(times[i]);
             RetroMap<String, String> testMap = log.getSnapshot(snapshotId);
-            assertTrue(testMap.equals(maps[i]));
+            int ii = i;
+            if (i >= length) {
+                ii = length - 1;
+            }
+            assertTrue(testMap.equals(maps[ii]));
         }
 
     }
