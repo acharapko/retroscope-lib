@@ -41,6 +41,10 @@ public class Client<K extends Serializable, V extends Serializable> {
 
 
     public Client(String host, int port, Retroscope<K, V> retroscope) {
+        this(host, port, retroscope, -1);
+    }
+
+    public Client(String host, int port, Retroscope<K, V> retroscope, int clientID) {
         this.host = host;
         this.port = port;
         //we need to have retroscope here, so we can use it in the network client
@@ -48,6 +52,9 @@ public class Client<K extends Serializable, V extends Serializable> {
         //and client having the retroscope, but we do it for the ease of use,
         //so that the user does not have to deal with having to keep a separate retroscope network client
         this.retroscope = retroscope;
+        if (clientID >= 0) {
+            id = clientID;
+        }
     }
 
     public void startClient() throws InterruptedException, SSLException, java.security.cert.CertificateException {
@@ -94,9 +101,15 @@ public class Client<K extends Serializable, V extends Serializable> {
     /* ----------- Client Messages --------------- */
 
     public void connect() {
+        Protocol.ConnectMsg.Builder cmb = Protocol.ConnectMsg.newBuilder();
+        cmb.setRetroscopeVersion(Retroscope.VERSION);
+        if (id >= 0) {
+            cmb.setNodeId(id);
+        }
         Protocol.RetroNodeMsg message = Protocol.RetroNodeMsg.newBuilder()
-                .setConnectMsg(Protocol.ConnectMsg.newBuilder().setRetroscopeVersion(Retroscope.VERSION))
+                .setConnectMsg(cmb)
                 .build();
+
         channel.writeAndFlush(message);
     }
 

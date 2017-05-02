@@ -95,7 +95,29 @@ public class Retroscope<K extends Serializable, V extends Serializable> {
      */
     public Retroscope<K, V> connectRetroServer(String host, int port) throws RetroscopeNetworkException {
         if (retroClient == null) {
-            retroClient = new Client<K, V>(host, port, this);
+            retroClient = new Client<>(host, port, this);
+            try {
+                retroClient.startClient();
+            } catch (Exception e) {
+                throw new RetroscopeNetworkException("An exception has occurred trying to connect to Retroscope Server." +
+                        " Make sure Server is online and reachable");
+            }
+            retroClient.connect();
+        }
+        return this;
+    }
+
+    /**
+     * Makes this retroscope node connect to teh retroscope server
+     * Server features are still under active development.
+     * @param host string host/ip fpr the retroscope server
+     * @param port int port number for retroscope server
+     * @param clientID int id for this client.
+     * @return Retroscope this object
+     */
+    public Retroscope<K, V> connectRetroServer(String host, int port, int clientID) throws RetroscopeNetworkException {
+        if (retroClient == null) {
+            retroClient = new Client<>(host, port, this, clientID);
             try {
                 retroClient.startClient();
             } catch (Exception e) {
