@@ -110,12 +110,6 @@ public abstract class QueryEnvironment extends Environment {
         emittedGlobalCuts = new ArrayList<>();
         tempGlobalCuts = new ArrayList<>();
         emittedOut = new ArrayList<>();
-        placeholders = new ArrayList<>();
-        placeholdersToLinkLocks = new HashMap<>();
-        logs = new ArrayList<>();
-        defaultLog = "";
-        numPlaceholders = 0;
-        resetLinkedNodes();
     }
 
     private void checkErrors() throws RQLRunTimeException {
