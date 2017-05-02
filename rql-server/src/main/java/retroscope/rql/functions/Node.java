@@ -23,6 +23,7 @@ public class Node extends RQLBuiltInFunction {
             if (params.getList().get(0) instanceof Variable) {
                 params.getList().get(0).evaluate();
                 RQLInterpreterValue p1Vals = params.getList().get(0).getValue();
+                value = new RQLInterpreterValue(Types.INT).setValInt(p1Vals.getSourceNodeId());
             }
         }
         if (value == null) {

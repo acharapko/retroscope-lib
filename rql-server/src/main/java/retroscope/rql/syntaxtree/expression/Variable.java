@@ -75,6 +75,7 @@ public class Variable extends Expression
                 queryEnvironment.addRunTimeWarning(w);
             } else {
                 val = new RQLInterpreterValue(v);
+                val.setSourceNodeId(wrapper.getNodeId());
             }
         } else {
             RQLRunTimeWarning w = new RQLRunTimeWarning(

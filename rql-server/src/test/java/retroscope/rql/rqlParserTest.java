@@ -67,6 +67,49 @@ public class rqlParserTest {
     }
 
     @Test
+    public void simpleSingleNodeLogNoWHENConditionNodeFunc() throws Exception {
+        for (int i = 0; i < RUNS; i++) {
+            StringReader q1 = new StringReader("SELECT test.a FROM test WHEN a >= 0 AND Node($0) = 1;");
+            Scanner scanner = new Scanner(q1);
+            scanner.yylex();
+
+            rqlParser rql = new rqlParser(scanner).setEnvironment(new QueryEnvironment() {
+                public void retrieveRemoteLogs(RQLRetrieveParam rqlRetrieveParam) {
+                    DataMapLog<String, RQLItem> testLog = new DataMapLog<String, RQLItem>(1000000, "test");
+                    Timestamp t = new Timestamp();
+                    int logTime = 7;
+                    for (int i = 0; i < LOG_LENGTH; i++) {
+                        Random rand = new Random(System.nanoTime());
+                        t = t.add(2 + rand.nextInt(logTime), (short) 0);
+                        RQLItem item = new RQLItem().addField("", i).addField("v2", i * i);
+                        DataEntry<RQLItem> d1
+                                = new DataEntry<RQLItem>(item, t);
+                        //System.out.println(item.getField("").getIntVal());
+                        String key = ("a");
+                        LogEntry<String, RQLItem> le
+                                = new LogEntry<String, RQLItem>(key, testLog.getItem(key), d1);
+                        try {
+                            //System.out.println(t + " - " + key);
+                            testLog.append(le);
+                        } catch (RetroscopeException re) {
+                            re.printStackTrace();
+                        }
+                    }
+                    RQLDataMapLog testrqlmap = new RQLDataMapLog(1, testLog);
+                    this.logs.add(testrqlmap);
+                }
+
+                @Override
+                public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
+                }
+            });
+            rql.parse();
+            ArrayList<GlobalCut> cuts = rql.getEnvironment().getEmittedGlobalCuts();
+            assertTrue(cuts.size() == LOG_LENGTH);
+        }
+    }
+
+    @Test
     public void simpleSingleNodeLogNoWHENConditionMissingParam() throws Exception {
         for (int i = 0; i < RUNS; i++) {
             StringReader q1 = new StringReader("SELECT a, b FROM test;");

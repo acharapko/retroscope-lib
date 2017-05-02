@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * Created by Aleksey on 12/24/2016.
- * This class represents teh RQL value as being used by the interpreter. It is saomewhat similar to
+ * This class represents teh RQL value as being used by the interpreter. It is somewhat similar to
  * RQLItemValue in regard that it has type and similar value getters, but it also has some additional data,
  * such as which node the value originated.
  */
@@ -19,7 +19,7 @@ public class RQLInterpreterValue implements TypedValue {
     protected long intValue;
     protected double floatValue;
     protected String stringValue = null;
-    //protected int sourceNodeId;
+    protected int sourceNodeId;
 
     public RQLInterpreterValue(Types type) {
         this.type = type;
@@ -60,6 +60,14 @@ public class RQLInterpreterValue implements TypedValue {
     public RQLInterpreterValue setValType(Types valType) {
         this.type = valType;
         return this;
+    }
+
+    public int getSourceNodeId() {
+        return sourceNodeId;
+    }
+
+    public void setSourceNodeId(int sourceNodeId) {
+        this.sourceNodeId = sourceNodeId;
     }
 
     public Types getType() {

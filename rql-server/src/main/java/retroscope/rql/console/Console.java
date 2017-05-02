@@ -55,6 +55,7 @@ public class Console implements Runnable {
                         } catch (IOException ioe) {
                             System.err.println("ioe exception: " + ioe.getMessage());
                         }
+                        parser.getEnvironment().resetEnvironment();
                         parser.setScanner(scanner);
                         parser.parse();
 

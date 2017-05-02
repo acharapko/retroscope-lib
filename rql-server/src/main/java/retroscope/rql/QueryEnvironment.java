@@ -106,10 +106,20 @@ public abstract class QueryEnvironment extends Environment {
 
     public abstract void retrieveSingleCut(RQLRetrieveParam retrieveParam);
 
-    public void resetEnvironment() {
+    public void resetEmitted() {
         emittedGlobalCuts = new ArrayList<>();
         tempGlobalCuts = new ArrayList<>();
         emittedOut = new ArrayList<>();
+    }
+
+    public void resetEnvironment() {
+        placeholders = new ArrayList<>();
+        placeholdersToLinkLocks = new HashMap<>();
+        logs = new ArrayList<>();
+        defaultLog = "";
+        numPlaceholders = 0;
+        resetLinkedNodes();
+        resetEmitted();
     }
 
     private void checkErrors() throws RQLRunTimeException {
