@@ -304,7 +304,7 @@ public class Log<K extends Serializable, V extends Serializable> implements Basi
     ) throws LogOutTimeBoundsException
     {
         if (startingPoint.getTime().compareTo(endingPoint.getTime()) < 0) {
-            throw new LogOutTimeBoundsException("Starting logentry cannot be before or at ending log entry");
+            throw new LogOutTimeBoundsException("Starting log entry cannot be before or at ending log entry");
         }
         LogEntry<K, V> currentLogItem = startingPoint;
         boolean notEnd = true;
@@ -329,11 +329,11 @@ public class Log<K extends Serializable, V extends Serializable> implements Basi
     protected RetroMap<K, V> computeDiffBackwards(Timestamp timeInThePast, LogEntry<K, V> startingPoint) throws LogOutTimeBoundsException
     {
         if (startingPoint == null) {
-            throw new LogOutTimeBoundsException("Starting Point does not exist");
+            throw new LogOutTimeBoundsException("Starting Point does not exist. Make sure log is not empty");
         }
         if (timeInThePast.compareTo(startingPoint.getTime()) > 0) {
-            throw new LogOutTimeBoundsException("Cannot compute backwards diff, because target time was ahead of the starting point ("
-                    + timeInThePast + " > " + startingPoint.getTime());
+            //if we try to get snapshot after the last point in the log, treat it as snapshot of the end of the log.
+            timeInThePast = startingPoint.getTime().clone();
         }
 
         LogEntry<K, V> currentLogItem = startingPoint;
