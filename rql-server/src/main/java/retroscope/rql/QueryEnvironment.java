@@ -40,10 +40,10 @@ public abstract class QueryEnvironment extends Environment {
 
     public QueryEnvironment() {
         super();
-        logs = new ArrayList<RQLLog>();
-        placeholders = new ArrayList<Placeholder>();
-        linkedNodes = new ArrayList<Link>();
-        placeholdersToLinkLocks = new HashMap<Integer, LinkLock>();
+        logs = new ArrayList<>();
+        placeholders = new ArrayList<>();
+        linkedNodes = new ArrayList<>();
+        placeholdersToLinkLocks = new HashMap<>();
     }
 
     public Placeholder getPlaceholder(int id) {
@@ -94,7 +94,7 @@ public abstract class QueryEnvironment extends Environment {
     }
 
     public void resetLinkedNodes() {
-        linkedNodes = new ArrayList<Link>();
+        linkedNodes = new ArrayList<>();
         forAllLinksCount = 0;
     }
 
@@ -106,10 +106,16 @@ public abstract class QueryEnvironment extends Environment {
 
     public abstract void retrieveSingleCut(RQLRetrieveParam retrieveParam);
 
-    public void resetEmits() {
-        emittedGlobalCuts = new ArrayList<GlobalCut>();
-        tempGlobalCuts = new ArrayList<GlobalCut>();
-        emittedOut = new ArrayList<String>();
+    public void resetEnvironment() {
+        emittedGlobalCuts = new ArrayList<>();
+        tempGlobalCuts = new ArrayList<>();
+        emittedOut = new ArrayList<>();
+        placeholders = new ArrayList<>();
+        placeholdersToLinkLocks = new HashMap<>();
+        logs = new ArrayList<>();
+        defaultLog = "";
+        numPlaceholders = 0;
+        resetLinkedNodes();
     }
 
     private void checkErrors() throws RQLRunTimeException {

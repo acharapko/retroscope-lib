@@ -5,6 +5,7 @@ import retroscope.log.*;
 import retroscope.net.server.Callbacks;
 import retroscope.net.server.Server;
 import retroscope.nodeensemble.Ensemble;
+import retroscope.rql.errors.RQLRunTimeException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class RemoteNodeQueryEnvironment extends QueryEnvironment {
             Timestamp endTime
     ) {
         System.out.println("ensemble size = " + ensemble.getEnsembleSize());
-        logs = new ArrayList<RQLLog>(remoteLogs.size() * ensemble.getEnsembleSize()); //get new logs
+        logs = new ArrayList<>(remoteLogs.size() * ensemble.getEnsembleSize()); //get new logs
         final CountDownLatch latch = new CountDownLatch(remoteLogs.size());
         for (String log : remoteLogs) {
             Callbacks.PullLogSliceCallback<String, RQLItem> logCallback
@@ -56,7 +57,7 @@ public class RemoteNodeQueryEnvironment extends QueryEnvironment {
                             }
                             logs.add(dmLog);
                         } else {
-                            //handle errors
+                            addRunTimeException(new RQLRunTimeException("Error #" + errorCode[i] +" while retrieving logs"));
                         }
                     }
                     latch.countDown();
@@ -91,7 +92,7 @@ public class RemoteNodeQueryEnvironment extends QueryEnvironment {
 
     @Override
     public void retrieveSingleCut(RQLRetrieveParam rqlRetrieveParam) {
-        tempGlobalCuts = new ArrayList<GlobalCut>();
+        tempGlobalCuts = new ArrayList<>();
         Ensemble<String, RQLItem> ensemble;
         if (rqlRetrieveParam.getNodeIds() == null || rqlRetrieveParam.getNodeIds().size() == 0) {
             ensemble = retroServer.getMasterEnsemble();

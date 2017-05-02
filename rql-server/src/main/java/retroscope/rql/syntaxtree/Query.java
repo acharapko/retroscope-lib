@@ -65,7 +65,7 @@ public class Query {
     }
 
     public void execute() {
-        rqlScope.resetEmits();
+        rqlScope.resetEnvironment();
         try {
             rqlScope.updateSymbolTableWithLogName(logs.getIdentifiers());
         } catch (RQLRunTimeException rqlrte) {

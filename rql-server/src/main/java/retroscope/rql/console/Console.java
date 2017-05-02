@@ -38,6 +38,7 @@ public class Console implements Runnable {
         StringBuilder buf = new StringBuilder();
         while(true) {
             System.out.println("RQL Console" );
+            System.out.print(">>" );
             String input = in.nextLine().trim();
             if (input.equals("exit")) {
                 System.out.println("bye-bye");
@@ -53,7 +54,6 @@ public class Console implements Runnable {
                             scanner.yylex();
                         } catch (IOException ioe) {
                             System.err.println("ioe exception: " + ioe.getMessage());
-                            buf = new StringBuilder();
                         }
                         parser.setScanner(scanner);
                         parser.parse();
@@ -66,12 +66,13 @@ public class Console implements Runnable {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-
                         }
                         //displayCuts();
                     } catch (Exception e) {
                         System.err.println("Exception (console) " + e.getMessage());
                         e.printStackTrace();
+                    } finally {
+                        buf = new StringBuilder();
                     }
                 }
             }
