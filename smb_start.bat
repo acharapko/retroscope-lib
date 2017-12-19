@@ -1,0 +1,3 @@
+echo Starting SimpleMultiNode Test
+java -jar D:\Dropbox\Retroscope++\retroscope-lib\IgniteServer\target\IgniteServer-1.0-SNAPSHOT-jar-with-dependencies.jar D:\Dropbox\Retroscope++\retroscope-lib\IgniteServer\target\retroscope-config.xml
+java -jar RetrscopeExample-1.0-SNAPSHOT-jar-with-dependencies.jar 12000 iplist.txt D:\Dropbox\Retroscope++\retroscope-lib\IgniteServer\target\retroscope-config.xml 10 50 192.168.1.3

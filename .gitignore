@@ -1,5 +1,7 @@
 .idea/*
-/out/*
-protoc.exe
 */target/*
-*.MF
+*/artifacts/*
+iplist.txt
+aws/*
+*.txt
+RQLServer/src/test/java/retroscope/rql/server/zktest/*

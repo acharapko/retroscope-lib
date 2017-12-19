@@ -1,0 +1,265 @@
+%{
+package retroscope.rql.parser;
+import retroscope.rql.syntaxtree.*;
+import retroscope.rql.syntaxtree.expression.*;
+import retroscope.rql.syntaxtree.expression.literals.*;
+import retroscope.rql.syntaxtree.expression.logical.*;
+import retroscope.rql.syntaxtree.expression.arithmetic.*;
+import retroscope.rql.syntaxtree.expression.sets.*;
+import retroscope.rql.syntaxtree.expression.compare.*;
+import retroscope.rql.syntaxtree.expression.condition.*;
+import retroscope.rql.syntaxtree.expression.assign.*;
+import retroscope.rql.syntaxtree.expression.stackedexpression.*;
+import java.util.ArrayList;
+%}
+// D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\Retroscope++\retroscope-lib\RQLServer\src\main\java\retroscope\rql\langspecs\rql.jacc -t
+%class rqlParser
+%interface mTokens
+%next              	nextToken()
+%get               	lexer.token
+%semantic Object : 	lexer.semanticValue
+
+/*-----------------------------------------------------------------------------
+ *                                 TOKENS
+ *---------------------------------------------------------------------------*/
+
+%token <String>  IDENTIFIER
+%token <Long> INTEGER_LITERAL
+%token <Double>  FLOAT_LITERAL
+%token <String>	 STRING_LITERAL
+%token <String> '{' '(' '[' ']' ')' '}' ';' ',' '='  '<' '+' '-' '*' '.' '!' '\\' '?'
+%token <String> EXPLAIN SELECT
+%token <String> EXISTS FOR_ALL FOR_EACH
+%token <String> FROM WHEN AT ON TO OUT
+%token <String> UNION INTERSECT IN NOT_IN IS_SUBSET IS_PROPER_SUBSET
+%token <String> NODES ALL_NODES TIME SAME_NODE
+%token <String> TRUE FALSE AND OR NEQ EQ GEQ LEQ
+%token <String> ASSIGN VAR GLOBAL COMPUTE
+
+/*-----------------------------------------------------------------------------
+ *             PRECEDENCE AND ASSOCIATIVITY OF OPERATORS
+ *---------------------------------------------------------------------------*/
+%right ASSIGN
+%left '?' ':'
+%left '!'
+%left AND
+%left OR
+%left EXISTS FOR_ALL FOR_EACH
+%left '=' EQ NEQ '<' '>' LEQ GEQ IS_SUBSET IN NOT_IN
+%left '+' '-' '\\' UNION INTERSECT
+%left '*' '/' '%'
+
+/*-----------------------------------------------------------------------------
+ *                              JAVA TYPES
+ *---------------------------------------------------------------------------*/
+%type <Expression>  		Expression AtTimeExtended CmpExpression Compute
+%type <Variable>            DotID
+%type <IdentifierList>  	IdList
+%type <Ternary>             Ternary
+%type <When>              	When
+%type <AtNodes>             AtNodes
+%type <OnTime>             	OnTime
+%type <Param>             	Param
+%type <ParamList>           ParamList
+%type <Query>               Query
+%type <QueryEnd>            QueryEnd
+%type <ExpressionList>      ExpressionList
+
+
+/*-----------------------------------------------------------------------------
+ *                                RQL START
+ *---------------------------------------------------------------------------*/
+
+%start RQL
+
+%%
+
+RQL      			: 	Mode RQL            									{}
+					|                                                           {}
+					;
+
+Mode                :   Query ';'                                               {queries.add($1);}
+                    |   EXPLAIN Query ';'                                       {$2.explain(); queries.add($2);}
+                    |   Expression ';'                                          {$$ = new EvalExpression($1);}
+                    ;
+
+/*-----------------------------------------------------------------------------
+ *                                QUERY
+ *---------------------------------------------------------------------------*/
+Query               :   SELECT ParamList FROM IdList QueryEnd                   {$$ = new Query($2, $4, $5);}
+                    ;
+
+QueryEnd            :   Compute When AtNodes OnTime                             {$$ = new QueryEnd($1, $2, $3, $4);}
+                    ;
+
+Compute             :   COMPUTE Expression                                      {$$ = $2;}
+                    |                                                           {$$ = null;}
+                    ;
+
+When                :   WHEN Expression                                         {$$ = new When($2);}
+                    |                                                           {$$ = null;}
+                    ;
+
+AtNodes             :   AT NODES IdList                                         {$$ = new AtNodes($3);}
+                    |   AT ALL_NODES                                            {$$ = new AtNodes();}
+                    |                                                           {$$ = null;}
+                    ;
+
+OnTime              :   ON TIME Expression AtTimeExtended                       {$$ = new OnTime($3, $4);}
+                    |                                                           {$$ = null;}
+                    ;
+
+AtTimeExtended      :   TO Expression                                           {$$ = $2;}
+                    |                                                           {$$ = null;}
+                    ;
+
+ParamList           :   Param ',' ParamList                                     {$$ = new ParamList($1, $3);}
+                    |   Param                                                   {$$ = new ParamList($1);}
+                    ;
+
+
+Param               :   IDENTIFIER                                              {$$ = new Param($1);}
+                    |   IDENTIFIER '.' IDENTIFIER                               {$$ = new Param($1, $3);}
+                    ;
+
+/*-----------------------------------------------------------------------------
+ *                                Expression
+ *---------------------------------------------------------------------------*/
+
+
+Expression	        :	'(' Expression ')'										{$$ = $2;}
+					|   AssignExp                                               {$$ = $1;}
+                    |   SetExp                                                  {$$ = $1;}
+                    |   ArithmeticExp                                           {$$ = $1;}
+					| 	CmpExpression           								{$$ = $1;}
+					| 	LogicalExp           									{$$ = $1;}
+					|   VarExp                                                  {$$ = $1;}
+					|	Cond												    {}
+                    |   FOR_EACH IdList IN Expression ':' '(' Expression ')'    {$$ = new ForEach($2, $4, $7);}
+					;
+
+
+SetExp              :   EXISTS IdList IN Expression ':' '(' Expression ')'      {$$ = new Exists($2, $4, $7);}
+                    |	FOR_ALL IdList IN Expression ':' '(' Expression ')'     {$$ = new ForAll($2, $4, $7);}
+                    |   Expression IS_SUBSET Expression                         {$$ = new IsSubset($1, $3);}
+                    |   Expression UNION Expression                             {$$ = new Union($1, $3);}
+                    |   Expression INTERSECT Expression                         {$$ = new Intersect($1, $3);}
+                    |   Expression IN Expression                                {$$ = new InOperator($1, $3);}
+                    |   Expression NOT_IN Expression                            {$$ = new NotInOperator($1, $3);}
+                    |   Expression '\\' Expression                              {$$ = new SetDifference($1, $3);}
+                    ;
+
+AssignExp           :   VAR IDENTIFIER                                          {$$ = new DeclareExpression(new Variable($2), false);}
+                    |   GLOBAL IDENTIFIER                                       {$$ = new DeclareExpression(new Variable($2), true);}
+                    |   OUT IDENTIFIER                                          {$$ = new OutExpression(new Variable($2));}
+                    |   IDENTIFIER ASSIGN Expression                            {$$ = new AssignExpression(new Variable($1), $3);}
+                    /*|   IDENTIFIER '[' Expression ']' ASSIGN Expression       {$$ = null;}*/
+                    ;
+
+VarExp              :   IDENTIFIER '(' ExpressionList ')'                       {$$ = new FuncCall($1, $3);}
+                    /*|   IDENTIFIER '[' Expression ']'                         {$$ = new Variable($1);}*/
+                    |	VarID											        {$$ = $1;}
+                    | 	INTEGER_LITERAL											{$$ = new IntegerLiteral($1);}
+                    |	FLOAT_LITERAL											{$$ = new FloatLiteral($1);}
+                    |	STRING_LITERAL											{$$ = new StringLiteral($1);}
+                    |	Set         											{$$ = $1;}
+                    |	TRUE											        {$$ = new IntegerLiteral(1);}
+                    |	FALSE											        {$$ = new IntegerLiteral(0);}
+                    ;
+
+VarID               :   IDENTIFIER DotID										{$$ = new Variable($1, $2);}
+                    ;
+
+DotID               :   '.' VarID                                               {$$ = $2;}
+                    |                                                           {$$ = null;}
+                    ;
+
+LogicalExp          :   '!' Expression											{$$ = new NotExpression($2);}
+                    |	Expression AND Expression								{$$ = new And($1, $3);}
+                    |	Expression OR Expression								{$$ = new Or($1, $3);}
+                    ;
+
+ArithmeticExp       :   '-' Expression											{$$ = new Minus($2);}
+                    |	Expression '+' Expression								{$$ = new Plus($1, $3);}
+                    |	Expression '-' Expression								{$$ = new Minus($1, $3);}
+                    |	Expression '/' Expression								{$$ = new Divide($1, $3);}
+                    | 	Expression '*' Expression								{$$ = new Multiply($1, $3);}
+                    | 	Expression '%' Expression								{$$ = new Mod($1, $3);}
+                    ;
+
+CmpExpression       :   Expression '=' Expression								{$$ = new EQExpression($1, $3);}
+                    |	Expression EQ Expression								{$$ = new EQExpression($1, $3);}
+                    |	Expression NEQ Expression								{$$ = new NEQExpression($1, $3);}
+                    |	Expression LEQ Expression								{$$ = new LEQExpression($1, $3);}
+                    |	Expression GEQ Expression								{$$ = new GEQExpression($1, $3);}
+                    |	Expression '<' Expression								{$$ = new LessThanExpression($1, $3);}
+                    |	Expression '>' Expression								{$$ = new GreaterThanExpression($1, $3);}
+                    ;
+
+Set                 :   '{' ExpressionList '}'                                  {$$ = new SetLiteral($2);}
+                    |   INTEGER_LITERAL '.' '.' INTEGER_LITERAL                 {$$ = null;}
+                    ;
+
+
+IdList              :   IDENTIFIER ',' IdList                                   {$$ = new IdentifierList($1, $3);}
+                    |   IDENTIFIER                                              {$$ = new IdentifierList($1);}
+                    ;
+
+Cond                :   Expression '?' Ternary                                  {$$ = new Condition($1, $3);}
+                    ;
+
+Ternary             :   '(' Expression ')' ':' '(' Expression ')'               {$$ = new Ternary($2, $6);}
+                    |   '(' Expression ')' ':' ';'                              {$$ = new Ternary($2);}
+                    ;
+
+
+ExpressionList      :   Expression ',' ExpressionList                           {$$ = new ExpressionList($1, $3);}
+                    |   Expression                                              {$$ = new ExpressionList($1);}
+                    |                                                           {$$ = new ExpressionList();}
+                    ;
+
+%%
+
+
+/* code in the parser class*/
+
+private Scanner lexer;
+private ArrayList<Query> queries = new ArrayList<>();
+/* constructor registering a lexer for lang */
+public rqlParser(Scanner lexer){
+    this.lexer=lexer;
+}
+
+public rqlParser(){
+}
+
+/* implementation of the nextToken() using lexer.yylex() that throws an
+exception
+*/
+
+public void setScanner(Scanner lexer) {
+    this.lexer = lexer;
+}
+
+private int nextToken(){
+      try{
+          return lexer.yylex();
+       }catch(java.io.IOException e){System.out.println("IO exception from lexer!");e.printStackTrace();}
+       return 0;
+}
+
+private void yyerror(String msg) {
+    System.out.println(
+      "ERROR "+ msg + "\n" +
+      " at line   " +(lexer.line() + 1) + "\n" +
+      " at column " +(lexer.column() + 1) + "\n" +
+      " with token <<" + lexer.semanticValue + ">>"); }
+
+
+public ArrayList<Query> getQueries() {
+    return this.queries;
+}
+
+public void resetQueries() {
+    queries.clear();
+}

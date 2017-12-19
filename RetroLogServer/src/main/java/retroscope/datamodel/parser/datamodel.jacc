@@ -1,0 +1,149 @@
+%{
+package retroscope.datamodel.parser;
+import retroscope.datamodel.datastruct.*;
+import retroscope.datamodel.datastruct.variables.*;
+import retroscope.datamodel.datastruct.misc.*;
+import retroscope.datamodel.datastruct.sets.*;
+import retroscope.datamodel.datastruct.struct.*;
+import java.util.ArrayList;
+
+
+%}
+// D:\Dropbox\school\UNF\COP6xxx\language\jacc D:\Dropbox\Retroscope++\retroscope-lib\RetroLogServer\src\main\java\retroscope\datamodel\parser\datamodel.jacc -t
+%class DataParser
+%interface dataTokens
+%next              	nextToken()
+%get               	lexer.token
+%semantic Object : 	lexer.semanticValue
+
+%token <String>  IDENTIFIER
+%token <Long> INTEGER_LITERAL
+%token <Double>  FLOAT_LITERAL
+%token <String>	 STRING_LITERAL
+%token <String>	 APPEND
+%token <String>	 REMOVE
+%token <String>	 NIL
+%token <String> '{' '(' '[' ']' ')' '}' ';' ',' '='  '<' '>'
+
+/* Precedence and associativity of operators */
+%right ':'
+%left APPEND REMOVE
+
+%type <RQLVariable>             Val PosNum
+%type <RQLSymbol>              	Value DataItem SetItem StructItem
+%type <IdList>              	IdList
+%type <SetItems>              	SetItems StructItems
+
+/* start symbol */
+%start Data
+
+%%
+
+Data                :   '<' IDENTIFIER ',' INTEGER_LITERAL ',' INTEGER_LITERAL '>' ':' DataItems            {data.setTimestamp($4); data.setLogName($2); data.setNodeId($6);}
+                    |   '<' INTEGER_LITERAL '>' ':' DataItems                           {data.setTimestamp($2);}
+                    |                                                                   {$$ = null;}
+                    ;
+
+DataItems           :   DataItem ',' DataItems                                          {data.appendDataItem($1);}
+                    |   DataItem                                                        {data.appendDataItem($1);}
+                    ;
+
+DataItem            :   IDENTIFIER ':' Value                                            {$3.setName($1); $$ = $3;}
+                    |   IDENTIFIER '|' IdList ':' Value                                 {$5.setName($1); $5.addNodeIDs($3); $$ = $5;}
+                    ;
+
+Value               :   Val                                                             {$$ = $1;}
+                    |   Set                                                             {$$ = $1;}
+                    |   Struct                                                          {$$ = $1;}
+                    |   List                                                            {}
+                    |   NIL                                                             {$$ = new Null();}
+                    ;
+
+Val                 :   PosNum                                                          {$$ = $1;}
+                    |   '-' PosNum                                                      {$2.negate(); $$ = $2;}
+                    |   STRING_LITERAL                                                  {$$ = new StringRQLVariable($1);}
+                    ;
+
+PosNum              :   INTEGER_LITERAL                                                 {$$ = new LongRQLVariable($1);}
+                    |   FLOAT_LITERAL                                                   {$$ = new DoubleRQLVariable($1);}
+                    ;
+
+
+Struct              :   '[' StructItems ']'                                             {$$ = new RQLStruct($2);}
+                    ;
+
+
+IdList              :   INTEGER_LITERAL ',' IdList                                      {$3.addId($1); $$ = $3;}
+                    |   INTEGER_LITERAL                                                 {$$ = new IdList($1);}
+                    |                                                                   {$$ = null;}
+                    ;
+
+Set                 :   '{' SetItems '}'                                                {$$ = new RQLSet($2);}
+                    |   APPEND '{' SetItems '}'                                         {$$ = new AppendRQLSet($3);}
+                    |   REMOVE '{' SetItems '}'                                         {$$ = new RemoveRQLSet($3);}
+                    ;
+
+List                :   '<' SetItems '>'                                                {}
+                    ;
+
+SetItems            :   SetItem ',' SetItems                                            {$$ = $3.addItem($1);}
+                    |   SetItem                                                         {$$ = new SetItems($1);}
+                    |                                                                   {$$ = new SetItems();}
+                    ;
+
+SetItem             :   IDENTIFIER ':' Value                                            {$3.setName($1); $$ = $3;}
+                    |   IDENTIFIER '|' IdList ':' Value                                 {$5.setName($1); $5.addNodeIDs($3); $$ = $5;}
+                    |   Value                                                           {$$ = $1;}
+                    ;
+
+StructItems         :   StructItem ',' StructItems                                      {$$ = $3.addItem($1);}
+                    |   StructItem                                                      {$$ = new SetItems($1);}
+                    |                                                                   {$$ = new SetItems();}
+                    ;
+
+StructItem          :   IDENTIFIER ':' Value                                            {$3.setName($1); $$ = $3;}
+                    ;
+
+
+
+%%
+
+
+/* code in the parser class*/
+
+private DataScanner lexer;
+private RQLData data;
+
+public RQLData getData() {
+    return this.data;
+}
+
+/* constructor registering a lexer for lang */
+public DataParser(DataScanner lexer){
+    setScanner(lexer);
+}
+
+public DataParser(){
+     data = new RQLData();
+}
+
+/* implementation of the nextToken() using lexer.yylex() that throws an
+exception
+*/
+
+public void setScanner(DataScanner lexer) {
+    this.lexer = lexer;
+    this.data = new RQLData();
+}
+
+private int nextToken(){
+      try{
+          return lexer.yylex();
+       }catch(java.io.IOException e){System.out.println("IO exception from lexer!");e.printStackTrace();}
+       return 0;
+}
+
+private void yyerror(String msg) {
+    System.out.println(
+      "DataParser ERROR "+ msg + "\n" +
+      " with token <<" + lexer.semanticValue + ">>"); }

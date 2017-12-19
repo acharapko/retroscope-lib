@@ -1,0 +1,64 @@
+package retroscope.rql.parser;// Output created by jacc on Fri Nov 24 17:23:03 EST 2017
+
+public interface mTokens {
+    int ENDINPUT = 0;
+    int ALL_NODES = 1;
+    int AND = 2;
+    int ASSIGN = 3;
+    int AT = 4;
+    int COMPUTE = 5;
+    int EQ = 6;
+    int EXISTS = 7;
+    int EXPLAIN = 8;
+    int FALSE = 9;
+    int FLOAT_LITERAL = 10;
+    int FOR_ALL = 11;
+    int FOR_EACH = 12;
+    int FROM = 13;
+    int GEQ = 14;
+    int GLOBAL = 15;
+    int IDENTIFIER = 16;
+    int IN = 17;
+    int INTEGER_LITERAL = 18;
+    int INTERSECT = 19;
+    int IS_PROPER_SUBSET = 20;
+    int IS_SUBSET = 21;
+    int LEQ = 22;
+    int NEQ = 23;
+    int NODES = 24;
+    int NOT_IN = 25;
+    int ON = 26;
+    int OR = 27;
+    int OUT = 28;
+    int SAME_NODE = 29;
+    int SELECT = 30;
+    int STRING_LITERAL = 31;
+    int TIME = 32;
+    int TO = 34;
+    int TRUE = 35;
+    int UNION = 36;
+    int VAR = 38;
+    int WHEN = 39;
+    int error = 48;
+    // '!' (code=33)
+    // '%' (code=37)
+    // '(' (code=40)
+    // ')' (code=41)
+    // '*' (code=42)
+    // '+' (code=43)
+    // ',' (code=44)
+    // '-' (code=45)
+    // '.' (code=46)
+    // '/' (code=47)
+    // ':' (code=58)
+    // ';' (code=59)
+    // '<' (code=60)
+    // '=' (code=61)
+    // '>' (code=62)
+    // '?' (code=63)
+    // '[' (code=91)
+    // '\\' (code=92)
+    // ']' (code=93)
+    // '{' (code=123)
+    // '}' (code=125)
+}
