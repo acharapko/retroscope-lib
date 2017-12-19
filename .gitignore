@@ -3,3 +3,7 @@
 protoc.exe
 */target/*
 *.MF
+iplist.txt
+aws/*
+*.txt
+RQLServer/src/test/java/retroscope/rql/server/zktest/*
