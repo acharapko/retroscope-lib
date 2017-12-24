@@ -3,6 +3,7 @@ package retroscope.rql.syntaxtree.expression.logical;
 import retroscope.datamodel.datastruct.RQLSymbol;
 import retroscope.datamodel.datastruct.variables.LongRQLVariable;
 import retroscope.datamodel.datastruct.variables.RQLVariable;
+import retroscope.rql.environment.EnvironmentStack;
 import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
 
@@ -38,6 +39,11 @@ public class NotExpression extends Expression
 		}
 
 	}
+
+    public void setEnvironmentStack(EnvironmentStack stack) {
+        this.stack = stack;
+        ex1.setEnvironmentStack(stack);
+    }
 
 
 	public NotExpression clone() {
