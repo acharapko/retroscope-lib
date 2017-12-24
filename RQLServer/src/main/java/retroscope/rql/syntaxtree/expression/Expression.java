@@ -41,13 +41,4 @@ public abstract class Expression implements Valuable, Cloneable{
 
     public abstract Expression clone();
 
-    public abstract boolean isDirty();
-
-    public void clean() {
-        dirty = false;
-    }
-
-    public void stain() {
-        dirty = true;
-    }
 }
