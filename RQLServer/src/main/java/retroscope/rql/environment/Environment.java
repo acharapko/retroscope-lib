@@ -105,8 +105,6 @@ public class Environment {
         return false;
     }
 
-
-
     public void addExpression(Expression ex) {
         ex.setEnvironmentStack(stack);
         this.expression = ex;
@@ -160,6 +158,7 @@ public class Environment {
             parentEnv.assignToSymbol(key, val);
         } else if (s != null) {
             this.symbolTable.put(key, val);
+            val.stain();
         }
     }
 

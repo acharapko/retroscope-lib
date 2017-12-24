@@ -16,6 +16,8 @@ public abstract class RQLSymbol implements RQLDataStructure {
     private String name = null;
     private Set<Long> nodeIDs = new HashSet<>();
 
+    private boolean dirty = true;
+
     public RQLSymbol() {}
 
     public RQLSymbol(String name) {
@@ -67,10 +69,21 @@ public abstract class RQLSymbol implements RQLDataStructure {
         this.nodeIDs.addAll(nodeIDs);
     }
 
+    public void stain() {
+        dirty = true;
+    }
+    public void clean() { dirty = false; }
+
+    public boolean isDirty() {
+        return dirty;
+    }
+
     public abstract RQLSymbol clone();
 
     public abstract String toEmitRQLString();
 
     public abstract String toValueString();
+
+
 
 }

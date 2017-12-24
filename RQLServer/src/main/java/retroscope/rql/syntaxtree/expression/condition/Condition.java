@@ -4,6 +4,9 @@ import retroscope.datamodel.datastruct.RQLSymbol;
 import retroscope.datamodel.datastruct.variables.LongRQLVariable;
 import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
+import retroscope.rql.syntaxtree.expression.literals.Variable;
+
+import java.util.ArrayList;
 
 public class Condition extends Expression {
 
@@ -36,6 +39,19 @@ public class Condition extends Expression {
 
     @Override
     public Expression clone() {
-        return null;
+        return new Condition(condition.clone(), options);
+    }
+
+    @Override
+    public boolean computeDirty() {
+        dirty = condition.computeDirty();
+        return dirty;
+    }
+
+    @Override
+    public ArrayList<Variable> findVars() {
+        ArrayList<Variable> v = new ArrayList<>();
+        v.addAll(condition.findVars());
+        return v;
     }
 }

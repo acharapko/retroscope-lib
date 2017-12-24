@@ -1,12 +1,20 @@
 package retroscope.rql.environment;
 
 import org.apache.log4j.Logger;
+import retroscope.datamodel.datastruct.RQLSymbol;
+import retroscope.datamodel.datastruct.sets.RQLSet;
+import retroscope.datamodel.datastruct.struct.RQLStruct;
 import retroscope.datamodel.datastruct.variables.LongRQLVariable;
+import retroscope.datamodel.datastruct.variables.RQLVariable;
+import retroscope.datamodel.parser.RQLData;
 import retroscope.rql.log.RQLStateSequence;
 import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
+import retroscope.rql.syntaxtree.expression.literals.Variable;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  * This class represents the root environment of an RQL query evaluation.
@@ -24,7 +32,10 @@ public class ScanningEnvironment extends Environment {
 
     private Expression computeExpression;
 
-    private long prevCutHLC = 0;
+    private HashMap<String, Variable> mutatingVarsIndex;
+    private ArrayList<Variable> mutatingVars; //list of vars
+
+    //private long prevCutHLC = 0;
     private long currentCutHLC = 0;
 
     private Logger logger = Logger.getLogger(ScanningEnvironment.class);
@@ -43,6 +54,8 @@ public class ScanningEnvironment extends Environment {
     }
 
     private void init() {
+        this.mutatingVarsIndex = new HashMap<>();
+        this.mutatingVars = new ArrayList<>();
         this.emittedCuts = new ArrayList<>();
         this.stateSequence.setParams(params);
         this.stateSequence.parseInitialState();
@@ -52,6 +65,28 @@ public class ScanningEnvironment extends Environment {
 
     public void setComputeExpression(Expression computeExpression) {
         this.computeExpression = computeExpression;
+        addToMutatingVarsIndex(computeExpression);
+    }
+
+    public void addExpression(Expression ex) {
+        super.addExpression(ex);
+        addToMutatingVarsIndex(ex);
+    }
+
+    public void assignToSymbol(String key, RQLSymbol val) {
+        super.assignToSymbol(key, val);
+        computeDirty();
+    }
+
+    private void addToMutatingVarsIndex(Expression ex) {
+        ArrayList<Variable> vars = ex.findVars();
+        for (Variable v: vars) {
+            //add only new vars to index that are in the list of params
+            if (!mutatingVarsIndex.containsKey(v.getName()) && params.contains(v.getName())) {
+                mutatingVars.add(v);
+                mutatingVarsIndex.put(v.getName(), v);
+            }
+        }
     }
 
     public void scan() {
@@ -60,10 +95,9 @@ public class ScanningEnvironment extends Environment {
 
     public synchronized boolean nextCut() {
         if (stateSequence.hasNext()) {
-            SymbolTable upd = stateSequence.nextSymbolTable(this.getSymbolTable());
-            if (upd != null) {
-                this.setSymbolTable(upd);
-                prevCutHLC = currentCutHLC;
+            ArrayList<RQLData> changes = stateSequence.getSymbolTableChanges(this.getSymbolTable());
+            if (changes != null) {
+                updateSymbolTable(this.getSymbolTable(), changes);
                 currentCutHLC = stateSequence.getCurrentHLC();
                 try {
                     if (this.expression != null) {
@@ -94,6 +128,64 @@ public class ScanningEnvironment extends Environment {
         return false;
     }
 
+
+    private void updateSymbolTable(SymbolTable symbolTable, Collection<RQLData> changes) {
+
+        if (params != null && params.size() > 0) {
+            restrict(changes);
+        }
+        //clean all the global variables
+        /*for (Variable v: mutatingVars) {
+            v.clean();
+        }*/
+
+        for (String var: symbolTable.keySet()) {
+            symbolTable.get(var).clean();
+        }
+
+        for (RQLData change : changes) {
+            for (RQLSymbol s : change.getDataItems()) {
+                String varname = s.getName();
+
+                //this.mutatingVarsIndex.get(varname).stain(); // stain varname
+
+                RQLSymbol symbol = symbolTable.get(varname);
+                if (symbol == null) {
+                    symbol = new RQLSet(varname);
+                    symbolTable.put(varname, symbol);
+                }
+                if (symbol instanceof RQLSet) {
+                    RQLSymbol changeSymb = s;
+                    if ((changeSymb instanceof RQLVariable) || (changeSymb instanceof RQLStruct)) {
+                        ((RQLSet) symbol).replaceOrAddVariable(changeSymb);
+                    } else if (changeSymb instanceof RQLSet) {
+                        ((RQLSet) symbol).replaceOrAddSets((RQLSet) changeSymb);
+                    }
+                    symbol.stain();
+                }
+            }
+        }
+        computeDirty();
+        logger.debug("Checking cut: " + symbolTable.toString());
+    }
+
+    public void restrict(Collection<RQLData> changes) {
+        for (RQLData change : changes) {
+            change.restrict(params);
+        }
+    }
+
+    private void computeDirty() {
+        if (this.expression != null) {
+            this.expression.computeDirty();
+        }
+        if (this.computeExpression != null) {
+            this.computeExpression.computeDirty();
+        }
+    }
+
+
+
     public void evaluate() throws IllegalExpressionException {
         if (computeExpression != null) {
             Environment computeEnv = invoke(computeExpression); //doing compute script
@@ -106,18 +198,13 @@ public class ScanningEnvironment extends Environment {
 
     private void emitCut() {
         String cutVal = getSymbolTable().toString(params);
-        /*if (emittedCuts.size() > 0) {
-            GlobalCut prevCut = emittedCuts.get(emittedCuts.size() - 1);
-            if (prevCut != null && prevCut.getCutTimes().size() > 0
-                    && prevCut.getCut().equals(cutVal) && prevCut.getCutTimes().get(prevCut.getCutTimes().size() - 1).equals(prevCutHLC)) {
-                prevCut.addCutTime(currentCutHLC);
-                return;
-            }
-        }*/
+
         GlobalCut gc = new GlobalCut(currentCutHLC, cutVal);
         emittedCuts.add(gc);
+    }
 
-
+    public long getCurrentCutHLC() {
+        return currentCutHLC;
     }
 
     public ArrayList<GlobalCut> getEmittedCuts() {

@@ -8,6 +8,8 @@ import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.ExpressionList;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
 
+import java.util.ArrayList;
+
 public class SetLiteral extends Expression
 {
 	protected ExpressionList expressions;
@@ -35,6 +37,26 @@ public class SetLiteral extends Expression
 
 	public SetLiteral clone() {
 		return new SetLiteral(expressions);
+	}
+
+	@Override
+	public boolean computeDirty() {
+		dirty = false;
+		for (Expression ex1: expressions.getList()) {
+			if (ex1.computeDirty()) {
+				dirty = true;
+			}
+		}
+		return dirty;
+	}
+
+	@Override
+	public ArrayList<Variable> findVars() {
+		ArrayList<Variable> v = new ArrayList<>();
+		for (Expression ex1: expressions.getList()) {
+			v.addAll(ex1.findVars());
+		}
+		return v;
 	}
 
 }

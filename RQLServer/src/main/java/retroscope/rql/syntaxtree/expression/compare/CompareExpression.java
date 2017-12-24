@@ -39,12 +39,9 @@ public abstract class CompareExpression extends TwoOperandExpression
 				String str2 = (String) ((RQLVariable) ex2Val).getValue();
 				cmp = compareStrings(str1, str2);
 			}
-
 			value = new LongRQLVariable(cmp ? 1 : 0);
 		} else if (ex1Val instanceof RQLSet && ex2Val instanceof RQLSet) {
-			boolean cmp = false;
-			cmp = compareSets((RQLSet) ex1Val, (RQLSet) ex1Val);
-			value = new LongRQLVariable(cmp ? 1 : 0);
+			value = new LongRQLVariable(compareSets((RQLSet) ex1Val, (RQLSet) ex1Val) ? 1 : 0);
 		} else {
 			String ex1Type = "NULL";
 			String ex2Type = "NULL";

@@ -10,6 +10,7 @@ import retroscope.rql.syntaxtree.expression.literals.Variable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 /**
  * Created by Aleksey on 12/20/2016.
@@ -70,5 +71,25 @@ public class FuncCall extends Expression {
     public FuncCall clone() {
         ExpressionList clonedParams = params.clone();
         return new FuncCall(name, clonedParams);
+    }
+
+    @Override
+    public boolean computeDirty() {
+        dirty = false;
+        for (Expression ex1: params.getList()) {
+            if (ex1.computeDirty()) {
+                dirty = true;
+            }
+        }
+        return dirty;
+    }
+
+    @Override
+    public ArrayList<Variable> findVars() {
+        ArrayList<Variable> v = new ArrayList<>();
+        for (Expression ex1: params.getList()) {
+            v.addAll(ex1.findVars());
+        }
+        return v;
     }
 }

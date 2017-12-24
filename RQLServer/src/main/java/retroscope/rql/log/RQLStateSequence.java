@@ -100,17 +100,16 @@ public class RQLStateSequence extends StateSequence {
                 }
             }
         }
-
         return symbolTable;
     }
 
 
     /*
-     * With nextSymbolTable method we do not need tog get the currentState from scratch with next method
+     * With getSymbolTableChanges method we do not need tog get the currentState from scratch with next method
      * and compile the symbol table. Instead we stop short of computing currentState and update the symbol
      * table directly
      */
-    public SymbolTable nextSymbolTable(SymbolTable symbolTable) {
+    public ArrayList<RQLData> getSymbolTableChanges(SymbolTable symbolTable) {
         //this.changedVars = new HashSet<>();
         Map.Entry<Long, Collection<String>> entry = higherEntry(currentHLC);
         if (entry != null) {
@@ -139,9 +138,7 @@ public class RQLStateSequence extends StateSequence {
                     changesData.add(dt);
                 }
             }
-            if (changesData.size() > 0) {
-                return updateSymbolTable(symbolTable, changesData);
-            }
+            return changesData;
         }
         return null;
     }
@@ -150,41 +147,4 @@ public class RQLStateSequence extends StateSequence {
         Map.Entry<Long, Collection<String>> entry = higherEntry(currentHLC);
         return entry != null;
     }
-
-    private SymbolTable updateSymbolTable(SymbolTable symbolTable, Collection<RQLData> changes) {
-
-        if (params != null && params.size() > 0) {
-            restrict(changes);
-        }
-
-        for (RQLData change : changes) {
-            for (RQLSymbol s : change.getDataItems()) {
-                String varname = s.getName();
-                RQLSymbol symbol = symbolTable.get(varname);
-                if (symbol == null) {
-                    symbol = new RQLSet(varname);
-                    symbolTable.put(varname, symbol);
-                }
-                if (symbol instanceof RQLSet) {
-                    RQLSymbol changeSymb = s;
-                    if ((changeSymb instanceof RQLVariable) || (changeSymb instanceof RQLStruct)) {
-                        ((RQLSet) symbol).replaceOrAddVariable(changeSymb);
-                    } else if (changeSymb instanceof RQLSet) {
-                        ((RQLSet) symbol).replaceOrAddSets((RQLSet) changeSymb);
-                    }
-                }
-            }
-        }
-        //System.out.println("Checking cut: " + symbolTable.toString());
-        logger.debug("Checking cut: " + symbolTable.toString());
-        return symbolTable;
-    }
-
-    public void restrict(Collection<RQLData> changes) {
-        for (RQLData change : changes) {
-            change.restrict(params);
-        }
-    }
-
-
 }

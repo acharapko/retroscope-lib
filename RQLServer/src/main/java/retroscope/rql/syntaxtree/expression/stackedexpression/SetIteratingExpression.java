@@ -9,6 +9,7 @@ import retroscope.rql.environment.EnvironmentStack;
 import retroscope.rql.syntaxtree.IdentifierList;
 import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
+import retroscope.rql.syntaxtree.expression.literals.Variable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,15 +24,11 @@ public abstract class SetIteratingExpression extends Expression {
     private long maxCombinations;
     private long completedCombinations;
 
-
-
-
     public SetIteratingExpression(IdentifierList ids, Expression ex1, Expression ex2) {
         this.ids = ids;
         this.ex2 = ex2;
         this.ex1 = ex1;
         iterators = new ArrayList<>();
-
     }
 
     public SetIteratingExpression(IteratingFunc aggregate) {
@@ -177,5 +174,20 @@ public abstract class SetIteratingExpression extends Expression {
     public void setEnvironmentStack(EnvironmentStack stack) {
         this.stack = stack;
         ex1.setEnvironmentStack(stack);
+    }
+
+    @Override
+    public boolean computeDirty()
+    {
+        dirty = ex1.computeDirty() || ex2.computeDirty();
+        return dirty;
+    }
+
+    @Override
+    public ArrayList<Variable> findVars() {
+        ArrayList<Variable> v = new ArrayList<>();
+        v.addAll(ex1.findVars());
+        v.addAll(ex2.findVars());
+        return v;
     }
 }

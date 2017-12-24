@@ -6,6 +6,8 @@ import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
 import retroscope.rql.syntaxtree.expression.literals.Variable;
 
+import java.util.ArrayList;
+
 public class DeclareExpression extends Expression {
 
     private Variable identifier;
@@ -14,6 +16,7 @@ public class DeclareExpression extends Expression {
     public DeclareExpression(Variable identifier, boolean global) {
         this.identifier = identifier;
         this.global = global;
+        dirty = true;
     }
 
     @Override
@@ -34,5 +37,15 @@ public class DeclareExpression extends Expression {
     @Override
     public Expression clone() {
         return new DeclareExpression(identifier.clone(), global);
+    }
+
+    @Override
+    public boolean computeDirty() {
+        return dirty;
+    }
+
+    @Override
+    public ArrayList<Variable> findVars() {
+        return new ArrayList<>();
     }
 }

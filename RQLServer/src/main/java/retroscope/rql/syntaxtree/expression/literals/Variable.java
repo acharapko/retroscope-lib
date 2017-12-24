@@ -7,11 +7,15 @@ import retroscope.rql.environment.EnvironmentStack;
 import retroscope.rql.syntaxtree.expression.Expression;
 import retroscope.rql.syntaxtree.expression.IllegalExpressionException;
 
+import java.util.ArrayList;
+
 public class Variable extends Expression
 {
 	private String name;
     private int id = -1;
     private Variable nested;
+
+    RQLSymbol val;
 
     public Variable(String name)
     {
@@ -44,19 +48,28 @@ public class Variable extends Expression
     }
 
     public void evaluate() throws IllegalExpressionException {
-        //if (dirty) {
+        if (dirty) {
+            retrieveValFromEnv();
             if (nested == null) {
-                RQLSymbol val = getEnvironment().getSymbol(this.name);
-                if (val == null) {
-                    val = new Null();
-                }
                 this.value = val;
             } else {
-                RQLSymbol s = getEnvironment().getSymbol(this.name);
-                this.value = recursiveFind(s, nested);
+                this.value = recursiveFind(val, nested);
             }
-            //dirty = false;
-        //}
+        }
+    }
+
+    private void retrieveValFromEnv() {
+        val = getEnvironment().getSymbol(this.name);
+        if (val == null) {
+            val = new Null();
+        }
+    }
+    @Override
+    public boolean computeDirty() {
+
+        retrieveValFromEnv();
+        dirty = val.isDirty();
+        return dirty;
     }
 
     public String getName() {
@@ -75,5 +88,12 @@ public class Variable extends Expression
         Variable clone = new Variable(name, nc);
         clone.id = this.id;
         return clone;
+    }
+
+    @Override
+    public ArrayList<Variable> findVars() {
+        ArrayList<Variable> v = new ArrayList<>();
+        v.add(this);
+        return v;
     }
 }

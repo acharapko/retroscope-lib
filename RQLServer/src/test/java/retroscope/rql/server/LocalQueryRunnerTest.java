@@ -125,7 +125,7 @@ public class LocalQueryRunnerTest {
         LocalQueryRunner qr = new LocalQueryRunner(rql.getQueries().get(0), stateSequence);
         qr.execute();
         System.out.println(qr.getEmittedCuts().size());
-        assertTrue(qr.getEmittedCuts().size()  == 2);
+        assertTrue(qr.getEmittedCuts().size() == 2);
     }
 
 
@@ -155,6 +155,21 @@ public class LocalQueryRunnerTest {
         qr.execute();
         System.out.println(qr.getEmittedCuts().size());
         assertTrue(qr.getEmittedCuts().size() == 1);
+    }
+
+
+    @Test
+    public void testSimpleQueryIsNotSubset() throws Exception {
+        StringReader q1 = new StringReader("SELECT a FROM testlog WHEN !(a ISSUBSET {6,9});");
+        Scanner scanner = new Scanner(q1);
+        scanner.yylex();
+
+        rqlParser rql = new rqlParser(scanner);
+        rql.parse();
+        LocalQueryRunner qr = new LocalQueryRunner(rql.getQueries().get(0), stateSequence);
+        qr.execute();
+        System.out.println(qr.getEmittedCuts().size());
+        assertTrue(qr.getEmittedCuts().size() == SEQ_LEN - 1);
     }
 
     @Test

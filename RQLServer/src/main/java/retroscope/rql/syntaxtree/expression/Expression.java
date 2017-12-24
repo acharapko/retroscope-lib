@@ -5,6 +5,9 @@ import retroscope.datamodel.datastruct.RQLSymbol;
 import retroscope.rql.environment.Environment;
 import retroscope.rql.environment.EnvironmentStack;
 import retroscope.rql.parser.Valuable;
+import retroscope.rql.syntaxtree.expression.literals.Variable;
+
+import java.util.ArrayList;
 
 /**
  * Created by Aleksey on 12/20/2016.
@@ -15,6 +18,7 @@ public abstract class Expression implements Valuable, Cloneable{
     //private Variable valID = null;
     protected RQLSymbol value;
     protected EnvironmentStack stack;
+    protected boolean dirty = true;
 
     public Expression() {}
 
@@ -41,13 +45,12 @@ public abstract class Expression implements Valuable, Cloneable{
 
     public abstract Expression clone();
 
-    public abstract boolean isDirty();
-
-    public void clean() {
-        dirty = false;
+    public boolean isDirty() {
+        return dirty;
     }
 
-    public void stain() {
-        dirty = true;
-    }
+    public abstract boolean computeDirty();
+
+    public abstract ArrayList<Variable> findVars();
+
 }

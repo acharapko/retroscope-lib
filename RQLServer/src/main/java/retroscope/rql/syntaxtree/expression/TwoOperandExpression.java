@@ -1,6 +1,9 @@
 package retroscope.rql.syntaxtree.expression;
 
 import retroscope.rql.environment.EnvironmentStack;
+import retroscope.rql.syntaxtree.expression.literals.Variable;
+
+import java.util.ArrayList;
 
 public abstract class TwoOperandExpression extends Expression
 {
@@ -27,7 +30,24 @@ public abstract class TwoOperandExpression extends Expression
 	}
 
 	protected void evaluateOperands() throws IllegalExpressionException {
-		ex1.evaluate();
-		ex2.evaluate();
+		if (dirty) {
+			ex1.evaluate();
+			ex2.evaluate();
+		}
+	}
+
+	@Override
+	public boolean computeDirty()
+	{
+		dirty = ex1.computeDirty() || ex2.computeDirty();
+		return dirty;
+	}
+
+	@Override
+	public ArrayList<Variable> findVars() {
+		ArrayList<Variable> v = new ArrayList<>();
+		v.addAll(ex1.findVars());
+		v.addAll(ex2.findVars());
+		return v;
 	}
 }
