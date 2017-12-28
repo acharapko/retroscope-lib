@@ -100,17 +100,13 @@ public class RQLSet extends RQLSymbol {
                         ((RQLSet) symbol).addAll(s);
                         updated = true;
                     }
-                } /*else {
-                    System.out.println("Ooops! " + this.getNodeIDsStr() + " symbol (" + symbol.toEmitRQLString() + ") nodes = " + symbol.getNodeIDsStr() + "; s " + s.getClass().getName() + " (" + s.toEmitRQLString()+ ") nodes = " + s.getNodeIDsStr() );
-                }*/
+                }
             }
         }
         if (!updated) {
             if (!(s instanceof RemoveRQLSet)) {
                 s.getNodeIDs().size();
                 set.add(s);
-            } else {
-                System.out.println("Ooops1");
             }
         }
 

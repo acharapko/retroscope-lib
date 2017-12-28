@@ -116,7 +116,7 @@ public class ScanningEnvironment extends Environment {
                         emitCut();
                     }
                 } catch (IllegalExpressionException e) {
-                    System.out.println("Exception:" + e.getMessage());
+                    logger.error("Exception:" + e.getMessage());
                     addRunTimeException(e);
                 }
             }

@@ -292,7 +292,6 @@ public class RetroscopeLog implements BasicLog<String, String> {
             sb.append(',');
         }
         buildSetRemoves(sb);
-        System.out.println(sb.toString());
         return sb.toString();
     }
 
